@@ -12,14 +12,13 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.safetynet.safetynetalerts.model.Person;
-import com.safetynet.safetynetalerts.repository.GlobalRepository;
 import com.safetynet.safetynetalerts.repository.PersonRepositoryImpl;
 import com.safetynet.safetynetalerts.service.IPersonService;
 
 @RestController
 public class PersonController {
 	/* APPELER DES METHODES DE LA CLASSE SERVICE */
-	
+
 	@Autowired
 	PersonRepositoryImpl personRepository;
 	@Autowired
@@ -53,15 +52,28 @@ public class PersonController {
 		return "La valeur de id est : " + id;
 	}
 
-	// URL DEMANDEE --> http://localhost:8080/communityEmail?city=<city>
+	/* URL DEMANDEE --> http://localhost:8080/communityEmail?city=<city> */
 	@GetMapping("/communityEmail")
 	public List<String> getPersonEmailFromService(@RequestParam String city) throws IOException {
 		return personRepository.getPersonEmailFromJson(city);
 	}
-	
-	// URL DEMANDEE --> http://localhost:8080/firestation?stationNumber=<station_number>
+
+	/*
+	 * URL DEMANDEE -->
+	 * http://localhost:8080/firestation?stationNumber=<station_number>
+	 */
 	@GetMapping("/firestation")
-	public List<Person> getPersonsCoveredByFireStationAdressFromService(@RequestParam int stationNumber) throws IOException{
+	public List<Person> getPersonsCoveredByFireStationAdressFromService(@RequestParam int stationNumber)
+			throws IOException {
 		return personService.getPersonsCoveredByStationNumberFromRepository(stationNumber);
+	}
+
+	/*
+	 * URL DEMANDEE -->
+	 * http://localhost:8080/phoneAlert?firestation=<firestation_number>
+	 */
+	@GetMapping("/phoneAlert")
+	public List<String> getPhoneNumbersCoveredByStationNumberFromService(@RequestParam(value = "firestation") int stationNumber) {
+		return personService.getPhoneNumbersCoveredByStationNumberFromRepository(stationNumber);
 	}
 }
