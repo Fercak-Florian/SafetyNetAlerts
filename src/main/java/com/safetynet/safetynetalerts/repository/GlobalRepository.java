@@ -14,7 +14,7 @@ import lombok.Data;
 
 @Data
 @Component
-public class GlobalRepository {
+public class GlobalRepository implements IGlobalRepository{
 	private List<Person> persons;
 	private List<FireStation> fireStations;
 	private List<MedicalRecord> medicalRecords;
