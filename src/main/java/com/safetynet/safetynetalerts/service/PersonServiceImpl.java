@@ -8,7 +8,6 @@ import org.springframework.stereotype.Service;
 
 import com.safetynet.safetynetalerts.SafetyNetAlertsApplication;
 import com.safetynet.safetynetalerts.model.Person;
-import com.safetynet.safetynetalerts.repository.GlobalRepository;
 import com.safetynet.safetynetalerts.repository.IGlobalRepository;
 import com.safetynet.safetynetalerts.repository.IPersonRepository;
 
@@ -27,5 +26,10 @@ public class PersonServiceImpl implements IPersonService {
 	@Override
 	public List<Person> getPersonsCoveredByStationNumberFromRepository(int stationNumber) throws IOException {
 		return globalRepository.getPersonsCoveredByAFirestation(stationNumber);
+	}
+
+	@Override
+	public List<String> getPhoneNumbersCoveredByStationNumberFromRepository(int stationNumber) {
+		return globalRepository.getPhoneNumbersCoveredByAFirestation(stationNumber);
 	}
 }

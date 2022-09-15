@@ -14,11 +14,11 @@ import lombok.Data;
 
 @Data
 @Component
-public class GlobalRepository implements IGlobalRepository{
+public class GlobalRepository implements IGlobalRepository {
 	private List<Person> persons;
 	private List<FireStation> fireStations;
 	private List<MedicalRecord> medicalRecords;
-	
+
 	IPersonRepository personRepository = new PersonRepositoryImpl();
 	IFireStationRepository fireStationRepository = new FireStationRepositoryImpl();
 	IMedicalRecordRepository medicalRecordsRepository = new MedicalRecordRepositoryImpl();
@@ -29,8 +29,8 @@ public class GlobalRepository implements IGlobalRepository{
 		this.fireStations = fireStationRepository.getFireStationList();
 		this.medicalRecords = medicalRecordsRepository.getMedicalRecordList();
 	}
-	
-	/* LISTE DES FIRESTATIONS CROISEES AVEC LISTE DES PERSONS */
+
+	/* URL_1 LISTE DES FIRESTATIONS CROISEES AVEC LISTE DES PERSONS */
 	public List<Person> getPersonsCoveredByAFirestation(int stationNumber) throws IOException {
 
 		/* 1 RECUPERER LE NUMERO DE CASERNE ---> PARAMETRE DE LA METHODE */
@@ -50,5 +50,28 @@ public class GlobalRepository implements IGlobalRepository{
 			}
 		}
 		return personsArray;
+	}
+
+	/* URL_3 LISTE DES PHONE NUMBERS COUVERTS PAR UNE FIRESTATION */
+	@Override
+	public List<String> getPhoneNumbersCoveredByAFirestation(int stationNumber) {
+		
+		/* 1 RECUPERER LE NUMERO DE CASERNE ---> PARAMETRE DE LA METHODE */
+
+		/* 2 FAIRE UNE LISTE DES ADRESSE ASSOCIEES AU NUMERO DE CASERNE */
+		List<String> addressesAssociatedWithFirestationsNumber = new ArrayList<>();
+		for (FireStation fs : fireStations) {
+			if (fs.getStationNumber() == stationNumber)
+				addressesAssociatedWithFirestationsNumber.add(fs.getAddress());
+		}
+
+		/* 3 COMPARER CETTE LISTE AVEC LA LISTE DES PERSONNES (ADRESS) */
+		List<String> personPhoneNumbers = new ArrayList<>();
+		for (Person person : persons) {
+			if (addressesAssociatedWithFirestationsNumber.contains(person.getAddress())) {
+				personPhoneNumbers.add(person.getPhone());
+			}
+		}
+		return personPhoneNumbers;
 	}
 }
