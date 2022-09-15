@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.safetynet.safetynetalerts.controller.FireStationController;
 import com.safetynet.safetynetalerts.model.FireStation;
-import com.safetynet.safetynetalerts.repository.FireStationRepository;
+import com.safetynet.safetynetalerts.repository.FireStationRepositoryImpl;
 import com.safetynet.safetynetalerts.repository.IFireStationRepository;
 
 @Service
@@ -19,7 +19,7 @@ public class FireStationServiceImpl implements IFireStationService{
 	
 	@Override
 	public List<FireStation> getFireStation() throws IOException {
-		return fireStationRepository.getFireStationFromJson();
+		return fireStationRepository.getFireStationList();
 	}
 	
 	//public FireStation addFireStation() {

@@ -1,16 +1,14 @@
 package com.safetynet.safetynetalerts.model;
 
-import org.springframework.stereotype.Component;
-
 import lombok.Data;
 
 @Data
 public class FireStation {
 	private String address;
-	private int id;
+	private int stationNumber;
 
-	public FireStation (String address, int id) {
+	public FireStation(String address, int stationNumber) {
 		this.address = address;
-		this.id = id;
+		this.stationNumber = stationNumber;
 	}
 }

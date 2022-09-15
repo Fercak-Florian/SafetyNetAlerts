@@ -6,5 +6,5 @@ import java.util.List;
 import com.safetynet.safetynetalerts.model.FireStation;
 
 public interface IFireStationRepository {
-	List<FireStation> getFireStationFromJson() throws IOException;
+	List<FireStation> getFireStationList() throws IOException;
 }
