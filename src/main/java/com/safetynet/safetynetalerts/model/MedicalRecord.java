@@ -1,9 +1,9 @@
 package com.safetynet.safetynetalerts.model;
 
+import java.util.ArrayList;
 import java.util.List;
 
-import com.jsoniter.annotation.JsonProperty;
-import com.jsoniter.fuzzy.MaybeEmptyArrayDecoder;
+import com.jsoniter.any.Any;
 
 import lombok.Data;
 
@@ -11,9 +11,22 @@ import lombok.Data;
 public class MedicalRecord {
 	private String firstName;
 	private String lastName;
-	private String birthDate; // Type Calendar or Date
-	@JsonProperty(decoder = MaybeEmptyArrayDecoder.class) // PAS OBLIGE
-	private List<String>  medications; // Type list of String
-	@JsonProperty(decoder = MaybeEmptyArrayDecoder.class) // PAS OBLIGE
-	private List<String> allergies; // Type list of String 
+	private String birthDate;
+	private List<String> medicationsList;
+	private List<String> allergiesList;
+
+	/* CONSTRUCTEUR */
+	public MedicalRecord(String firstName, String lastName, String birthDate, List<String> medications,
+			List<String> allergies) {
+
+		medicationsList = new ArrayList<>();
+		allergiesList = new ArrayList<>();
+
+		this.firstName = firstName;
+		this.lastName = lastName;
+		this.birthDate = birthDate;
+
+		this.medicationsList = medications;
+		this.allergiesList = allergies;
+	}
 }

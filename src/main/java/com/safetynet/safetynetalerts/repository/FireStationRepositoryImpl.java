@@ -15,33 +15,44 @@ import com.jsoniter.JsonIterator;
 import com.jsoniter.any.Any;
 import com.safetynet.safetynetalerts.model.FireStation;
 
-
 @Component
-public class FireStationRepository implements IFireStationRepository{
-	// SERT A COMMUNIQUER AVEC LA SOURCE DE DONNEES
-	// UTILISER JSONITER
-	@Override
-	public List<FireStation> getFireStationFromJson() throws IOException {
+public class FireStationRepositoryImpl implements IFireStationRepository {
+	/* SERT A COMMUNIQUER AVEC LA SOURCE DE DONNEES */
+	/* UTILISER JSONITER */
 
-		String filePath = "src/main/resources/data.json";
-		String stringFile = Files.readString(new File(filePath).toPath());
-		
-		JsonIterator iter = JsonIterator.parse(stringFile);
-    	Any any = iter.readAny();
-    	Any fireStationAny = any.get("firestations");
-    	List<FireStation> fireStationsArray = new ArrayList<>();
-    	
-    	for(Any fs : fireStationAny) {
-    		fireStationsArray.add(new FireStation(fs.get("address").toString(), fs.get("station").toInt()));
-    	}
+	List<FireStation> fireStationsArray;
+
+	/* CONSTRUCTEUR */
+	public FireStationRepositoryImpl() throws IOException {
+		getFireStationsFromJson();
+	}
+
+	@Override
+	public List<FireStation> getFireStationList() throws IOException {
 		return fireStationsArray;
 	}
 
+	public void getFireStationsFromJson() throws IOException {
+
+		String filePath = "src/main/resources/data.json";
+		String stringFile = Files.readString(new File(filePath).toPath());
+
+		JsonIterator iter = JsonIterator.parse(stringFile);
+		Any any = iter.readAny();
+		Any fireStationAny = any.get("firestations");
+		fireStationsArray = new ArrayList<>();
+
+		for (Any fs : fireStationAny) {
+			fireStationsArray.add(new FireStation(fs.get("address").toString(), fs.get("station").toInt()));
+		}
+	}
+
+	/* TEST D'ECRITURE DANS LE FICHIER TEST.JSON */
 	public void addFireStation() throws StreamWriteException, DatabindException, IOException {
 		String filePath = "src/main/resources/test.json";
 		FireStation newFireStation = new FireStation("2 rue de Paris", 3);
-		
+
 		ObjectMapper mapper = new ObjectMapper();
-        mapper.writeValue(new File(filePath), newFireStation);
+		mapper.writeValue(new File(filePath), newFireStation);
 	}
 }
