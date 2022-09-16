@@ -1,6 +1,7 @@
 package com.safetynet.safetynetalerts.service;
 
 import java.io.IOException;
+import java.text.ParseException;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,7 +25,7 @@ public class PersonServiceImpl implements IPersonService {
 	}
 
 	@Override
-	public List<String> getPersonsCoveredByStationNumberFromRepository(int stationNumber) throws IOException {
+	public List<String> getPersonsCoveredByStationNumberFromRepository(int stationNumber) throws IOException, ParseException {
 		return globalRepository.getPersonsCoveredByAFirestation(stationNumber);
 	}
 

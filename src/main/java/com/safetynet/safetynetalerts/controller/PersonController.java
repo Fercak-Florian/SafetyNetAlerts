@@ -1,6 +1,7 @@
 package com.safetynet.safetynetalerts.controller;
 
 import java.io.IOException;
+import java.text.ParseException;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -65,7 +66,7 @@ public class PersonController {
 	 */
 	@GetMapping("/firestation")
 	public List<String> getPersonsCoveredByFireStationAdressFromService(@RequestParam int stationNumber)
-			throws IOException {
+			throws IOException, ParseException {
 		return personService.getPersonsCoveredByStationNumberFromRepository(stationNumber);
 	}
 
