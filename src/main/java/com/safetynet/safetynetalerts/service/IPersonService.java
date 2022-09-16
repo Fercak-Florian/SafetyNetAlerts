@@ -7,6 +7,6 @@ import com.safetynet.safetynetalerts.model.Person;
 
 public interface IPersonService {
 	List<Person> getPerson() throws IOException;
-	List<Person> getPersonsCoveredByStationNumberFromRepository(int stationNumber) throws IOException;
+	List<String> getPersonsCoveredByStationNumberFromRepository(int stationNumber) throws IOException;
 	List<String> getPhoneNumbersCoveredByStationNumberFromRepository(int stationNumber);
 }

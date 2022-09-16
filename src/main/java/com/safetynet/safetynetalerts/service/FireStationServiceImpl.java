@@ -6,9 +6,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.safetynet.safetynetalerts.controller.FireStationController;
 import com.safetynet.safetynetalerts.model.FireStation;
-import com.safetynet.safetynetalerts.repository.FireStationRepositoryImpl;
 import com.safetynet.safetynetalerts.repository.IFireStationRepository;
 
 @Service

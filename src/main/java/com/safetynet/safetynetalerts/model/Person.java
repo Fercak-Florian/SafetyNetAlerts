@@ -1,5 +1,7 @@
 package com.safetynet.safetynetalerts.model;
 
+
+
 import lombok.Data;
 
 @Data
@@ -17,6 +19,7 @@ public class Person {
 	}
 
 	// CONSTRUCTEUR AVEC TOUS LES ARGUMENTS
+	
 	public Person(String firstName, String lastName, String address, String city, String zip, String phone,
 			String email) {
 		this.firstName = firstName;
