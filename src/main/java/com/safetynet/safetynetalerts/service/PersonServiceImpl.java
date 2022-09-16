@@ -24,7 +24,7 @@ public class PersonServiceImpl implements IPersonService {
 	}
 
 	@Override
-	public List<Person> getPersonsCoveredByStationNumberFromRepository(int stationNumber) throws IOException {
+	public List<String> getPersonsCoveredByStationNumberFromRepository(int stationNumber) throws IOException {
 		return globalRepository.getPersonsCoveredByAFirestation(stationNumber);
 	}
 

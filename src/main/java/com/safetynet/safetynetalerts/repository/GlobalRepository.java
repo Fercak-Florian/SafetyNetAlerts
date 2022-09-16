@@ -2,7 +2,9 @@ package com.safetynet.safetynetalerts.repository;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Component;
 
@@ -31,7 +33,7 @@ public class GlobalRepository implements IGlobalRepository {
 	}
 
 	/* URL_1 LISTE DES FIRESTATIONS CROISEES AVEC LISTE DES PERSONS */
-	public List<Person> getPersonsCoveredByAFirestation(int stationNumber) throws IOException {
+	public List<String> getPersonsCoveredByAFirestation(int stationNumber) throws IOException {
 
 		/* 1 RECUPERER LE NUMERO DE CASERNE ---> PARAMETRE DE LA METHODE */
 
@@ -43,10 +45,14 @@ public class GlobalRepository implements IGlobalRepository {
 		}
 
 		/* 3 COMPARER CETTE LISTE AVEC LA LISTE DES PERSONNES (ADRESS) */
-		List<Person> personsArray = new ArrayList<>();
+		List<String> personsArray = new ArrayList<>();
+		
 		for (Person person : persons) {
 			if (addressesAssociatedWithFirestationsNumber.contains(person.getAddress())) {
-				personsArray.add(person);
+				List<String> myArray = new ArrayList<>();
+				myArray = Arrays.asList(person.getFirstName(), person.getLastName(), person.getAddress(), person.getPhone());
+				String myString = myArray.stream().collect(Collectors.joining(", "));
+				personsArray.add(myString);
 			}
 		}
 		return personsArray;

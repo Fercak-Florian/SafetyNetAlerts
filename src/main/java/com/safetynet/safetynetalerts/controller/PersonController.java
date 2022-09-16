@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.fasterxml.jackson.annotation.JsonIncludeProperties;
 import com.safetynet.safetynetalerts.model.Person;
 import com.safetynet.safetynetalerts.repository.PersonRepositoryImpl;
 import com.safetynet.safetynetalerts.service.IPersonService;
@@ -63,7 +64,7 @@ public class PersonController {
 	 * http://localhost:8080/firestation?stationNumber=<station_number>
 	 */
 	@GetMapping("/firestation")
-	public List<Person> getPersonsCoveredByFireStationAdressFromService(@RequestParam int stationNumber)
+	public List<String> getPersonsCoveredByFireStationAdressFromService(@RequestParam int stationNumber)
 			throws IOException {
 		return personService.getPersonsCoveredByStationNumberFromRepository(stationNumber);
 	}
