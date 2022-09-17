@@ -17,6 +17,7 @@ import org.springframework.stereotype.Component;
 import com.safetynet.safetynetalerts.model.FireStation;
 import com.safetynet.safetynetalerts.model.MedicalRecord;
 import com.safetynet.safetynetalerts.model.Person;
+import com.safetynet.safetynetalerts.workclasses.Url4;
 
 import lombok.Data;
 
@@ -85,18 +86,18 @@ public class GlobalRepository implements IGlobalRepository {
 			cal.setTime(dob);
 
 			int age = now.get(Calendar.YEAR) - cal.get(Calendar.YEAR);
-			//System.out.println(age);
+			// System.out.println(age);
 			if (age <= 18) {
 				numberOfChildren = numberOfChildren + 1;
 			} else {
 				numberOfAdults = numberOfAdults + 1;
 			}
-			
+
 		}
 		String numberOfChildrenToString = String.valueOf(numberOfChildren);
 		String numberOfAdultsToString = String.valueOf(numberOfAdults);
-		//System.out.println("Le nombre d'enfants est de : " + numberOfChildren);
-		//System.out.println("Le nombre d'adultes est de : " + numberOfAdults);
+		// System.out.println("Le nombre d'enfants est de : " + numberOfChildren);
+		// System.out.println("Le nombre d'adultes est de : " + numberOfAdults);
 		personsArray.add("Le nombre d'enfants est de : " + numberOfChildrenToString);
 		personsArray.add("Le nombre d'adultes est de : " + numberOfAdultsToString);
 		return personsArray;
@@ -123,5 +124,49 @@ public class GlobalRepository implements IGlobalRepository {
 			}
 		}
 		return personPhoneNumbers;
+	}
+
+	/*
+	 * URL_4 LISTE DES PERSONS VIVANT A UNE ADRESSE AISNI QUE LA FIRESTATION LES
+	 * COUVRANT
+	 */
+	@Override
+	public List<Url4> getPersonsLivingAtThisAddressWithFirestation(String address) throws ParseException {
+		List<Url4> myList = new ArrayList<>();
+		int stationNumber = 0;
+		for (FireStation fs : fireStations) {
+			if (fs.getAddress().equalsIgnoreCase(address)) {
+				stationNumber = fs.getStationNumber();
+			}
+		}
+		for (Person person : persons) {
+			if (person.getAddress().equalsIgnoreCase(address)) {
+				boolean medicalRecordFound = false;
+				for (MedicalRecord mr : medicalRecords) {
+					if (person.getFirstName().equalsIgnoreCase(mr.getFirstName())
+							&& person.getLastName().equalsIgnoreCase(mr.getLastName())) {
+						medicalRecordFound = true;
+						myList.add(new Url4(person.getLastName(), person.getFirstName(), stationNumber,
+								person.getPhone(), mr.getMedicationsList(), mr.getAllergiesList(), Integer.toString(ageCalculate(mr))));
+					}
+				}
+				if(!medicalRecordFound) {
+					myList.add(new Url4(person.getLastName(), person.getFirstName(), stationNumber,
+							person.getPhone(),new ArrayList<String>(), new ArrayList<String>(), " "));
+				}
+			}
+		}
+		return myList;
+	}
+
+	public int ageCalculate(MedicalRecord medicalRecord) throws ParseException {
+		Date dob = new SimpleDateFormat("dd/MM/yyyy").parse(medicalRecord.getBirthDate());
+		Calendar now = Calendar.getInstance();
+		Calendar cal = Calendar.getInstance();
+		cal.setTime(dob);
+
+		int age = now.get(Calendar.YEAR) - cal.get(Calendar.YEAR);
+
+		return age;
 	}
 }

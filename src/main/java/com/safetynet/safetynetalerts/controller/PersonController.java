@@ -3,6 +3,7 @@ package com.safetynet.safetynetalerts.controller;
 import java.io.IOException;
 import java.text.ParseException;
 import java.util.List;
+import java.util.Objects;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,6 +17,7 @@ import com.fasterxml.jackson.annotation.JsonIncludeProperties;
 import com.safetynet.safetynetalerts.model.Person;
 import com.safetynet.safetynetalerts.repository.PersonRepositoryImpl;
 import com.safetynet.safetynetalerts.service.IPersonService;
+import com.safetynet.safetynetalerts.workclasses.Url4;
 
 @RestController
 public class PersonController {
@@ -77,5 +79,13 @@ public class PersonController {
 	@GetMapping("/phoneAlert")
 	public List<String> getPhoneNumbersCoveredByStationNumberFromService(@RequestParam(value = "firestation") int stationNumber) {
 		return personService.getPhoneNumbersCoveredByStationNumberFromRepository(stationNumber);
+	}
+	
+	/*
+	 * URL_4* : http://localhost:8080/fire?address=<address>/
+	 */
+	@GetMapping("/fire")
+	public List<Url4> getPersonsLivingAtThisAdressWithFireStation (@RequestParam String address) throws ParseException{
+		return personService.getPersonsLivingAtThisAddressWithFirestationFromRepository(address);
 	}
 }
