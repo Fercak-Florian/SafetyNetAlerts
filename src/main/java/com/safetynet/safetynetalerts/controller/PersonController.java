@@ -19,6 +19,7 @@ import com.safetynet.safetynetalerts.repository.PersonRepositoryImpl;
 import com.safetynet.safetynetalerts.service.IPersonService;
 import com.safetynet.safetynetalerts.workclasses.Url2;
 import com.safetynet.safetynetalerts.workclasses.Url4;
+import com.safetynet.safetynetalerts.workclasses.Url5;
 
 @RestController
 public class PersonController {
@@ -89,6 +90,15 @@ public class PersonController {
 	@GetMapping("/fire")
 	public List<Url4> getPersonsLivingAtThisAdressWithFireStation(@RequestParam String address) throws ParseException {
 		return personService.getPersonsLivingAtThisAddressWithFirestationFromRepository(address);
+	}
+
+	/*
+	 * URL_5 : http://localhost:8080/flood/stations?stations=<a list of
+	 * station_numbers>
+	 */
+	@GetMapping("/flood/stations")
+	public List<Url5> getHomesCoveredByAListOfFirestationFromService(@RequestParam List<String> stations) {
+		return personService.getHomesCoveredByAListOfFirestationFromRepository(stations);
 	}
 
 	/*
