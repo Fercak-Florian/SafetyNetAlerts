@@ -17,6 +17,7 @@ import com.fasterxml.jackson.annotation.JsonIncludeProperties;
 import com.safetynet.safetynetalerts.model.Person;
 import com.safetynet.safetynetalerts.repository.PersonRepositoryImpl;
 import com.safetynet.safetynetalerts.service.IPersonService;
+import com.safetynet.safetynetalerts.workclasses.Url2;
 import com.safetynet.safetynetalerts.workclasses.Url4;
 
 @RestController
@@ -56,15 +57,8 @@ public class PersonController {
 		return "La valeur de id est : " + id;
 	}
 
-	/* URL DEMANDEE --> http://localhost:8080/communityEmail?city=<city> */
-	@GetMapping("/communityEmail")
-	public List<String> getPersonEmailFromService(@RequestParam String city) throws IOException {
-		return personRepository.getPersonEmailFromJson(city);
-	}
-
 	/*
-	 * URL DEMANDEE -->
-	 * http://localhost:8080/firestation?stationNumber=<station_number>
+	 * URL_1 : http://localhost:8080/firestation?stationNumber=<station_number>
 	 */
 	@GetMapping("/firestation")
 	public List<String> getPersonsCoveredByFireStationAdressFromService(@RequestParam int stationNumber)
@@ -73,19 +67,35 @@ public class PersonController {
 	}
 
 	/*
-	 * URL DEMANDEE -->
-	 * http://localhost:8080/phoneAlert?firestation=<firestation_number>
+	 * URL_2 : http://localhost:8080/childAlert?address=<address>
+	 */
+	@GetMapping("/childAlert")
+	public List<Url2> getChildrenLivingAtThisAddress(@RequestParam String address) {
+		return personService.getChildrenLivingAtThisAddressFromRepository(address);
+	}
+
+	/*
+	 * URL_3 : http://localhost:8080/phoneAlert?firestation=<firestation_number>
 	 */
 	@GetMapping("/phoneAlert")
-	public List<String> getPhoneNumbersCoveredByStationNumberFromService(@RequestParam(value = "firestation") int stationNumber) {
+	public List<String> getPhoneNumbersCoveredByStationNumberFromService(
+			@RequestParam(value = "firestation") int stationNumber) {
 		return personService.getPhoneNumbersCoveredByStationNumberFromRepository(stationNumber);
 	}
-	
+
 	/*
-	 * URL_4* : http://localhost:8080/fire?address=<address>/
+	 * URL_4 : http://localhost:8080/fire?address=<address>
 	 */
 	@GetMapping("/fire")
-	public List<Url4> getPersonsLivingAtThisAdressWithFireStation (@RequestParam String address) throws ParseException{
+	public List<Url4> getPersonsLivingAtThisAdressWithFireStation(@RequestParam String address) throws ParseException {
 		return personService.getPersonsLivingAtThisAddressWithFirestationFromRepository(address);
+	}
+
+	/*
+	 * URL_7 : http://localhost:8080/communityEmail?city=<city>
+	 */
+	@GetMapping("/communityEmail")
+	public List<String> getPersonEmailFromService(@RequestParam String city) throws IOException {
+		return personRepository.getPersonEmailFromJson(city);
 	}
 }

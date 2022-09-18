@@ -17,6 +17,7 @@ import org.springframework.stereotype.Component;
 import com.safetynet.safetynetalerts.model.FireStation;
 import com.safetynet.safetynetalerts.model.MedicalRecord;
 import com.safetynet.safetynetalerts.model.Person;
+import com.safetynet.safetynetalerts.workclasses.Url2;
 import com.safetynet.safetynetalerts.workclasses.Url4;
 
 import lombok.Data;
@@ -103,6 +104,34 @@ public class GlobalRepository implements IGlobalRepository {
 		return personsArray;
 	}
 
+	/* URL_2 LISTE DES ENFANTS VIVANTS A UNE ADRESSE */
+	@Override
+	public List<Url2> getChildrenLivingAtThisAddress(String address) {
+		List<Url2> result = new ArrayList<>();
+		for (MedicalRecord mr : medicalRecords) {
+			int age = ageCalculate(mr);
+			if (age <= 18) {
+				for (Person person : persons) {
+					if (person.getFirstName().equalsIgnoreCase(mr.getFirstName())
+							&& person.getLastName().equalsIgnoreCase(mr.getLastName())) {
+						if(person.getAddress().equalsIgnoreCase(address)) {
+							List<Person> inhabitants = new ArrayList<>();
+							for(Person p : persons) {
+								if(p.getAddress().equalsIgnoreCase(address)) {
+									if(p != person) {
+										inhabitants.add(p);
+									}
+								}
+							}
+							result.add(new Url2(person.getFirstName(), person.getLastName(), age, inhabitants));
+						}
+					}
+				}
+			}
+		}
+		return result;
+	}
+
 	/* URL_3 LISTE DES PHONE NUMBERS COUVERTS PAR UNE FIRESTATION */
 	@Override
 	public List<String> getPhoneNumbersCoveredByAFirestation(int stationNumber) {
@@ -147,20 +176,26 @@ public class GlobalRepository implements IGlobalRepository {
 							&& person.getLastName().equalsIgnoreCase(mr.getLastName())) {
 						medicalRecordFound = true;
 						myList.add(new Url4(person.getLastName(), person.getFirstName(), stationNumber,
-								person.getPhone(), mr.getMedicationsList(), mr.getAllergiesList(), Integer.toString(ageCalculate(mr))));
+								person.getPhone(), mr.getMedicationsList(), mr.getAllergiesList(),
+								Integer.toString(ageCalculate(mr))));
 					}
 				}
-				if(!medicalRecordFound) {
-					myList.add(new Url4(person.getLastName(), person.getFirstName(), stationNumber,
-							person.getPhone(),new ArrayList<String>(), new ArrayList<String>(), " "));
+				if (!medicalRecordFound) {
+					myList.add(new Url4(person.getLastName(), person.getFirstName(), stationNumber, person.getPhone(),
+							new ArrayList<String>(), new ArrayList<String>(), " "));
 				}
 			}
 		}
 		return myList;
 	}
 
-	public int ageCalculate(MedicalRecord medicalRecord) throws ParseException {
-		Date dob = new SimpleDateFormat("dd/MM/yyyy").parse(medicalRecord.getBirthDate());
+	public int ageCalculate(MedicalRecord medicalRecord) {
+		Date dob = new Date();
+		try {
+			dob = new SimpleDateFormat("dd/MM/yyyy").parse(medicalRecord.getBirthDate());
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
 		Calendar now = Calendar.getInstance();
 		Calendar cal = Calendar.getInstance();
 		cal.setTime(dob);
