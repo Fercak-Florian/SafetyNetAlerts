@@ -13,6 +13,7 @@ import com.safetynet.safetynetalerts.repository.IGlobalRepository;
 import com.safetynet.safetynetalerts.repository.IPersonRepository;
 import com.safetynet.safetynetalerts.workclasses.Url2;
 import com.safetynet.safetynetalerts.workclasses.Url4;
+import com.safetynet.safetynetalerts.workclasses.Url5;
 
 @Service
 public class PersonServiceImpl implements IPersonService {
@@ -44,5 +45,10 @@ public class PersonServiceImpl implements IPersonService {
 	@Override
 	public List<Url2> getChildrenLivingAtThisAddressFromRepository(String address) {
 		return globalRepository.getChildrenLivingAtThisAddress(address);
+	}
+
+	@Override
+	public List<Url5> getHomesCoveredByAListOfFirestationFromRepository(List<String> stations) {
+		return globalRepository.getHomesCoveredByAListOfFirestation(stations);
 	}
 }

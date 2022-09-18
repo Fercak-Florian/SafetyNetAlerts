@@ -7,6 +7,7 @@ import java.util.List;
 import com.safetynet.safetynetalerts.model.Person;
 import com.safetynet.safetynetalerts.workclasses.Url2;
 import com.safetynet.safetynetalerts.workclasses.Url4;
+import com.safetynet.safetynetalerts.workclasses.Url5;
 
 public interface IGlobalRepository {
 	List<String> getPersonsCoveredByAFirestation(int stationNumber) throws IOException, ParseException;
@@ -15,4 +16,5 @@ public interface IGlobalRepository {
 	List<String> getPhoneNumbersCoveredByAFirestation(int stationNumber);
 	List<Url4> getPersonsLivingAtThisAddressWithFirestation(String address) throws ParseException;
 	List<Url2> getChildrenLivingAtThisAddress(String address);
+	List<Url5> getHomesCoveredByAListOfFirestation(List<String> stations);
 }

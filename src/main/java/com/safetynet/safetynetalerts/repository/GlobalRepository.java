@@ -3,13 +3,11 @@ package com.safetynet.safetynetalerts.repository;
 import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.time.Period;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
-import java.util.Objects;
 import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Component;
@@ -19,6 +17,7 @@ import com.safetynet.safetynetalerts.model.MedicalRecord;
 import com.safetynet.safetynetalerts.model.Person;
 import com.safetynet.safetynetalerts.workclasses.Url2;
 import com.safetynet.safetynetalerts.workclasses.Url4;
+import com.safetynet.safetynetalerts.workclasses.Url5;
 
 import lombok.Data;
 
@@ -114,11 +113,11 @@ public class GlobalRepository implements IGlobalRepository {
 				for (Person person : persons) {
 					if (person.getFirstName().equalsIgnoreCase(mr.getFirstName())
 							&& person.getLastName().equalsIgnoreCase(mr.getLastName())) {
-						if(person.getAddress().equalsIgnoreCase(address)) {
+						if (person.getAddress().equalsIgnoreCase(address)) {
 							List<Person> inhabitants = new ArrayList<>();
-							for(Person p : persons) {
-								if(p.getAddress().equalsIgnoreCase(address)) {
-									if(p != person) {
+							for (Person p : persons) {
+								if (p.getAddress().equalsIgnoreCase(address)) {
+									if (p != person) {
 										inhabitants.add(p);
 									}
 								}
@@ -187,6 +186,36 @@ public class GlobalRepository implements IGlobalRepository {
 			}
 		}
 		return myList;
+	}
+
+	/*
+	 * URL_5 LISTE DES FOYERS COUVERTS PAR UNE LISTE DE FIRESTATION
+	 */
+	@Override
+	public List<Url5> getHomesCoveredByAListOfFirestation(List<String> stations) {
+		List<String> listOfStationAddress = new ArrayList<>();
+		List<Url5> result = new ArrayList<>();
+		for (String s : stations) {
+			for (FireStation f : fireStations) {
+				if (s.equalsIgnoreCase(String.valueOf(f.getStationNumber()))) {
+					for (Person person : persons) {
+						if (person.getAddress().equalsIgnoreCase(f.getAddress())) {
+							for (MedicalRecord mr : medicalRecords) {
+								if ((person.getFirstName().equalsIgnoreCase(mr.getFirstName())
+										&& (person.getLastName().equalsIgnoreCase(mr.getLastName())))) {
+									result.add(new Url5(person.getFirstName(), person.getLastName(), person.getAddress() ,person.getPhone(),
+											ageCalculate(mr), mr.getMedicationsList(), mr.getAllergiesList()));
+								}
+							}
+						}
+					}
+					listOfStationAddress.add(f.getAddress());
+					System.out.println(f.getAddress());
+				}
+			}
+
+		}
+		return result;
 	}
 
 	public int ageCalculate(MedicalRecord medicalRecord) {
