@@ -14,6 +14,7 @@ import com.safetynet.safetynetalerts.repository.IPersonRepository;
 import com.safetynet.safetynetalerts.workclasses.Url2;
 import com.safetynet.safetynetalerts.workclasses.Url4;
 import com.safetynet.safetynetalerts.workclasses.Url5;
+import com.safetynet.safetynetalerts.workclasses.Url6;
 
 @Service
 public class PersonServiceImpl implements IPersonService {
@@ -50,5 +51,10 @@ public class PersonServiceImpl implements IPersonService {
 	@Override
 	public List<Url5> getHomesCoveredByAListOfFirestationFromRepository(List<String> stations) {
 		return globalRepository.getHomesCoveredByAListOfFirestation(stations);
+	}
+
+	@Override
+	public List<Url6> getPersonInfoFromRepository(String firstName, String lastName) {
+		return globalRepository.getPersonInfo(firstName, lastName);
 	}
 }

@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Component;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.safetynet.safetynetalerts.model.FireStation;
 import com.safetynet.safetynetalerts.model.MedicalRecord;
@@ -18,6 +19,7 @@ import com.safetynet.safetynetalerts.model.Person;
 import com.safetynet.safetynetalerts.workclasses.Url2;
 import com.safetynet.safetynetalerts.workclasses.Url4;
 import com.safetynet.safetynetalerts.workclasses.Url5;
+import com.safetynet.safetynetalerts.workclasses.Url6;
 
 import lombok.Data;
 
@@ -203,8 +205,9 @@ public class GlobalRepository implements IGlobalRepository {
 							for (MedicalRecord mr : medicalRecords) {
 								if ((person.getFirstName().equalsIgnoreCase(mr.getFirstName())
 										&& (person.getLastName().equalsIgnoreCase(mr.getLastName())))) {
-									result.add(new Url5(person.getFirstName(), person.getLastName(), person.getAddress() ,person.getPhone(),
-											ageCalculate(mr), mr.getMedicationsList(), mr.getAllergiesList()));
+									result.add(new Url5(person.getFirstName(), person.getLastName(),
+											person.getAddress(), person.getPhone(), ageCalculate(mr),
+											mr.getMedicationsList(), mr.getAllergiesList()));
 								}
 							}
 						}
@@ -214,6 +217,24 @@ public class GlobalRepository implements IGlobalRepository {
 				}
 			}
 
+		}
+		return result;
+	}
+
+	@Override
+	public List<Url6> getPersonInfo(String firstName, String lastName) {
+		List<Url6> result = new ArrayList<>();
+		for (Person person : persons) {
+			if ((person.getFirstName().equalsIgnoreCase(firstName))
+					&& (person.getLastName().equalsIgnoreCase(lastName))) {
+				for (MedicalRecord mr : medicalRecords) {
+					if ((mr.getFirstName().equalsIgnoreCase(firstName))
+							&& (mr.getLastName().equalsIgnoreCase(lastName))) {
+						result.add(new Url6(person.getFirstName(), person.getLastName(), person.getAddress(),
+								person.getEmail(), ageCalculate(mr), mr.getMedicationsList(), mr.getAllergiesList()));
+					}
+				}
+			}
 		}
 		return result;
 	}
