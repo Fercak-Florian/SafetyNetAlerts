@@ -15,6 +15,7 @@ import org.springframework.stereotype.Component;
 import com.safetynet.safetynetalerts.model.FireStation;
 import com.safetynet.safetynetalerts.model.MedicalRecord;
 import com.safetynet.safetynetalerts.model.Person;
+import com.safetynet.safetynetalerts.workclasses.FirstNameAndLastName;
 import com.safetynet.safetynetalerts.workclasses.Url2;
 import com.safetynet.safetynetalerts.workclasses.Url4;
 import com.safetynet.safetynetalerts.workclasses.Url5;
@@ -295,19 +296,21 @@ public class GlobalRepository implements IGlobalRepository {
 		fireStations.remove(firestation);
 		return null;
 	}
-	
+
 	/* CRUD POUR LES PERSONS */
-	
+
 	/* AJOUT D'UNE PERSON AVEC POST */
 	public Person addPersonToRepository(Person person) {
 		persons.add(person);
 		return person;
 	}
 
+	/* MISE A JOUR D'UNE PERSON AVEC PUT */
 	@Override
 	public Person updatePersonToRepository(Person person) {
-		for(Person p :persons) {
-			if((p.getFirstName().equalsIgnoreCase(person.getFirstName()) && p.getLastName().equalsIgnoreCase(person.getLastName()))) {
+		for (Person p : persons) {
+			if ((p.getFirstName().equalsIgnoreCase(person.getFirstName())
+					&& p.getLastName().equalsIgnoreCase(person.getLastName()))) {
 				p.setAddress(person.getAddress());
 				p.setCity(person.getCity());
 				p.setEmail(person.getEmail());
@@ -317,4 +320,22 @@ public class GlobalRepository implements IGlobalRepository {
 		}
 		return person;
 	}
+
+	/* SUPPRESSION D'UNE PERSON AVEC DELETE */
+	@Override
+	public Person deletePersonToRepository(FirstNameAndLastName combination) {
+		List<Person> personsToDelete = new ArrayList<>();
+		for (Person p : persons) {
+			if ((p.getFirstName().equalsIgnoreCase(combination.getFirstName())
+					&& p.getLastName().equalsIgnoreCase(combination.getLastName()))) {
+				personsToDelete.add(p);
+			}
+		}
+		
+		for(Person p : personsToDelete) {
+			persons.remove(p);
+		}
+		return null;
+	}
+
 }

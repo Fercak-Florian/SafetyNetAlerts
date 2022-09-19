@@ -11,6 +11,7 @@ import com.safetynet.safetynetalerts.SafetyNetAlertsApplication;
 import com.safetynet.safetynetalerts.model.Person;
 import com.safetynet.safetynetalerts.repository.IGlobalRepository;
 import com.safetynet.safetynetalerts.repository.IPersonRepository;
+import com.safetynet.safetynetalerts.workclasses.FirstNameAndLastName;
 import com.safetynet.safetynetalerts.workclasses.Url2;
 import com.safetynet.safetynetalerts.workclasses.Url4;
 import com.safetynet.safetynetalerts.workclasses.Url5;
@@ -66,5 +67,10 @@ public class PersonServiceImpl implements IPersonService {
 	@Override
 	public Person updatePersonService(Person person) {
 		return globalRepository.updatePersonToRepository(person);
+	}
+
+	@Override
+	public Person deletePersonService(FirstNameAndLastName combination) {
+		return globalRepository.deletePersonToRepository(combination);
 	}
 }

@@ -8,6 +8,7 @@ import java.util.Objects;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -23,6 +24,7 @@ import com.safetynet.safetynetalerts.model.FireStation;
 import com.safetynet.safetynetalerts.model.Person;
 import com.safetynet.safetynetalerts.repository.PersonRepositoryImpl;
 import com.safetynet.safetynetalerts.service.IPersonService;
+import com.safetynet.safetynetalerts.workclasses.FirstNameAndLastName;
 import com.safetynet.safetynetalerts.workclasses.Url2;
 import com.safetynet.safetynetalerts.workclasses.Url4;
 import com.safetynet.safetynetalerts.workclasses.Url5;
@@ -150,5 +152,11 @@ public class PersonController {
 					.buildAndExpand(person.getAddress()).toUri();
 			return ResponseEntity.created(location).build();
 		}
+	}
+
+	@DeleteMapping("/person")
+	public ResponseEntity<FireStation> deletePerson(@RequestBody FirstNameAndLastName combination) {
+		personService.deletePersonService(combination);
+		return null;
 	}
 }
