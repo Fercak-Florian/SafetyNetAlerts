@@ -1,17 +1,24 @@
 package com.safetynet.safetynetalerts.controller;
 
 import java.io.IOException;
+import java.net.URI;
 import java.text.ParseException;
 import java.util.List;
+import java.util.Objects;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import com.safetynet.safetynetalerts.model.FireStation;
 import com.safetynet.safetynetalerts.model.Person;
 import com.safetynet.safetynetalerts.repository.PersonRepositoryImpl;
 import com.safetynet.safetynetalerts.service.IPersonService;
@@ -28,11 +35,6 @@ public class PersonController {
 	PersonRepositoryImpl personRepository;
 	@Autowired
 	IPersonService personService;
-
-	@GetMapping("/persons")
-	public List<Person> getPersonFromService() throws IOException {
-		return personService.getPerson();
-	}
 
 	// FORMAT URL : http://localhost:8080/persons/Paris/4
 	@GetMapping(value = "/ville/{city}/{jojo}")
@@ -101,12 +103,13 @@ public class PersonController {
 	}
 
 	/*
-	 * URL_6 : http://localhost:8080/personInfo?firstName=<firstName>&lastName=<lastName>
+	 * URL_6 :
+	 * http://localhost:8080/personInfo?firstName=<firstName>&lastName=<lastName>
 	 */
 	@GetMapping("/personInfo")
-	public List<Url6> getPersonInfoFromService(@RequestParam String firstName, String lastName){
+	public List<Url6> getPersonInfoFromService(@RequestParam String firstName, String lastName) {
 		return personService.getPersonInfoFromRepository(firstName, lastName);
-		
+
 	}
 
 	/*
@@ -115,5 +118,24 @@ public class PersonController {
 	@GetMapping("/communityEmail")
 	public List<String> getPersonEmailFromService(@RequestParam String city) throws IOException {
 		return personRepository.getPersonEmailFromJson(city);
+	}
+
+	/* CRUD POUR PERSONS */
+
+	@GetMapping("/person")
+	public List<Person> getPersonFromService() throws IOException {
+		return personService.getPerson();
+	}
+
+	@PostMapping("/person")
+	public ResponseEntity<Person> postPerson(@RequestBody Person person) {
+		Person p = personService.addPersonService(person);
+		if (Objects.isNull(p)) {
+			return ResponseEntity.noContent().build();
+		} else {
+			URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/")
+					.buildAndExpand(person.getAddress()).toUri();
+			return ResponseEntity.created(location).build();
+		}
 	}
 }

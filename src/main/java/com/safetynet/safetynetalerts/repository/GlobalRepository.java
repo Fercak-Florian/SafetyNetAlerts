@@ -45,6 +45,11 @@ public class GlobalRepository implements IGlobalRepository {
 		return fireStations;
 	}
 
+	@Override
+	public List<Person> getPersons() {
+		return persons;
+	}
+
 	/* URL_1 LISTE DES FIRESTATIONS CROISEES AVEC LISTE DES PERSONS */
 	public List<String> getPersonsCoveredByAFirestation(int stationNumber) throws IOException, ParseException {
 
@@ -225,6 +230,9 @@ public class GlobalRepository implements IGlobalRepository {
 		return result;
 	}
 
+	/*
+	 * URL_6 LISTE DES INFORMATIONS EN RAPPORT AVEC UNE PERSONNE
+	 */
 	@Override
 	public List<Url6> getPersonInfo(String firstName, String lastName) {
 		List<Url6> result = new ArrayList<>();
@@ -259,6 +267,8 @@ public class GlobalRepository implements IGlobalRepository {
 		return age;
 	}
 
+	/* CRUD POUR LES FIRESTATIONS */
+
 	/* AJOUT D'UNE FIRESTATION AVEC POST */
 	public FireStation addFireStationToRepository(FireStation firestation) {
 		fireStations.add(firestation);
@@ -284,5 +294,13 @@ public class GlobalRepository implements IGlobalRepository {
 	public FireStation deleteFirestationToRepository(FireStation firestation) {
 		fireStations.remove(firestation);
 		return null;
+	}
+	
+	/* CRUD POUR LES PERSONS */
+	
+	/* AJOUT D'UNE PERSON AVEC POST */
+	public Person addPersonToRepository(Person person) {
+		persons.add(person);
+		return person;
 	}
 }

@@ -23,9 +23,9 @@ public class PersonServiceImpl implements IPersonService {
 	//@Autowired
 	IGlobalRepository globalRepository = SafetyNetAlertsApplication.getGlobalRepository();
 
-	@Override /* METHODE TEST */
+	@Override
 	public List<Person> getPerson() throws IOException {
-		return personRepository.getPersonList();
+		return globalRepository.getPersons();
 	}
 
 	@Override
@@ -56,5 +56,10 @@ public class PersonServiceImpl implements IPersonService {
 	@Override
 	public List<Url6> getPersonInfoFromRepository(String firstName, String lastName) {
 		return globalRepository.getPersonInfo(firstName, lastName);
+	}
+
+	@Override
+	public Person addPersonService(Person person) {
+		return globalRepository.addPersonToRepository(person);
 	}
 }
