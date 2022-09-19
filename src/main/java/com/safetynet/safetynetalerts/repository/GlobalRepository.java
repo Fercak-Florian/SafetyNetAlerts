@@ -303,4 +303,18 @@ public class GlobalRepository implements IGlobalRepository {
 		persons.add(person);
 		return person;
 	}
+
+	@Override
+	public Person updatePersonToRepository(Person person) {
+		for(Person p :persons) {
+			if((p.getFirstName().equalsIgnoreCase(person.getFirstName()) && p.getLastName().equalsIgnoreCase(person.getLastName()))) {
+				p.setAddress(person.getAddress());
+				p.setCity(person.getCity());
+				p.setEmail(person.getEmail());
+				p.setPhone(person.getPhone());
+				p.setZip(person.getZip());
+			}
+		}
+		return person;
+	}
 }

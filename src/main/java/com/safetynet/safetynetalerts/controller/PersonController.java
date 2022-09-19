@@ -11,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -130,6 +131,18 @@ public class PersonController {
 	@PostMapping("/person")
 	public ResponseEntity<Person> postPerson(@RequestBody Person person) {
 		Person p = personService.addPersonService(person);
+		if (Objects.isNull(p)) {
+			return ResponseEntity.noContent().build();
+		} else {
+			URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/")
+					.buildAndExpand(person.getAddress()).toUri();
+			return ResponseEntity.created(location).build();
+		}
+	}
+
+	@PutMapping("/person")
+	public ResponseEntity<Person> putPerson(@RequestBody Person person) {
+		Person p = personService.updatePersonService(person);
 		if (Objects.isNull(p)) {
 			return ResponseEntity.noContent().build();
 		} else {

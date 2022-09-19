@@ -62,4 +62,9 @@ public class PersonServiceImpl implements IPersonService {
 	public Person addPersonService(Person person) {
 		return globalRepository.addPersonToRepository(person);
 	}
+
+	@Override
+	public Person updatePersonService(Person person) {
+		return globalRepository.updatePersonToRepository(person);
+	}
 }

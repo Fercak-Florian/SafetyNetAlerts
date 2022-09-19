@@ -20,4 +20,5 @@ public interface IPersonService {
 	List<Url5> getHomesCoveredByAListOfFirestationFromRepository(List<String> stations);
 	List<Url6> getPersonInfoFromRepository(String firstName, String lastName);
 	Person addPersonService(Person person);
+	Person updatePersonService(Person person);
 }
