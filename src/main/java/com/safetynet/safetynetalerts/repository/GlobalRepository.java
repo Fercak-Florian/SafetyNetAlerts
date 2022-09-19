@@ -344,11 +344,24 @@ public class GlobalRepository implements IGlobalRepository {
 	}
 
 	/* CRUD POUR LES MEDICALRECORD */
-	
+
 	/* AJOUT D'UN MEDICALRECORD AVEC POST */
 	@Override
 	public List<MedicalRecord> addMedicalRecord(MedicalRecord medicalRecord) {
 		medicalRecords.add(medicalRecord);
+		return medicalRecords;
+	}
+
+	/* MISE A JOUR D'UN MEDICALRECORD AVEC PUT */
+	@Override
+	public List<MedicalRecord> updateMedicalRecord(MedicalRecord medicalRecord) {
+		for(MedicalRecord mr : medicalRecords) {
+			if((mr.getFirstName().equalsIgnoreCase(medicalRecord.getFirstName()) && mr.getLastName().equalsIgnoreCase(medicalRecord.getLastName()))) {
+				mr.setBirthDate(medicalRecord.getBirthDate());
+				mr.setMedicationsList(medicalRecord.getMedicationsList());
+				mr.setAllergiesList(medicalRecord.getAllergiesList());
+			}
+		}
 		return medicalRecords;
 	}
 

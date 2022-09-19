@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import com.safetynet.safetynetalerts.model.MedicalRecord;
 import com.safetynet.safetynetalerts.repository.IGlobalRepository;
 import com.safetynet.safetynetalerts.repository.IMedicalRecordRepository;
+import com.safetynet.safetynetalerts.workclasses.FirstNameAndLastName;
 
 @Service
 public class MedicalRecordServiceImpl implements IMedicalRecordService {
@@ -24,6 +25,11 @@ public class MedicalRecordServiceImpl implements IMedicalRecordService {
 	@Override
 	public List<MedicalRecord> addMedicalRecordService(MedicalRecord medicalRecord) {
 		return globalRepository.addMedicalRecord(medicalRecord);
+	}
+
+	@Override
+	public List<MedicalRecord> updateMedicalRecordService(MedicalRecord medicalRecord) {
+		return globalRepository.updateMedicalRecord(medicalRecord);
 	}
 
 }

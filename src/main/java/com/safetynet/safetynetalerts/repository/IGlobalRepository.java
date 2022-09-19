@@ -49,4 +49,6 @@ public interface IGlobalRepository {
 	Person deletePersonToRepository (FirstNameAndLastName combination);
 	
 	List<MedicalRecord> addMedicalRecord (MedicalRecord medicalRecord);
+	
+	List<MedicalRecord> updateMedicalRecord (MedicalRecord medicalRecord);
 }
