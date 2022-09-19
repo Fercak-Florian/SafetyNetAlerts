@@ -365,4 +365,21 @@ public class GlobalRepository implements IGlobalRepository {
 		return medicalRecords;
 	}
 
+	/* SUPPRESSION D'UN MEDICALRECORD AVEC DELETE */
+	@Override
+	public List<MedicalRecord> deleteMedicalRecord(FirstNameAndLastName combination) {
+		List<MedicalRecord> medicalRecordsToDelete = new ArrayList<>();
+		for (MedicalRecord mr : medicalRecords) {
+			if ((mr.getFirstName().equalsIgnoreCase(combination.getFirstName())
+					&& mr.getLastName().equalsIgnoreCase(combination.getLastName()))) {
+				medicalRecordsToDelete.add(mr);
+			}
+		}
+
+		for (MedicalRecord mr : medicalRecordsToDelete) {
+			medicalRecords.remove(mr);
+		}
+		return null;
+	}
+
 }

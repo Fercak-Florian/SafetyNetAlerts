@@ -9,4 +9,5 @@ public interface IMedicalRecordService {
 	List<MedicalRecord> getMedicalRecords();
 	List<MedicalRecord> addMedicalRecordService(MedicalRecord medicalRecord);
 	List<MedicalRecord> updateMedicalRecordService(MedicalRecord medicalRecord);
+	List<MedicalRecord> deleteMedicalRecordService(FirstNameAndLastName combination);
 }

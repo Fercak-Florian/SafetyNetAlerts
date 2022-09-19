@@ -32,4 +32,8 @@ public class MedicalRecordServiceImpl implements IMedicalRecordService {
 		return globalRepository.updateMedicalRecord(medicalRecord);
 	}
 
+	@Override
+	public List<MedicalRecord> deleteMedicalRecordService(FirstNameAndLastName combination) {
+		return globalRepository.deleteMedicalRecord(combination);
+	}
 }
