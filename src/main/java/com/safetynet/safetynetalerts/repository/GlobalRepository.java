@@ -51,6 +51,11 @@ public class GlobalRepository implements IGlobalRepository {
 		return persons;
 	}
 
+	@Override
+	public List<MedicalRecord> getMedicalRecords() {
+		return medicalRecords;
+	}
+
 	/* URL_1 LISTE DES FIRESTATIONS CROISEES AVEC LISTE DES PERSONS */
 	public List<String> getPersonsCoveredByAFirestation(int stationNumber) throws IOException, ParseException {
 
@@ -331,9 +336,48 @@ public class GlobalRepository implements IGlobalRepository {
 				personsToDelete.add(p);
 			}
 		}
-		
-		for(Person p : personsToDelete) {
+
+		for (Person p : personsToDelete) {
 			persons.remove(p);
+		}
+		return null;
+	}
+
+	/* CRUD POUR LES MEDICALRECORD */
+
+	/* AJOUT D'UN MEDICALRECORD AVEC POST */
+	@Override
+	public List<MedicalRecord> addMedicalRecord(MedicalRecord medicalRecord) {
+		medicalRecords.add(medicalRecord);
+		return medicalRecords;
+	}
+
+	/* MISE A JOUR D'UN MEDICALRECORD AVEC PUT */
+	@Override
+	public List<MedicalRecord> updateMedicalRecord(MedicalRecord medicalRecord) {
+		for(MedicalRecord mr : medicalRecords) {
+			if((mr.getFirstName().equalsIgnoreCase(medicalRecord.getFirstName()) && mr.getLastName().equalsIgnoreCase(medicalRecord.getLastName()))) {
+				mr.setBirthDate(medicalRecord.getBirthDate());
+				mr.setMedicationsList(medicalRecord.getMedicationsList());
+				mr.setAllergiesList(medicalRecord.getAllergiesList());
+			}
+		}
+		return medicalRecords;
+	}
+
+	/* SUPPRESSION D'UN MEDICALRECORD AVEC DELETE */
+	@Override
+	public List<MedicalRecord> deleteMedicalRecord(FirstNameAndLastName combination) {
+		List<MedicalRecord> medicalRecordsToDelete = new ArrayList<>();
+		for (MedicalRecord mr : medicalRecords) {
+			if ((mr.getFirstName().equalsIgnoreCase(combination.getFirstName())
+					&& mr.getLastName().equalsIgnoreCase(combination.getLastName()))) {
+				medicalRecordsToDelete.add(mr);
+			}
+		}
+
+		for (MedicalRecord mr : medicalRecordsToDelete) {
+			medicalRecords.remove(mr);
 		}
 		return null;
 	}
