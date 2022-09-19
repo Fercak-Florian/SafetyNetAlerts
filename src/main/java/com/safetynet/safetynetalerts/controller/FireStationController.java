@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -33,6 +34,18 @@ public class FireStationController {
 	@PostMapping("/firestation")
 	public ResponseEntity<FireStation> postFirestation(@RequestBody FireStation firestation) {
 		FireStation fs = fireStationService.addFirestationService(firestation);
+		if (Objects.isNull(fs)) {
+			return ResponseEntity.noContent().build();
+		} else {
+			URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/")
+					.buildAndExpand(firestation.getStationNumber()).toUri();
+			return ResponseEntity.created(location).build();
+		}
+	}
+
+	@PutMapping("/firestation")
+	public ResponseEntity<FireStation> putFirestation(@RequestBody FireStation firestation) {
+		FireStation fs = fireStationService.updateFirestationNumberService(firestation);
 		if (Objects.isNull(fs)) {
 			return ResponseEntity.noContent().build();
 		} else {

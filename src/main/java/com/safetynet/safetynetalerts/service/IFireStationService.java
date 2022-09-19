@@ -9,4 +9,5 @@ public interface IFireStationService {
 	List<FireStation> getFireStation();
 	FireStation addFirestationService(FireStation firestation);
 	FireStation deleteFirestationService(FireStation firestation);
+	FireStation updateFirestationNumberService(FireStation firestation);
 }

@@ -7,7 +7,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.Iterator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -264,6 +263,20 @@ public class GlobalRepository implements IGlobalRepository {
 	public FireStation addFireStationToRepository(FireStation firestation) {
 		fireStations.add(firestation);
 		return firestation;
+	}
+
+	/* MIS A JOUR DU NUMERO DE LA FIRESTATION */
+	@Override
+	public FireStation updateFirestationNumberToRepository(FireStation firestation) {
+		FireStation result = new FireStation();
+		for (FireStation fs : fireStations) {
+			if (fs.getAddress().equalsIgnoreCase(firestation.getAddress())) {
+				fs.setStationNumber(firestation.getStationNumber());
+				result.setAddress(firestation.getAddress());
+				result.setStationNumber(firestation.getStationNumber());
+			}
+		}
+		return result;
 	}
 
 	/* SUPPRESSION D'UNE FIRESTATION AVEC DELETE */

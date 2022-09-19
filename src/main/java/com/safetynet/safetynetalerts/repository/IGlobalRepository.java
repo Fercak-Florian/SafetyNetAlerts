@@ -32,4 +32,6 @@ public interface IGlobalRepository {
 	FireStation addFireStationToRepository(FireStation firestation);
 	
 	FireStation deleteFirestationToRepository(FireStation firestation);
+	
+	FireStation updateFirestationNumberToRepository(FireStation firestation);
 }

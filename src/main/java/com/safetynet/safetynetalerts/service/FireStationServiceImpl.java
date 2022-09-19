@@ -14,7 +14,7 @@ public class FireStationServiceImpl implements IFireStationService {
 
 	@Autowired
 	IFireStationRepository fireStationRepository;
-	@Autowired 
+	@Autowired
 	IGlobalRepository globalRepository;
 
 	@Override
@@ -30,5 +30,10 @@ public class FireStationServiceImpl implements IFireStationService {
 	@Override
 	public FireStation deleteFirestationService(FireStation firestation) {
 		return globalRepository.deleteFirestationToRepository(firestation);
+	}
+
+	@Override
+	public FireStation updateFirestationNumberService(FireStation firestation) {
+		return globalRepository.updateFirestationNumberToRepository(firestation);
 	}
 }

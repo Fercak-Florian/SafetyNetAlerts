@@ -11,4 +11,7 @@ public class FireStation {
 		this.address = address;
 		this.stationNumber = stationNumber;
 	}
+	
+	public FireStation() {
+	}
 }
