@@ -5,6 +5,7 @@ import java.text.ParseException;
 import java.util.List;
 
 import com.safetynet.safetynetalerts.model.FireStation;
+import com.safetynet.safetynetalerts.model.MedicalRecord;
 import com.safetynet.safetynetalerts.model.Person;
 import com.safetynet.safetynetalerts.workclasses.FirstNameAndLastName;
 import com.safetynet.safetynetalerts.workclasses.Url2;
@@ -17,6 +18,8 @@ public interface IGlobalRepository {
 	List<FireStation> getFirestations();
 
 	List<Person> getPersons();
+	
+	List<MedicalRecord> getMedicalRecords();
 
 	List<String> getPersonsCoveredByAFirestation(int stationNumber) throws IOException, ParseException;
 
@@ -44,4 +47,6 @@ public interface IGlobalRepository {
 	Person updatePersonToRepository(Person person);
 	
 	Person deletePersonToRepository (FirstNameAndLastName combination);
+	
+	List<MedicalRecord> addMedicalRecord (MedicalRecord medicalRecord);
 }

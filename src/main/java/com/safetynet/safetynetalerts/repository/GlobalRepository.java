@@ -51,6 +51,11 @@ public class GlobalRepository implements IGlobalRepository {
 		return persons;
 	}
 
+	@Override
+	public List<MedicalRecord> getMedicalRecords() {
+		return medicalRecords;
+	}
+
 	/* URL_1 LISTE DES FIRESTATIONS CROISEES AVEC LISTE DES PERSONS */
 	public List<String> getPersonsCoveredByAFirestation(int stationNumber) throws IOException, ParseException {
 
@@ -331,11 +336,20 @@ public class GlobalRepository implements IGlobalRepository {
 				personsToDelete.add(p);
 			}
 		}
-		
-		for(Person p : personsToDelete) {
+
+		for (Person p : personsToDelete) {
 			persons.remove(p);
 		}
 		return null;
+	}
+
+	/* CRUD POUR LES MEDICALRECORD */
+	
+	/* AJOUT D'UN MEDICALRECORD AVEC POST */
+	@Override
+	public List<MedicalRecord> addMedicalRecord(MedicalRecord medicalRecord) {
+		medicalRecords.add(medicalRecord);
+		return medicalRecords;
 	}
 
 }
