@@ -6,6 +6,7 @@ import java.util.Objects;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -22,13 +23,15 @@ public class FireStationController {
 	@Autowired
 	private IFireStationService fireStationService;
 
+	/* CRUD POUR FIRESTATIONS */
+
 	@GetMapping("/firestations")
 	public List<FireStation> getFireStationFromService() {
 		return fireStationService.getFireStation();
 	}
 
 	@PostMapping("/firestation")
-	public ResponseEntity<FireStation> postFirestationController(@RequestBody FireStation firestation) {
+	public ResponseEntity<FireStation> postFirestation(@RequestBody FireStation firestation) {
 		FireStation fs = fireStationService.addFirestationService(firestation);
 		if (Objects.isNull(fs)) {
 			return ResponseEntity.noContent().build();
@@ -37,5 +40,11 @@ public class FireStationController {
 					.buildAndExpand(firestation.getStationNumber()).toUri();
 			return ResponseEntity.created(location).build();
 		}
+	}
+
+	@DeleteMapping("/firestation")
+	public ResponseEntity<FireStation> deleteFirestation(@RequestBody FireStation firestation) {
+		fireStationService.deleteFirestationService(firestation);
+		return null;
 	}
 }

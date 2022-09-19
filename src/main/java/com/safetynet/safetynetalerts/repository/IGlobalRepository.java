@@ -12,7 +12,7 @@ import com.safetynet.safetynetalerts.workclasses.Url6;
 
 public interface IGlobalRepository {
 
-	public List<FireStation> getFirestations();
+	List<FireStation> getFirestations();
 
 	List<String> getPersonsCoveredByAFirestation(int stationNumber) throws IOException, ParseException;
 
@@ -29,5 +29,7 @@ public interface IGlobalRepository {
 
 	List<Url6> getPersonInfo(String firstName, String lastName);
 
-	public FireStation addFireStationToRepository(FireStation firestation);
+	FireStation addFireStationToRepository(FireStation firestation);
+	
+	FireStation deleteFirestationToRepository(FireStation firestation);
 }

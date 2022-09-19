@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -39,9 +40,9 @@ public class GlobalRepository implements IGlobalRepository {
 		this.fireStations = fireStationRepository.getFireStationList();
 		this.medicalRecords = medicalRecordsRepository.getMedicalRecordList();
 	}
-	
+
 	@Override
-	public List<FireStation > getFirestations() {
+	public List<FireStation> getFirestations() {
 		return fireStations;
 	}
 
@@ -258,10 +259,17 @@ public class GlobalRepository implements IGlobalRepository {
 
 		return age;
 	}
-	
-	/*AJOUT D'UNE FIRESTATION AVEC POST*/
+
+	/* AJOUT D'UNE FIRESTATION AVEC POST */
 	public FireStation addFireStationToRepository(FireStation firestation) {
 		fireStations.add(firestation);
 		return firestation;
+	}
+
+	/* SUPPRESSION D'UNE FIRESTATION AVEC DELETE */
+	@Override
+	public FireStation deleteFirestationToRepository(FireStation firestation) {
+		fireStations.remove(firestation);
+		return null;
 	}
 }
