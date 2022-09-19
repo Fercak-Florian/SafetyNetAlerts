@@ -3,7 +3,6 @@ package com.safetynet.safetynetalerts.controller;
 import java.io.IOException;
 import java.text.ParseException;
 import java.util.List;
-import java.util.Objects;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,13 +12,13 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.fasterxml.jackson.annotation.JsonIncludeProperties;
 import com.safetynet.safetynetalerts.model.Person;
 import com.safetynet.safetynetalerts.repository.PersonRepositoryImpl;
 import com.safetynet.safetynetalerts.service.IPersonService;
 import com.safetynet.safetynetalerts.workclasses.Url2;
 import com.safetynet.safetynetalerts.workclasses.Url4;
 import com.safetynet.safetynetalerts.workclasses.Url5;
+import com.safetynet.safetynetalerts.workclasses.Url6;
 
 @RestController
 public class PersonController {
@@ -99,6 +98,15 @@ public class PersonController {
 	@GetMapping("/flood/stations")
 	public List<Url5> getHomesCoveredByAListOfFirestationFromService(@RequestParam List<String> stations) {
 		return personService.getHomesCoveredByAListOfFirestationFromRepository(stations);
+	}
+
+	/*
+	 * URL_6 : http://localhost:8080/personInfo?firstName=<firstName>&lastName=<lastName>
+	 */
+	@GetMapping("/personInfo")
+	public List<Url6> getPersonInfoFromService(@RequestParam String firstName, String lastName){
+		return personService.getPersonInfoFromRepository(firstName, lastName);
+		
 	}
 
 	/*
