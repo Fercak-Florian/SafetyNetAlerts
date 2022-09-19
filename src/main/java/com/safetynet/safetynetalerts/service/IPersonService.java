@@ -4,7 +4,9 @@ import java.io.IOException;
 import java.text.ParseException;
 import java.util.List;
 
+import com.safetynet.safetynetalerts.model.FireStation;
 import com.safetynet.safetynetalerts.model.Person;
+import com.safetynet.safetynetalerts.workclasses.FirstNameAndLastName;
 import com.safetynet.safetynetalerts.workclasses.Url2;
 import com.safetynet.safetynetalerts.workclasses.Url4;
 import com.safetynet.safetynetalerts.workclasses.Url5;
@@ -18,4 +20,7 @@ public interface IPersonService {
 	List<Url2> getChildrenLivingAtThisAddressFromRepository(String address);
 	List<Url5> getHomesCoveredByAListOfFirestationFromRepository(List<String> stations);
 	List<Url6> getPersonInfoFromRepository(String firstName, String lastName);
+	Person addPersonService(Person person);
+	Person updatePersonService(Person person);
+	Person deletePersonService(FirstNameAndLastName combination);
 }
