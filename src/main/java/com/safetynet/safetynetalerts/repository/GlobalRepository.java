@@ -11,7 +11,6 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Component;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import com.safetynet.safetynetalerts.model.FireStation;
 import com.safetynet.safetynetalerts.model.MedicalRecord;
@@ -39,6 +38,11 @@ public class GlobalRepository implements IGlobalRepository {
 		this.persons = personRepository.getPersonList();
 		this.fireStations = fireStationRepository.getFireStationList();
 		this.medicalRecords = medicalRecordsRepository.getMedicalRecordList();
+	}
+	
+	@Override
+	public List<FireStation > getFirestations() {
+		return fireStations;
 	}
 
 	/* URL_1 LISTE DES FIRESTATIONS CROISEES AVEC LISTE DES PERSONS */
@@ -253,5 +257,11 @@ public class GlobalRepository implements IGlobalRepository {
 		int age = now.get(Calendar.YEAR) - cal.get(Calendar.YEAR);
 
 		return age;
+	}
+	
+	/*AJOUT D'UNE FIRESTATION AVEC POST*/
+	public FireStation addFireStationToRepository(FireStation firestation) {
+		fireStations.add(firestation);
+		return firestation;
 	}
 }
