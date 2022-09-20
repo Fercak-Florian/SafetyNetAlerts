@@ -12,6 +12,7 @@ import com.safetynet.safetynetalerts.repository.IGlobalRepository;
 public class SafetyNetAlertsApplication {
 	
 	private static IGlobalRepository globalRepository;
+	
 	public static IGlobalRepository getGlobalRepository() {
 		return globalRepository;
 	}

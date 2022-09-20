@@ -2,6 +2,7 @@ package com.safetynet.safetynetalerts.repository;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.List;
@@ -31,7 +32,7 @@ public class MedicalRecordRepositoryImpl implements IMedicalRecordRepository {
 
 	public void getMedicalRecordsFromJson() throws IOException {
 		String filePath = "src/main/resources/data.json";
-		String stringFile = Files.readString(new File(filePath).toPath());
+		String stringFile = Files.readString(new File(filePath).toPath(), StandardCharsets.UTF_8);
 
 		JsonIterator iter = JsonIterator.parse(stringFile);
 		Any any = iter.readAny();

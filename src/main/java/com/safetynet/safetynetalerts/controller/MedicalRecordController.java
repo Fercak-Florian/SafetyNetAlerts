@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import com.safetynet.safetynetalerts.model.FireStation;
 import com.safetynet.safetynetalerts.model.MedicalRecord;
 import com.safetynet.safetynetalerts.service.IMedicalRecordService;
 import com.safetynet.safetynetalerts.workclasses.FirstNameAndLastName;
@@ -36,7 +35,7 @@ public class MedicalRecordController {
 	public ResponseEntity<MedicalRecord> postMedicalRecord(@RequestBody MedicalRecord medicalRecord) {
 		List<MedicalRecord> mr = medicalRecordService.addMedicalRecordService(medicalRecord);
 		if (Objects.isNull(mr)) {
-			return ResponseEntity.noContent().build();
+			return ResponseEntity.notFound().build();
 		} else {
 			URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/")
 					.buildAndExpand(medicalRecord.getFirstName()).toUri();
