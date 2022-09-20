@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.safetynet.safetynetalerts.model.FireStation;
 import com.safetynet.safetynetalerts.service.IFireStationService;
@@ -20,6 +22,8 @@ import com.safetynet.safetynetalerts.service.IFireStationService;
 @RestController
 public class FireStationController {
 	/* APPELER DES METHODES DE LA CLASSE SERVICE */
+	
+	private static Logger logger = LoggerFactory.getLogger(FireStationController.class);
 
 	@Autowired
 	private IFireStationService fireStationService;
@@ -28,6 +32,7 @@ public class FireStationController {
 
 	@GetMapping("/firestations")
 	public List<FireStation> getFireStationFromService() {
+		logger.info("Recuperation de toutes les firestations");
 		return fireStationService.getFireStation();
 	}
 
