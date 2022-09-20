@@ -36,7 +36,7 @@ public class MedicalRecordController {
 	public ResponseEntity<MedicalRecord> postMedicalRecord(@RequestBody MedicalRecord medicalRecord) {
 		List<MedicalRecord> mr = medicalRecordService.addMedicalRecordService(medicalRecord);
 		if (Objects.isNull(mr)) {
-			return ResponseEntity.noContent().build();
+			return ResponseEntity.notFound().build();
 		} else {
 			URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/")
 					.buildAndExpand(medicalRecord.getFirstName()).toUri();
