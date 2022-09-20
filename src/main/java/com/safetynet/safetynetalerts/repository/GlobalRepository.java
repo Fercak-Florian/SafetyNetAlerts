@@ -125,7 +125,7 @@ public class GlobalRepository implements IGlobalRepository {
 	public List<Url2> getChildrenLivingAtThisAddress(String address) {
 		List<Url2> result = new ArrayList<>();
 		for (MedicalRecord mr : medicalRecords) {
-			int age = ageCalculate(mr);
+			int age = mr.getAge();
 			if (age <= 18) {
 				for (Person person : persons) {
 					if (person.getFirstName().equalsIgnoreCase(mr.getFirstName())
@@ -193,7 +193,7 @@ public class GlobalRepository implements IGlobalRepository {
 						medicalRecordFound = true;
 						myList.add(new Url4(person.getLastName(), person.getFirstName(), stationNumber,
 								person.getPhone(), mr.getMedicationsList(), mr.getAllergiesList(),
-								Integer.toString(ageCalculate(mr))));
+								Integer.toString(mr.getAge())));
 					}
 				}
 				if (!medicalRecordFound) {
@@ -221,7 +221,7 @@ public class GlobalRepository implements IGlobalRepository {
 								if ((person.getFirstName().equalsIgnoreCase(mr.getFirstName())
 										&& (person.getLastName().equalsIgnoreCase(mr.getLastName())))) {
 									result.add(new Url5(person.getFirstName(), person.getLastName(),
-											person.getAddress(), person.getPhone(), ageCalculate(mr),
+											person.getAddress(), person.getPhone(), mr.getAge(),
 											mr.getMedicationsList(), mr.getAllergiesList()));
 								}
 							}
@@ -249,7 +249,7 @@ public class GlobalRepository implements IGlobalRepository {
 					if ((mr.getFirstName().equalsIgnoreCase(firstName))
 							&& (mr.getLastName().equalsIgnoreCase(lastName))) {
 						result.add(new Url6(person.getFirstName(), person.getLastName(), person.getAddress(),
-								person.getEmail(), ageCalculate(mr), mr.getMedicationsList(), mr.getAllergiesList()));
+								person.getEmail(), mr.getAge(), mr.getMedicationsList(), mr.getAllergiesList()));
 					}
 				}
 			}
@@ -367,19 +367,4 @@ public class GlobalRepository implements IGlobalRepository {
 		return null;
 	}
 
-	public int ageCalculate(MedicalRecord medicalRecord) {
-		Date dob = new Date();
-		try {
-			dob = new SimpleDateFormat("dd/MM/yyyy").parse(medicalRecord.getBirthDate());
-		} catch (Exception e) {
-			// TODO: handle exception
-		}
-		Calendar now = Calendar.getInstance();
-		Calendar cal = Calendar.getInstance();
-		cal.setTime(dob);
-
-		int age = now.get(Calendar.YEAR) - cal.get(Calendar.YEAR);
-
-		return age;
-	}
 }

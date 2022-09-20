@@ -1,9 +1,11 @@
 package com.safetynet.safetynetalerts.model;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
-import com.jsoniter.any.Any;
 
 import lombok.Data;
 
@@ -28,5 +30,21 @@ public class MedicalRecord {
 
 		this.medicationsList = medications;
 		this.allergiesList = allergies;
+	}
+	
+	public int getAge() {
+		Date dob = new Date();
+		try {
+			dob = new SimpleDateFormat("dd/MM/yyyy").parse(birthDate);
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+		Calendar now = Calendar.getInstance();
+		Calendar cal = Calendar.getInstance();
+		cal.setTime(dob);
+
+		int age = now.get(Calendar.YEAR) - cal.get(Calendar.YEAR);
+
+		return age;
 	}
 }
