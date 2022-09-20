@@ -33,7 +33,7 @@ public class FireStationController {
 
 	@GetMapping("/firestations")
 	public List<FireStation> getFireStationFromService() {
-		log.info("Récuperation de toutes les firestations");
+		log.info("Récuperation de toutes les casernes");
 		return fireStationService.getFireStation();
 	}
 
