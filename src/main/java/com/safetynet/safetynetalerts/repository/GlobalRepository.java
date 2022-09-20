@@ -257,22 +257,6 @@ public class GlobalRepository implements IGlobalRepository {
 		return result;
 	}
 
-	public int ageCalculate(MedicalRecord medicalRecord) {
-		Date dob = new Date();
-		try {
-			dob = new SimpleDateFormat("dd/MM/yyyy").parse(medicalRecord.getBirthDate());
-		} catch (Exception e) {
-			// TODO: handle exception
-		}
-		Calendar now = Calendar.getInstance();
-		Calendar cal = Calendar.getInstance();
-		cal.setTime(dob);
-
-		int age = now.get(Calendar.YEAR) - cal.get(Calendar.YEAR);
-
-		return age;
-	}
-
 	/* CRUD POUR LES FIRESTATIONS */
 
 	/* AJOUT D'UNE FIRESTATION AVEC POST */
@@ -355,8 +339,9 @@ public class GlobalRepository implements IGlobalRepository {
 	/* MISE A JOUR D'UN MEDICALRECORD AVEC PUT */
 	@Override
 	public List<MedicalRecord> updateMedicalRecord(MedicalRecord medicalRecord) {
-		for(MedicalRecord mr : medicalRecords) {
-			if((mr.getFirstName().equalsIgnoreCase(medicalRecord.getFirstName()) && mr.getLastName().equalsIgnoreCase(medicalRecord.getLastName()))) {
+		for (MedicalRecord mr : medicalRecords) {
+			if ((mr.getFirstName().equalsIgnoreCase(medicalRecord.getFirstName())
+					&& mr.getLastName().equalsIgnoreCase(medicalRecord.getLastName()))) {
 				mr.setBirthDate(medicalRecord.getBirthDate());
 				mr.setMedicationsList(medicalRecord.getMedicationsList());
 				mr.setAllergiesList(medicalRecord.getAllergiesList());
@@ -382,4 +367,19 @@ public class GlobalRepository implements IGlobalRepository {
 		return null;
 	}
 
+	public int ageCalculate(MedicalRecord medicalRecord) {
+		Date dob = new Date();
+		try {
+			dob = new SimpleDateFormat("dd/MM/yyyy").parse(medicalRecord.getBirthDate());
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+		Calendar now = Calendar.getInstance();
+		Calendar cal = Calendar.getInstance();
+		cal.setTime(dob);
+
+		int age = now.get(Calendar.YEAR) - cal.get(Calendar.YEAR);
+
+		return age;
+	}
 }
