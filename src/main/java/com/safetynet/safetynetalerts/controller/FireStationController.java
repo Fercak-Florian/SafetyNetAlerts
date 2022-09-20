@@ -13,8 +13,6 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import com.safetynet.safetynetalerts.model.FireStation;
 import com.safetynet.safetynetalerts.service.IFireStationService;
@@ -35,7 +33,7 @@ public class FireStationController {
 
 	@GetMapping("/firestations")
 	public List<FireStation> getFireStationFromService() {
-		log.info("Recuperation de toutes les firestations");
+		log.info("Récuperation de toutes les firestations");
 		return fireStationService.getFireStation();
 	}
 
@@ -43,8 +41,10 @@ public class FireStationController {
 	public ResponseEntity<FireStation> postFirestation(@RequestBody FireStation firestation) {
 		FireStation fs = fireStationService.addFirestationService(firestation);
 		if (Objects.isNull(fs)) {
+			log.info("La caserne passée en paramètre est vide");
 			return ResponseEntity.noContent().build();
 		} else {
+			log.info("La caserne suivante à été créee : {}", firestation);
 			URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/")
 					.buildAndExpand(firestation.getStationNumber()).toUri();
 			return ResponseEntity.created(location).build();
@@ -55,8 +55,10 @@ public class FireStationController {
 	public ResponseEntity<FireStation> putFirestation(@RequestBody FireStation firestation) {
 		FireStation fs = fireStationService.updateFirestationNumberService(firestation);
 		if (Objects.isNull(fs)) {
+			log.info("La caserne passée en paramètre est vide");
 			return ResponseEntity.noContent().build();
 		} else {
+			log.info("La caserne suivante à été mise à jour : {}", firestation);
 			URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/")
 					.buildAndExpand(firestation.getStationNumber()).toUri();
 			return ResponseEntity.created(location).build();
@@ -65,6 +67,7 @@ public class FireStationController {
 
 	@DeleteMapping("/firestation")
 	public ResponseEntity<FireStation> deleteFirestation(@RequestBody FireStation firestation) {
+		log.info("La caserne suivante à été supprimée : {}", firestation);
 		fireStationService.deleteFirestationService(firestation);
 		return null;
 	}
