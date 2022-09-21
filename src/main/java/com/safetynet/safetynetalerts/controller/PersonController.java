@@ -30,6 +30,8 @@ import com.safetynet.safetynetalerts.workclasses.Url4;
 import com.safetynet.safetynetalerts.workclasses.Url5;
 import com.safetynet.safetynetalerts.workclasses.Url6;
 
+import lombok.extern.slf4j.Slf4j;
+@Slf4j
 @RestController
 public class PersonController {
 	/* APPELER DES METHODES DE LA CLASSE SERVICE */
@@ -39,36 +41,14 @@ public class PersonController {
 	@Autowired
 	IPersonService personService;
 
-	// FORMAT URL : http://localhost:8080/persons/Paris/4
-	@GetMapping(value = "/ville/{city}/{jojo}")
-	@ResponseBody
-	public String getPersonEmailFromServiceTesMethod(@PathVariable String city,
-			@PathVariable(value = "jojo") int number) throws IOException {
-		return (city + ":" + number);
-	}
-
-	// FORMAT URL :
-	// http://localhost:8080/communityEmail/ChangeVar?city=<nom_de_la_ville>
-	@RequestMapping("/communityEmail/ChangeVar")
-	@ResponseBody
-	public String test(@RequestParam(value = "city") String cities) throws IOException {
-		return cities;
-	}
-
-	// TEST DE GETMAPPING AVEC ?
-	@GetMapping("/test")
-	@ResponseBody
-	public String maMethodeDeTest(@RequestParam String id) {
-		return "La valeur de id est : " + id;
-	}
-
 	/*
 	 * URL_1 : http://localhost:8080/firestation?stationNumber=<station_number>
 	 */
 	@GetMapping("/firestation")
 	public List<String> getPersonsCoveredByFireStationAdressFromService(@RequestParam int stationNumber)
 			throws IOException, ParseException {
-		return personService.getPersonsCoveredByStationNumberFromRepository(stationNumber);
+		List<String> result = personService.getPersonsCoveredByStationNumberFromRepository(stationNumber);
+		return result;
 	}
 
 	/*
@@ -127,6 +107,7 @@ public class PersonController {
 
 	@GetMapping("/person")
 	public List<Person> getPersonFromService() throws IOException {
+		log.info("Récuperation de toutes les personnes");
 		return personService.getPerson();
 	}
 
@@ -134,8 +115,10 @@ public class PersonController {
 	public ResponseEntity<Person> postPerson(@RequestBody Person person) {
 		Person p = personService.addPersonService(person);
 		if (Objects.isNull(p)) {
+			log.info("Erreur lors de la creation de la personne");
 			return ResponseEntity.noContent().build();
 		} else {
+			log.info("La personne suivante à été créée : {}", person);
 			URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/")
 					.buildAndExpand(person.getAddress()).toUri();
 			return ResponseEntity.created(location).build();
@@ -146,8 +129,10 @@ public class PersonController {
 	public ResponseEntity<Person> putPerson(@RequestBody Person person) {
 		Person p = personService.updatePersonService(person);
 		if (Objects.isNull(p)) {
+			log.info("Erreur lors de la mise à jour de la personne");
 			return ResponseEntity.noContent().build();
 		} else {
+			log.info("La personne suivante à été mise à jour : {}", person);
 			URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/")
 					.buildAndExpand(person.getAddress()).toUri();
 			return ResponseEntity.created(location).build();
@@ -156,6 +141,7 @@ public class PersonController {
 
 	@DeleteMapping("/person")
 	public ResponseEntity<FireStation> deletePerson(@RequestBody FirstNameAndLastName combination) {
+		log.info("La personne suivante à été supprimée : {}", combination);
 		personService.deletePersonService(combination);
 		return null;
 	}
