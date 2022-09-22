@@ -2,16 +2,9 @@ package com.safetynet.safetynetalerts.repository;
 
 import java.io.IOException;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
-import java.util.Objects;
-import java.util.stream.Collectors;
 
-import org.jacoco.agent.rt.internal_43f5073.asm.tree.MultiANewArrayInsnNode;
 import org.springframework.stereotype.Component;
 
 import com.safetynet.safetynetalerts.model.FireStation;
@@ -71,8 +64,7 @@ public class GlobalRepository implements IGlobalRepository {
 						for (MedicalRecord mr : medicalRecords) {
 							if ((mr.getFirstName().equalsIgnoreCase(p.getFirstName())
 									&& mr.getLastName().equalsIgnoreCase(p.getLastName()))) {
-								result
-										.add(new Url1(p.getFirstName(), p.getLastName(), p.getAddress(), p.getPhone()));
+								result.add(new Url1(p.getFirstName(), p.getLastName(), p.getAddress(), p.getPhone()));
 								if (mr.getAge() <= 18) {
 									numberOfChildren += 1;
 								} else {
@@ -121,10 +113,10 @@ public class GlobalRepository implements IGlobalRepository {
 	@Override
 	public List<String> getPhoneNumbersCoveredByAFirestation(int stationNumber) {
 		List<String> result = new ArrayList<>();
-		for(FireStation fs : fireStations) {
-			if(fs.getStationNumber() == stationNumber) {
-				for(Person p : persons) {
-					if(fs.getAddress().equalsIgnoreCase(p.getAddress())) {
+		for (FireStation fs : fireStations) {
+			if (fs.getStationNumber() == stationNumber) {
+				for (Person p : persons) {
+					if (fs.getAddress().equalsIgnoreCase(p.getAddress())) {
 						result.add(p.getPhone());
 					}
 				}
@@ -216,6 +208,19 @@ public class GlobalRepository implements IGlobalRepository {
 				}
 			}
 		}
+		return result;
+	}
+
+	/*
+	 * URL_7 LISTE DES ADRESSES MAILS DE TOUS LES HABITANTS DE LA VILLE
+	 */
+	@Override /* VERIFIER L'ADEQUATION DU NOM DE LA METHODE */
+	public List<String> getPersonEmailByCity(String city) {
+		List<String> result = new ArrayList<>();
+		for (Person p : persons)
+			if (p.getCity().equalsIgnoreCase(city)) {
+				result.add(p.getEmail());
+			}
 		return result;
 	}
 
@@ -328,5 +333,4 @@ public class GlobalRepository implements IGlobalRepository {
 		}
 		return null;
 	}
-
 }

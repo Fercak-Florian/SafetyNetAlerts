@@ -36,6 +36,8 @@ public interface IGlobalRepository {
 
 	List<Url6> getPersonInfo(String firstName, String lastName);
 
+	List<String> getPersonEmailByCity(String city);
+
 	FireStation addFireStationToRepository(FireStation firestation);
 
 	FireStation deleteFirestationToRepository(FireStation firestation);

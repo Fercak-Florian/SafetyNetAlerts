@@ -4,13 +4,11 @@ import java.io.IOException;
 import java.text.ParseException;
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.safetynet.safetynetalerts.SafetyNetAlertsApplication;
 import com.safetynet.safetynetalerts.model.Person;
 import com.safetynet.safetynetalerts.repository.IGlobalRepository;
-import com.safetynet.safetynetalerts.repository.IPersonRepository;
 import com.safetynet.safetynetalerts.workclasses.FirstNameAndLastName;
 import com.safetynet.safetynetalerts.workclasses.Url2;
 import com.safetynet.safetynetalerts.workclasses.Url4;
@@ -19,9 +17,7 @@ import com.safetynet.safetynetalerts.workclasses.Url6;
 
 @Service
 public class PersonServiceImpl implements IPersonService {
-	@Autowired
-	IPersonRepository personRepository;
-	// @Autowired
+	
 	IGlobalRepository globalRepository = SafetyNetAlertsApplication.getGlobalRepository();
 
 	@Override
@@ -57,6 +53,11 @@ public class PersonServiceImpl implements IPersonService {
 	@Override
 	public List<Url6> getPersonInfoFromRepository(String firstName, String lastName) {
 		return globalRepository.getPersonInfo(firstName, lastName);
+	}
+
+	@Override
+	public List<String> getPersonEmailFromRepository(String city) {
+		return globalRepository.getPersonEmailByCity(city);
 	}
 
 	@Override
