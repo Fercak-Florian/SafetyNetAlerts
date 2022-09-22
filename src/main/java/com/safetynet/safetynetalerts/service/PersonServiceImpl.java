@@ -21,7 +21,7 @@ import com.safetynet.safetynetalerts.workclasses.Url6;
 public class PersonServiceImpl implements IPersonService {
 	@Autowired
 	IPersonRepository personRepository;
-	//@Autowired
+	// @Autowired
 	IGlobalRepository globalRepository = SafetyNetAlertsApplication.getGlobalRepository();
 
 	@Override
@@ -30,7 +30,7 @@ public class PersonServiceImpl implements IPersonService {
 	}
 
 	@Override
-	public List<String> getPersonsCoveredByStationNumberFromRepository(int stationNumber) throws IOException, ParseException {
+	public List<Object> getPersonsCoveredByStationNumberFromRepository(int stationNumber) {
 		return globalRepository.getPersonsCoveredByAFirestation(stationNumber);
 	}
 

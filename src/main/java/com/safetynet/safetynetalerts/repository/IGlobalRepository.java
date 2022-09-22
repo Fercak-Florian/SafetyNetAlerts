@@ -1,6 +1,5 @@
 package com.safetynet.safetynetalerts.repository;
 
-import java.io.IOException;
 import java.text.ParseException;
 import java.util.List;
 
@@ -8,6 +7,7 @@ import com.safetynet.safetynetalerts.model.FireStation;
 import com.safetynet.safetynetalerts.model.MedicalRecord;
 import com.safetynet.safetynetalerts.model.Person;
 import com.safetynet.safetynetalerts.workclasses.FirstNameAndLastName;
+import com.safetynet.safetynetalerts.workclasses.Url1;
 import com.safetynet.safetynetalerts.workclasses.Url2;
 import com.safetynet.safetynetalerts.workclasses.Url4;
 import com.safetynet.safetynetalerts.workclasses.Url5;
@@ -18,10 +18,10 @@ public interface IGlobalRepository {
 	List<FireStation> getFirestations();
 
 	List<Person> getPersons();
-	
+
 	List<MedicalRecord> getMedicalRecords();
 
-	List<String> getPersonsCoveredByAFirestation(int stationNumber) throws IOException, ParseException;
+	List<Object> getPersonsCoveredByAFirestation(int stationNumber);
 
 	/* VERIFIER CETTE SIGNATURE */
 	IPersonRepository getPersonRepository();
@@ -41,16 +41,16 @@ public interface IGlobalRepository {
 	FireStation deleteFirestationToRepository(FireStation firestation);
 
 	FireStation updateFirestationNumberToRepository(FireStation firestation);
-	
+
 	Person addPersonToRepository(Person person);
-	
+
 	Person updatePersonToRepository(Person person);
-	
-	Person deletePersonToRepository (FirstNameAndLastName combination);
-	
-	List<MedicalRecord> addMedicalRecord (MedicalRecord medicalRecord);
-	
-	List<MedicalRecord> updateMedicalRecord (MedicalRecord medicalRecord);
-	
-	List<MedicalRecord> deleteMedicalRecord (FirstNameAndLastName combination);
+
+	Person deletePersonToRepository(FirstNameAndLastName combination);
+
+	List<MedicalRecord> addMedicalRecord(MedicalRecord medicalRecord);
+
+	List<MedicalRecord> updateMedicalRecord(MedicalRecord medicalRecord);
+
+	List<MedicalRecord> deleteMedicalRecord(FirstNameAndLastName combination);
 }

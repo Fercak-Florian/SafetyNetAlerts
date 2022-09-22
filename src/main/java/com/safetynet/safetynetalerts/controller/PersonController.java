@@ -45,9 +45,9 @@ public class PersonController {
 	 * URL_1 : http://localhost:8080/firestation?stationNumber=<station_number>
 	 */
 	@GetMapping("/firestation")
-	public List<String> getPersonsCoveredByFireStationAdressFromService(@RequestParam int stationNumber)
+	public List<Object> getPersonsCoveredByFireStationAdressFromService(@RequestParam int stationNumber)
 			throws IOException, ParseException {
-		List<String> result = personService.getPersonsCoveredByStationNumberFromRepository(stationNumber);
+		List<Object> result = personService.getPersonsCoveredByStationNumberFromRepository(stationNumber);
 		return result;
 	}
 
