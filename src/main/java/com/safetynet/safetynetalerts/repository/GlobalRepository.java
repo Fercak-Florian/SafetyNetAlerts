@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
+import org.jacoco.agent.rt.internal_43f5073.asm.tree.MultiANewArrayInsnNode;
 import org.springframework.stereotype.Component;
 
 import com.safetynet.safetynetalerts.model.FireStation;
@@ -119,24 +120,17 @@ public class GlobalRepository implements IGlobalRepository {
 	/* URL_3 LISTE DES PHONE NUMBERS COUVERTS PAR UNE FIRESTATION */
 	@Override
 	public List<String> getPhoneNumbersCoveredByAFirestation(int stationNumber) {
-
-		/* 1 RECUPERER LE NUMERO DE CASERNE ---> PARAMETRE DE LA METHODE */
-
-		/* 2 FAIRE UNE LISTE DES ADRESSE ASSOCIEES AU NUMERO DE CASERNE */
-		List<String> addressesAssociatedWithFirestationsNumber = new ArrayList<>();
-		for (FireStation fs : fireStations) {
-			if (fs.getStationNumber() == stationNumber)
-				addressesAssociatedWithFirestationsNumber.add(fs.getAddress());
-		}
-
-		/* 3 COMPARER CETTE LISTE AVEC LA LISTE DES PERSONNES (ADRESS) */
-		List<String> personPhoneNumbers = new ArrayList<>();
-		for (Person person : persons) {
-			if (addressesAssociatedWithFirestationsNumber.contains(person.getAddress())) {
-				personPhoneNumbers.add(person.getPhone());
+		List<String> result = new ArrayList<>();
+		for(FireStation fs : fireStations) {
+			if(fs.getStationNumber() == stationNumber) {
+				for(Person p : persons) {
+					if(fs.getAddress().equalsIgnoreCase(p.getAddress())) {
+						result.add(p.getPhone());
+					}
+				}
 			}
 		}
-		return personPhoneNumbers;
+		return result;
 	}
 
 	/*
