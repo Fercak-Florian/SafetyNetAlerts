@@ -37,8 +37,6 @@ public class PersonController {
 	/* APPELER DES METHODES DE LA CLASSE SERVICE */
 
 	@Autowired
-	PersonRepositoryImpl personRepository;
-	@Autowired
 	IPersonService personService;
 
 	/*
@@ -100,7 +98,7 @@ public class PersonController {
 	 */
 	@GetMapping("/communityEmail")
 	public List<String> getPersonEmailFromService(@RequestParam String city) throws IOException {
-		return personRepository.getPersonEmailFromJson(city);
+		return personService.getPersonEmailFromRepository(city);
 	}
 
 	/* CRUD POUR PERSONS */
