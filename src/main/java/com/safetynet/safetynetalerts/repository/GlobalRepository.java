@@ -241,6 +241,7 @@ public class GlobalRepository implements IGlobalRepository {
 				fs.setStationNumber(firestation.getStationNumber());
 				result.setAddress(firestation.getAddress());
 				result.setStationNumber(firestation.getStationNumber());
+				return result;
 			}
 		}
 		return result;
@@ -249,8 +250,12 @@ public class GlobalRepository implements IGlobalRepository {
 	/* SUPPRESSION D'UNE FIRESTATION AVEC DELETE */
 	@Override
 	public FireStation deleteFirestationToRepository(FireStation firestation) {
-		fireStations.remove(firestation);
-		return null;
+		boolean result = fireStations.remove(firestation);
+		if(result) {
+			return firestation;
+		}else {
+			return null;
+		}
 	}
 
 	/* CRUD POUR LES PERSONS */

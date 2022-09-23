@@ -1,7 +1,5 @@
 package com.safetynet.safetynetalerts.model;
 
-
-
 import lombok.Data;
 
 @Data
@@ -19,7 +17,6 @@ public class Person {
 	}
 
 	// CONSTRUCTEUR AVEC TOUS LES ARGUMENTS
-	
 	public Person(String firstName, String lastName, String address, String city, String zip, String phone,
 			String email) {
 		this.firstName = firstName;
@@ -29,33 +26,5 @@ public class Person {
 		this.zip = zip;
 		this.phone = phone;
 		this.email = email;
-	}
-
-	////////////////////////////////////////////////////////////////////////////////////////////////
-
-	// UNE CLASSE PERSON BUILDER
-	@Data
-	public static class PersonBuilder {
-		private String firstName;
-		private String lastName;
-		private String address;
-		private String city;
-		private String zip;
-		private String phone;
-		private String email;
-
-		// CONSTRUCTEUR SANS ARGUMENTS
-		public PersonBuilder() {
-		}
-
-		// METHODE email
-		public PersonBuilder email(String email) {
-			this.email = email;
-			return this;
-		}
-
-		public Person build() {
-			return new Person(firstName, lastName, phone, zip, address, city, email);
-		}
 	}
 }

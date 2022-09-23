@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Objects;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -23,8 +24,9 @@ import lombok.extern.slf4j.Slf4j;
 @RestController
 public class FireStationController {
 	/* APPELER DES METHODES DE LA CLASSE SERVICE */
-	
-	//private static Logger logger = LoggerFactory.getLogger(FireStationController.class);
+
+	// private static Logger logger =
+	// LoggerFactory.getLogger(FireStationController.class);
 
 	@Autowired
 	private IFireStationService fireStationService;
@@ -40,9 +42,9 @@ public class FireStationController {
 	@PostMapping("/firestation")
 	public ResponseEntity<FireStation> postFirestation(@RequestBody FireStation firestation) {
 		FireStation fs = fireStationService.addFirestationService(firestation);
-		if (Objects.isNull(fs)) {
+		if (fs.getAddress() == null && fs.getStationNumber() == 0) {
 			log.info("La caserne passée en paramètre est vide");
-			return ResponseEntity.noContent().build();
+			return ResponseEntity.notFound().build();
 		} else {
 			log.info("La caserne suivante à été créee : {}", firestation);
 			URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/")
@@ -54,21 +56,24 @@ public class FireStationController {
 	@PutMapping("/firestation")
 	public ResponseEntity<FireStation> putFirestation(@RequestBody FireStation firestation) {
 		FireStation fs = fireStationService.updateFirestationNumberService(firestation);
-		if (Objects.isNull(fs)) {
-			log.info("La caserne passée en paramètre est vide");
-			return ResponseEntity.noContent().build();
+		if (fs.getAddress() == null && fs.getStationNumber() == 0) {
+			log.info("Erreur lors de la mise à jour");
+			return null; // CRASHING HERE
 		} else {
-			log.info("La caserne suivante à été mise à jour : {}", firestation);
-			URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/")
-					.buildAndExpand(firestation.getStationNumber()).toUri();
-			return ResponseEntity.created(location).build();
+			log.info("Le numéro de la caserne à été modifié par : {}", firestation.getStationNumber());
+			return ResponseEntity.status(HttpStatus.CREATED).body(firestation);
 		}
 	}
 
 	@DeleteMapping("/firestation")
-	public ResponseEntity<FireStation> deleteFirestation(@RequestBody FireStation firestation) {
-		log.info("La caserne suivante à été supprimée : {}", firestation);
-		fireStationService.deleteFirestationService(firestation);
-		return null;
+	public ResponseEntity<Object> deleteFirestation(@RequestBody FireStation firestation) {
+		FireStation fs = fireStationService.deleteFirestationService(firestation);
+		if (Objects.isNull(fs)) {
+			log.info("Erreur lors de la suppression de la caserne : {}", firestation);
+			return ResponseEntity.notFound().build();
+		} else {
+			log.info("La caserne suivante à été supprimée : {}", firestation);
+			return ResponseEntity.status(HttpStatus.OK).body(firestation); 
+		}
 	}
 }
