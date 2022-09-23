@@ -15,7 +15,7 @@ import com.safetynet.safetynetalerts.model.Person;
 @Component
 public class PersonRepositoryImpl implements IPersonRepository {
 
-	private  List<Person> personsArray;
+	  List<Person> personsArray;
 
 	/* CONSTRUCTEUR */
 	public PersonRepositoryImpl() throws IOException {

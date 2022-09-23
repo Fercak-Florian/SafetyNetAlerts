@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import org.springframework.stereotype.Component;
 
@@ -18,8 +19,10 @@ import com.safetynet.safetynetalerts.workclasses.Url5;
 import com.safetynet.safetynetalerts.workclasses.Url6;
 
 import lombok.Data;
+import lombok.extern.slf4j.Slf4j;
 
 @Data
+@Slf4j
 @Component
 public class GlobalRepository implements IGlobalRepository {
 	private List<Person> persons;
@@ -304,6 +307,9 @@ public class GlobalRepository implements IGlobalRepository {
 	/* AJOUT D'UN MEDICALRECORD AVEC POST */
 	@Override
 	public List<MedicalRecord> addMedicalRecord(MedicalRecord medicalRecord) {
+		if(Objects.isNull(medicalRecord)) {
+			log.info("Erreur dans la requête");
+		}
 		medicalRecords.add(medicalRecord);
 		return medicalRecords;
 	}

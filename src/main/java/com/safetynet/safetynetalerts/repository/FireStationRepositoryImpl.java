@@ -16,7 +16,7 @@ import com.safetynet.safetynetalerts.model.FireStation;
 public class FireStationRepositoryImpl implements IFireStationRepository {
 	/* SERT A COMMUNIQUER AVEC LA SOURCE DE DONNEES */
 
-	 private List<FireStation> fireStationsArray;
+	 List<FireStation> fireStationsArray;
 
 	/* CONSTRUCTEUR */
 	public FireStationRepositoryImpl() throws IOException {

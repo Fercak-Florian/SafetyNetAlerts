@@ -28,7 +28,8 @@ public class FireStationControllerIntegrationTest {
 
 	@Test
 	public void testGetFireStationFromService() throws Exception {
-		mockMvc.perform(get("/firestations")).andExpect(status().isOk())
+		mockMvc.perform(get("/firestations"))
+				.andExpect(status().isOk())
 				.andExpect(jsonPath("$[0].address", is("1509 Culver St")));
 	}
 
