@@ -15,7 +15,7 @@ import com.safetynet.safetynetalerts.model.Person;
 @Component
 public class PersonRepositoryImpl implements IPersonRepository {
 
-	List<Person> personsArray;
+	private  List<Person> personsArray;
 
 	/* CONSTRUCTEUR */
 	public PersonRepositoryImpl() throws IOException {
@@ -27,7 +27,7 @@ public class PersonRepositoryImpl implements IPersonRepository {
 		return personsArray;
 	}
 
-	private void getPersonFromJson() throws IOException {
+	public void getPersonFromJson() throws IOException {
 
 		if (personsArray == null) {
 			personsArray = new ArrayList<>();
