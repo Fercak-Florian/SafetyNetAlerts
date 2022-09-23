@@ -37,17 +37,15 @@ public class PersonController {
 	/* APPELER DES METHODES DE LA CLASSE SERVICE */
 
 	@Autowired
-	PersonRepositoryImpl personRepository;
-	@Autowired
 	IPersonService personService;
 
 	/*
 	 * URL_1 : http://localhost:8080/firestation?stationNumber=<station_number>
 	 */
 	@GetMapping("/firestation")
-	public List<String> getPersonsCoveredByFireStationAdressFromService(@RequestParam int stationNumber)
+	public List<Object> getPersonsCoveredByFireStationAdressFromService(@RequestParam int stationNumber)
 			throws IOException, ParseException {
-		List<String> result = personService.getPersonsCoveredByStationNumberFromRepository(stationNumber);
+		List<Object> result = personService.getPersonsCoveredByStationNumberFromRepository(stationNumber);
 		return result;
 	}
 
@@ -100,7 +98,7 @@ public class PersonController {
 	 */
 	@GetMapping("/communityEmail")
 	public List<String> getPersonEmailFromService(@RequestParam String city) throws IOException {
-		return personRepository.getPersonEmailFromJson(city);
+		return personService.getPersonEmailFromRepository(city);
 	}
 
 	/* CRUD POUR PERSONS */
