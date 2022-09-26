@@ -28,8 +28,7 @@ public class FireStationControllerIntegrationTest {
 
 	@Test
 	public void testGetFireStationFromService() throws Exception {
-		mockMvc.perform(get("/firestations"))
-				.andExpect(status().isOk())
+		mockMvc.perform(get("/firestations")).andExpect(status().isOk())
 				.andExpect(jsonPath("$[0].address", is("1509 Culver St")));
 	}
 
@@ -42,11 +41,19 @@ public class FireStationControllerIntegrationTest {
 	}
 
 	@Test
-	public void testPostFirestationWithNullParameter() throws Exception {
-		FireStation fs = new FireStation();
+	public void testPostFirestationWithUnproperStationNumber() throws Exception {
+		FireStation fs = new FireStation("2 rue de Paris", 0);
 		ObjectMapper om = new ObjectMapper();
 		mockMvc.perform(post("/firestation").contentType("application/json").content(om.writeValueAsString(fs)))
-				.andExpect(status().isNotFound());
+				.andExpect(status().isBadRequest());
+	}
+
+	@Test
+	public void testPostFirestationWithUnproperAddress() throws Exception {
+		FireStation fs = new FireStation(null, 6);
+		ObjectMapper om = new ObjectMapper();
+		mockMvc.perform(post("/firestation").contentType("application/json").content(om.writeValueAsString(fs)))
+				.andExpect(status().isBadRequest());
 	}
 
 	@Test
@@ -57,13 +64,20 @@ public class FireStationControllerIntegrationTest {
 				.andExpect(status().isCreated());
 	}
 
-	@Disabled
-	@Test /* A CORRIGER */
-	public void testPutFirestationWithNullParameter() throws Exception {
-		FireStation fs = new FireStation();
+	@Test
+	public void testPutFirestationWithUnproperStationNumber() throws Exception {
+		FireStation fs = new FireStation("112 Steppes Pl", 0);
 		ObjectMapper om = new ObjectMapper();
 		mockMvc.perform(put("/firestation").contentType("application/json").content(om.writeValueAsString(fs)))
-				.andExpect(status().isNotFound());
+				.andExpect(status().isBadRequest());
+	}
+
+	@Test
+	public void testPutFirestationWithUnproperAddress() throws Exception {
+		FireStation fs = new FireStation(null, 1);
+		ObjectMapper om = new ObjectMapper();
+		mockMvc.perform(put("/firestation").contentType("application/json").content(om.writeValueAsString(fs)))
+				.andExpect(status().isBadRequest());
 	}
 
 	@Test
@@ -72,5 +86,21 @@ public class FireStationControllerIntegrationTest {
 		ObjectMapper om = new ObjectMapper();
 		mockMvc.perform(delete("/firestation").contentType("application/json").content(om.writeValueAsString(fs)))
 				.andExpect(status().isOk());
+	}
+
+	@Test
+	public void testDeleteFirestationWithUnproperStationNumber() throws Exception {
+		FireStation fs = new FireStation("748 Townings Dr", 0);
+		ObjectMapper om = new ObjectMapper();
+		mockMvc.perform(delete("/firestation").contentType("application/json").content(om.writeValueAsString(fs)))
+				.andExpect(status().isBadRequest());
+	}
+
+	@Test
+	public void testDeleteFirestationWithUnproperAddress() throws Exception {
+		FireStation fs = new FireStation(null, 3);
+		ObjectMapper om = new ObjectMapper();
+		mockMvc.perform(delete("/firestation").contentType("application/json").content(om.writeValueAsString(fs)))
+				.andExpect(status().isBadRequest());
 	}
 }

@@ -23,17 +23,17 @@ public class FireStationServiceImpl implements IFireStationService {
 	}
 
 	@Override
-	public FireStation addFirestationService(FireStation firestation) {
+	public List<FireStation> addFirestationService(FireStation firestation) {
 		return globalRepository.addFireStationToRepository(firestation);
 	}
 
 	@Override
-	public FireStation deleteFirestationService(FireStation firestation) {
+	public List<FireStation> deleteFirestationService(FireStation firestation) {
 		return globalRepository.deleteFirestationToRepository(firestation);
 	}
 
 	@Override
-	public FireStation updateFirestationNumberService(FireStation firestation) {
+	public List<FireStation> updateFirestationNumberService(FireStation firestation) {
 		return globalRepository.updateFirestationNumberToRepository(firestation);
 	}
 }

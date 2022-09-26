@@ -230,35 +230,43 @@ public class GlobalRepository implements IGlobalRepository {
 	/* CRUD POUR LES FIRESTATIONS */
 
 	/* AJOUT D'UNE FIRESTATION AVEC POST */
-	public FireStation addFireStationToRepository(FireStation firestation) {
+	public List<FireStation> addFireStationToRepository(FireStation firestation) {
 		fireStations.add(firestation);
-		return firestation;
+		return fireStations;
 	}
 
 	/* MIS A JOUR DU NUMERO DE LA FIRESTATION */
 	@Override
-	public FireStation updateFirestationNumberToRepository(FireStation firestation) {
+	public List<FireStation> updateFirestationNumberToRepository(FireStation firestation) {
 		FireStation result = new FireStation();
 		for (FireStation fs : fireStations) {
 			if (fs.getAddress().equalsIgnoreCase(firestation.getAddress())) {
 				fs.setStationNumber(firestation.getStationNumber());
 				result.setAddress(firestation.getAddress());
 				result.setStationNumber(firestation.getStationNumber());
-				return result;
+				return fireStations;
 			}
 		}
-		return result;
+		return fireStations;
 	}
 
 	/* SUPPRESSION D'UNE FIRESTATION AVEC DELETE */
 	@Override
-	public FireStation deleteFirestationToRepository(FireStation firestation) {
-		boolean result = fireStations.remove(firestation);
-		if (result) {
-			return firestation;
-		} else {
-			return null;
+	public List<FireStation> deleteFirestationToRepository(FireStation firestation) {
+		/*
+		 * boolean result = fireStations.remove(firestation); if(result) { return
+		 * fireStations; }else { return null; }
+		 */
+		List<FireStation> firestationToDelete = new ArrayList<>();
+		for(FireStation fs : fireStations) {
+			if(fs.getAddress().equalsIgnoreCase(firestation.getAddress()) && fs.getStationNumber() == firestation.getStationNumber()) {
+				firestationToDelete.add(firestation);
+			}
 		}
+		for(FireStation fs : firestationToDelete) {
+			fireStations.remove(fs);
+		}
+		return fireStations;
 	}
 
 	/* CRUD POUR LES PERSONS */
@@ -307,7 +315,7 @@ public class GlobalRepository implements IGlobalRepository {
 	/* AJOUT D'UN MEDICALRECORD AVEC POST */
 	@Override
 	public List<MedicalRecord> addMedicalRecord(MedicalRecord medicalRecord) {
-		if (Objects.isNull(medicalRecord)) {
+		if(Objects.isNull(medicalRecord)) {
 			log.info("Erreur dans la requête");
 		}
 		medicalRecords.add(medicalRecord);
