@@ -6,6 +6,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import lombok.Data;
 
@@ -31,7 +32,8 @@ public class MedicalRecord {
 		this.medicationsList = medications;
 		this.allergiesList = allergies;
 	}
-	
+
+	@JsonIgnore
 	public int getAge() {
 		Date dob = new Date();
 		try {
@@ -46,5 +48,13 @@ public class MedicalRecord {
 		int age = now.get(Calendar.YEAR) - cal.get(Calendar.YEAR);
 
 		return age;
+	}
+	@JsonIgnore
+	public boolean isAdult() {
+		return (getAge() > 18);
+	}
+	@JsonIgnore
+	public boolean isChild() {
+		return (!isAdult());
 	}
 }

@@ -47,9 +47,9 @@ public class FireStationController {
 			return ResponseEntity.notFound().build();
 		} else {
 			log.info("La caserne suivante à été créee : {}", firestation);
-			URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/")
-					.buildAndExpand(firestation.getStationNumber()).toUri();
-			return ResponseEntity.created(location).build();
+			//URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/")
+					//.buildAndExpand(firestation.getStationNumber()).toUri();
+			return ResponseEntity.status(HttpStatus.CREATED).body(firestation);
 		}
 	}
 

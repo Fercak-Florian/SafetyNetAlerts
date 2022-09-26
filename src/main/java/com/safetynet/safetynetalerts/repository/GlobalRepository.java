@@ -68,7 +68,7 @@ public class GlobalRepository implements IGlobalRepository {
 							if ((mr.getFirstName().equalsIgnoreCase(p.getFirstName())
 									&& mr.getLastName().equalsIgnoreCase(p.getLastName()))) {
 								result.add(new Url1(p.getFirstName(), p.getLastName(), p.getAddress(), p.getPhone()));
-								if (mr.getAge() <= 18) {
+								if (mr.isChild()) {
 									numberOfChildren += 1;
 								} else {
 									numberOfAdults += 1;
@@ -90,7 +90,7 @@ public class GlobalRepository implements IGlobalRepository {
 		List<Url2> result = new ArrayList<>();
 		for (MedicalRecord mr : medicalRecords) {
 			int age = mr.getAge();
-			if (age <= 18) {
+			if (mr.isChild()) {
 				for (Person person : persons) {
 					if (person.getFirstName().equalsIgnoreCase(mr.getFirstName())
 							&& person.getLastName().equalsIgnoreCase(mr.getLastName())) {
@@ -254,9 +254,9 @@ public class GlobalRepository implements IGlobalRepository {
 	@Override
 	public FireStation deleteFirestationToRepository(FireStation firestation) {
 		boolean result = fireStations.remove(firestation);
-		if(result) {
+		if (result) {
 			return firestation;
-		}else {
+		} else {
 			return null;
 		}
 	}
@@ -307,7 +307,7 @@ public class GlobalRepository implements IGlobalRepository {
 	/* AJOUT D'UN MEDICALRECORD AVEC POST */
 	@Override
 	public List<MedicalRecord> addMedicalRecord(MedicalRecord medicalRecord) {
-		if(Objects.isNull(medicalRecord)) {
+		if (Objects.isNull(medicalRecord)) {
 			log.info("Erreur dans la requête");
 		}
 		medicalRecords.add(medicalRecord);
@@ -342,6 +342,6 @@ public class GlobalRepository implements IGlobalRepository {
 		for (MedicalRecord mr : medicalRecordsToDelete) {
 			medicalRecords.remove(mr);
 		}
-		return null;
+		return medicalRecords;
 	}
 }

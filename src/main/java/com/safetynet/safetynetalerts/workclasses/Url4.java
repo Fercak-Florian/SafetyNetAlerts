@@ -22,8 +22,4 @@ public class Url4 {
 		this.allergiesList = allergiesList;
 		this.age = age;
 	}
-	
-	public String getInfo() {
-		return this.lastName + " " + this.firstName;
-	}
 }
