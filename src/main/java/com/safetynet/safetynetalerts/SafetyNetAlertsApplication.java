@@ -11,14 +11,10 @@ import com.safetynet.safetynetalerts.repository.IGlobalRepository;
 @SpringBootApplication
 public class SafetyNetAlertsApplication {
 	
-	private static IGlobalRepository globalRepository;
 	
-	public static IGlobalRepository getGlobalRepository() {
-		return globalRepository;
-	}
 
 	public static void main(String[] args) throws IOException {
-		globalRepository = new GlobalRepository();
+		
 		SpringApplication.run(SafetyNetAlertsApplication.class, args);
 		// FireStationRepositoryImpl fireStationRepositoryImpl = new
 		// FireStationRepositoryImpl();

@@ -18,7 +18,7 @@ public class MedicalRecordRepositoryImpl implements IMedicalRecordRepository {
 	/* SERT A COMMUNIQUER AVEC LA SOURCE DE DONNEES */
 	/* UTILISER JSONITER */
 
-	private List<MedicalRecord> medicalRecordsArray;
+	 List<MedicalRecord> medicalRecordsArray;
 
 	/* CONSTRUCTEUR */
 	public MedicalRecordRepositoryImpl() throws IOException {

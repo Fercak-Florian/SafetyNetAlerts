@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Objects;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -32,42 +33,55 @@ public class MedicalRecordController {
 
 	@GetMapping("/medicalRecord")
 	public List<MedicalRecord> getMedicalRecordFromService() {
-		log.info("Récuperation de tous les dossiers medicaux");
+		log.info("Récupération de tous les dossiers medicaux");
 		return medicalRecordService.getMedicalRecords();
 	}
 
 	@PostMapping("/medicalRecord")
 	public ResponseEntity<MedicalRecord> postMedicalRecord(@RequestBody MedicalRecord medicalRecord) {
-		List<MedicalRecord> mr = medicalRecordService.addMedicalRecordService(medicalRecord);
-		if (Objects.isNull(mr)) {
-			log.info("Le dossier medical passé en paramètre est vide");
-			return ResponseEntity.notFound().build();
+		if (medicalRecord.getFirstName() == null || medicalRecord.getLastName() == null) {
+			log.info("Impossible d'ajouter ce dossier medical : {}", medicalRecord);
+			return ResponseEntity.badRequest().build();
 		} else {
-			log.info("Le dossier medical suivant à été créé : {}", medicalRecord);
-			URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/")
-					.buildAndExpand(medicalRecord.getFirstName()).toUri();
-			return ResponseEntity.created(location).build();
+			List<MedicalRecord> mrList = medicalRecordService.addMedicalRecordService(medicalRecord);
+			if (mrList.contains(medicalRecord)) {
+				log.info("Le dossier medical suivant à été créé : {}", medicalRecord);
+				return ResponseEntity.status(HttpStatus.CREATED).body(medicalRecord);
+			}
+			log.info("Erreur lors de la creation du dossier medical");
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(medicalRecord);
 		}
 	}
 
 	@PutMapping("/medicalRecord")
 	public ResponseEntity<MedicalRecord> putMedicalRecord(@RequestBody MedicalRecord medicalRecord) {
-		List<MedicalRecord> mr = medicalRecordService.updateMedicalRecordService(medicalRecord);
-		if (Objects.isNull(mr)) {
-			log.info("Le dossier medical passé en paramètre est vide");
-			return ResponseEntity.noContent().build();
+		if (medicalRecord.getFirstName() == null || medicalRecord.getLastName() == null) {
+			log.info("Impossible de modifier le dossier medical");
+			return ResponseEntity.badRequest().build();
 		} else {
-			log.info("Le dossier medical suivant à été mis à jour : {}", medicalRecord);
-			URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/")
-					.buildAndExpand(medicalRecord.getFirstName()).toUri();
-			return ResponseEntity.created(location).build();
+			List<MedicalRecord> mrList = medicalRecordService.updateMedicalRecordService(medicalRecord);
+			if (mrList.contains(medicalRecord)) {
+				log.info("Le dossier medical suivant à été mis à jour : {}", medicalRecord);
+				return ResponseEntity.status(HttpStatus.CREATED).body(medicalRecord);
+			}
+			log.info("Erreur lors de la modification du dossier medical");
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(medicalRecord);
 		}
 	}
 
 	@DeleteMapping("/medicalRecord")
 	public ResponseEntity<MedicalRecord> deleteMedicalRecord(@RequestBody FirstNameAndLastName combination) {
+		if (combination.getFirstName() == null || combination.getLastName() == null) {
+			log.info("Impossible de supprimer le dossier medical");
+			return ResponseEntity.badRequest().build();
+		} else {
+			List<MedicalRecord> mrList = medicalRecordService.deleteMedicalRecordService(combination);
+			if (mrList.contains(combination)) {
+				log.info("Erreur lors de la suppression du dossier medical");
+				return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+			}
+		}
 		log.info("Le dossier medical de cette personne à été supprimé : {}", combination);
-		medicalRecordService.deleteMedicalRecordService(combination);
-		return null;
+		return ResponseEntity.ok().build();
 	}
 }
