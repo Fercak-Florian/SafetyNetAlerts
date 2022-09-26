@@ -1,28 +1,21 @@
 package com.safetynet.safetynetalerts.controller;
 
 import java.io.IOException;
-import java.net.URI;
 import java.text.ParseException;
 import java.util.List;
-import java.util.Objects;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import com.safetynet.safetynetalerts.model.FireStation;
 import com.safetynet.safetynetalerts.model.Person;
-import com.safetynet.safetynetalerts.repository.PersonRepositoryImpl;
 import com.safetynet.safetynetalerts.service.IPersonService;
 import com.safetynet.safetynetalerts.workclasses.FirstNameAndLastName;
 import com.safetynet.safetynetalerts.workclasses.Url2;
@@ -31,6 +24,7 @@ import com.safetynet.safetynetalerts.workclasses.Url5;
 import com.safetynet.safetynetalerts.workclasses.Url6;
 
 import lombok.extern.slf4j.Slf4j;
+
 @Slf4j
 @RestController
 public class PersonController {
@@ -111,36 +105,50 @@ public class PersonController {
 
 	@PostMapping("/person")
 	public ResponseEntity<Person> postPerson(@RequestBody Person person) {
-		Person p = personService.addPersonService(person);
-		if (Objects.isNull(p)) {
-			log.info("Erreur lors de la creation de la personne");
-			return ResponseEntity.noContent().build();
+		if (person.getFirstName() == null || person.getLastName() == null) {
+			log.info("Impossible de créer cette personne");
+			return ResponseEntity.badRequest().build();
 		} else {
-			log.info("La personne suivante à été créée : {}", person);
-			URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/")
-					.buildAndExpand(person.getAddress()).toUri();
-			return ResponseEntity.created(location).build();
+			List<Person> p = personService.addPersonService(person);
+			if(p.contains(person)) {
+				log.info("La personne suivante à été créée : {}", person);
+				return ResponseEntity.status(HttpStatus.CREATED).body(person);
+			}
+			log.info("Erreur lors de la création d'une personne");
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(person);
 		}
 	}
 
 	@PutMapping("/person")
 	public ResponseEntity<Person> putPerson(@RequestBody Person person) {
-		Person p = personService.updatePersonService(person);
-		if (Objects.isNull(p)) {
-			log.info("Erreur lors de la mise à jour de la personne");
-			return ResponseEntity.noContent().build();
+		if (person.getFirstName() == null || person.getLastName() == null) {
+			log.info("Impossible de modifier cette personne");
+			return ResponseEntity.badRequest().build();
 		} else {
-			log.info("La personne suivante à été mise à jour : {}", person);
-			URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/")
-					.buildAndExpand(person.getAddress()).toUri();
-			return ResponseEntity.created(location).build();
+			List<Person> p = personService.updatePersonService(person);
+			if(p.contains(person)) {
+				log.info("La personne suivante à été mise à jour : {}", person);
+				return ResponseEntity.status(HttpStatus.CREATED).body(person);
+			}
+			log.info("Erreur lors de la modification de la personne");
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(person); 
 		}
 	}
 
 	@DeleteMapping("/person")
-	public ResponseEntity<FireStation> deletePerson(@RequestBody FirstNameAndLastName combination) {
+	public ResponseEntity<FirstNameAndLastName> deletePerson(@RequestBody FirstNameAndLastName combination) {
 		log.info("La personne suivante à été supprimée : {}", combination);
-		personService.deletePersonService(combination);
-		return null;
+		if(combination.getFirstName() == null || combination.getLastName() == null) {
+			log.info("Impossible de supprimer cette personne");
+			return ResponseEntity.badRequest().build(); 
+		} else {
+			List<Person> pList = personService.deletePersonService(combination);
+			if(pList.contains(combination)) {
+				log.info("Erreur lors de la suppression de la personne");
+				return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(combination); 
+			}
+			log.info("Cette personne à été supprimée : {}", combination);
+			return ResponseEntity.ok().build();
+		}
 	}
 }

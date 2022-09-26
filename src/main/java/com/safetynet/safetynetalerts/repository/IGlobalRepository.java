@@ -43,11 +43,11 @@ public interface IGlobalRepository {
 
 	List<FireStation> updateFirestationNumberToRepository(FireStation firestation);
 
-	Person addPersonToRepository(Person person);
+	List<Person> addPersonToRepository(Person person);
 
-	Person updatePersonToRepository(Person person);
+	List<Person> updatePersonToRepository(Person person);
 
-	Person deletePersonToRepository(FirstNameAndLastName combination);
+	List<Person> deletePersonToRepository(FirstNameAndLastName combination);
 
 	List<MedicalRecord> addMedicalRecord(MedicalRecord medicalRecord);
 

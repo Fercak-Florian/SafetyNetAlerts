@@ -28,9 +28,9 @@ public interface IPersonService {
 	
 	List<String> getPersonEmailFromRepository(String city);
 
-	Person addPersonService(Person person);
+	List<Person> addPersonService(Person person);
 
-	Person updatePersonService(Person person);
+	List<Person> updatePersonService(Person person);
 
-	Person deletePersonService(FirstNameAndLastName combination);
+	List<Person> deletePersonService(FirstNameAndLastName combination);
 }
