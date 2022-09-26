@@ -7,7 +7,7 @@ import com.safetynet.safetynetalerts.model.FireStation;
 
 public interface IFireStationService {
 	List<FireStation> getFireStation();
-	FireStation addFirestationService(FireStation firestation);
-	FireStation deleteFirestationService(FireStation firestation);
-	FireStation updateFirestationNumberService(FireStation firestation);
+	List<FireStation> addFirestationService(FireStation firestation);
+	List<FireStation> deleteFirestationService(FireStation firestation);
+	List<FireStation> updateFirestationNumberService(FireStation firestation);
 }

@@ -41,39 +41,49 @@ public class FireStationController {
 
 	@PostMapping("/firestation")
 	public ResponseEntity<FireStation> postFirestation(@RequestBody FireStation firestation) {
-		FireStation fs = fireStationService.addFirestationService(firestation);
-		if (fs.getAddress() == null && fs.getStationNumber() == 0) {
-			log.info("La caserne passée en paramètre est vide");
-			return ResponseEntity.notFound().build();
+		if (firestation.getAddress() == null || firestation.getStationNumber() == 0) {
+			log.info("Impossible d'ajouter cette caserne");
+			return ResponseEntity.badRequest().build();
 		} else {
-			log.info("La caserne suivante à été créee : {}", firestation);
-			//URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/")
-					//.buildAndExpand(firestation.getStationNumber()).toUri();
-			return ResponseEntity.status(HttpStatus.CREATED).body(firestation);
+			List<FireStation> fsList = fireStationService.addFirestationService(firestation);
+			if (fsList.contains(firestation)) {
+				log.info("La caserne suivante à été créee : {}", firestation);
+				return ResponseEntity.status(HttpStatus.CREATED).body(firestation);
+			}
+			log.info("Erreur lors de la creation de la caserne");
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(firestation);
 		}
 	}
 
 	@PutMapping("/firestation")
 	public ResponseEntity<FireStation> putFirestation(@RequestBody FireStation firestation) {
-		FireStation fs = fireStationService.updateFirestationNumberService(firestation);
-		if (fs.getAddress() == null && fs.getStationNumber() == 0) {
+		if (firestation.getAddress() == null || firestation.getStationNumber() == 0) {
 			log.info("Erreur lors de la mise à jour");
-			return null; // CRASHING HERE
+			return ResponseEntity.badRequest().build(); // CRASHING HERE
 		} else {
-			log.info("Le numéro de la caserne à été modifié par : {}", firestation.getStationNumber());
-			return ResponseEntity.status(HttpStatus.CREATED).body(firestation);
+			List<FireStation> fsList = fireStationService.updateFirestationNumberService(firestation);
+			if (fsList.contains(firestation)) {
+				log.info("Le numéro de la caserne à été modifié par : {}", firestation.getStationNumber());
+				return ResponseEntity.status(HttpStatus.CREATED).body(firestation);
+			}
+			log.info("Erreur lors de la modification du numérode caserne");
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(firestation);
 		}
 	}
 
 	@DeleteMapping("/firestation")
-	public ResponseEntity<Object> deleteFirestation(@RequestBody FireStation firestation) {
-		FireStation fs = fireStationService.deleteFirestationService(firestation);
-		if (Objects.isNull(fs)) {
-			log.info("Erreur lors de la suppression de la caserne : {}", firestation);
-			return ResponseEntity.notFound().build();
+	public ResponseEntity<FireStation> deleteFirestation(@RequestBody FireStation firestation) {
+		if (firestation.getAddress() == null || firestation.getStationNumber() == 0) {
+			log.info("Impossible de supprimer cette caserne");
+			return ResponseEntity.badRequest().build();
 		} else {
+			List<FireStation> fsList = fireStationService.deleteFirestationService(firestation);
+			if (fsList.contains(firestation)) {
+				log.info("Erreur lors de la suppression de la caserne");
+				return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+			}
 			log.info("La caserne suivante à été supprimée : {}", firestation);
-			return ResponseEntity.status(HttpStatus.OK).body(firestation); 
+			return ResponseEntity.status(HttpStatus.OK).body(firestation);
 		}
 	}
 }

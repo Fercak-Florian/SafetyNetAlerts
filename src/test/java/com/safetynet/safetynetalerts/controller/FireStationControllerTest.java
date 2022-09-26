@@ -22,13 +22,11 @@ public class FireStationControllerTest {
 	@MockBean
 	private FireStationServiceImpl fireStationService;
 
-	@Disabled
 	@Test
 	public void testGetFireStationFromService() throws Exception {
 		mockMvc.perform(get("/firestations")).andExpect(status().isOk());
 	}
 
-	@Disabled
 	@Test
 	public void testGetFireStationFromServiceWithBadRequest() throws Exception {
 		mockMvc.perform(get("/fire")).andExpect(status().isNotFound());

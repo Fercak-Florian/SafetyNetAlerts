@@ -7,7 +7,6 @@ import com.safetynet.safetynetalerts.model.FireStation;
 import com.safetynet.safetynetalerts.model.MedicalRecord;
 import com.safetynet.safetynetalerts.model.Person;
 import com.safetynet.safetynetalerts.workclasses.FirstNameAndLastName;
-import com.safetynet.safetynetalerts.workclasses.Url1;
 import com.safetynet.safetynetalerts.workclasses.Url2;
 import com.safetynet.safetynetalerts.workclasses.Url4;
 import com.safetynet.safetynetalerts.workclasses.Url5;
@@ -38,11 +37,11 @@ public interface IGlobalRepository {
 
 	List<String> getPersonEmailByCity(String city);
 
-	FireStation addFireStationToRepository(FireStation firestation);
+	List<FireStation> addFireStationToRepository(FireStation firestation);
 
-	FireStation deleteFirestationToRepository(FireStation firestation);
+	List<FireStation> deleteFirestationToRepository(FireStation firestation);
 
-	FireStation updateFirestationNumberToRepository(FireStation firestation);
+	List<FireStation> updateFirestationNumberToRepository(FireStation firestation);
 
 	Person addPersonToRepository(Person person);
 
