@@ -185,7 +185,6 @@ public class GlobalRepository implements IGlobalRepository {
 						}
 					}
 					listOfStationAddress.add(f.getAddress());
-					System.out.println(f.getAddress());
 				}
 			}
 

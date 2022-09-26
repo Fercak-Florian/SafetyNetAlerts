@@ -5,6 +5,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -15,6 +16,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.web.servlet.MockMvc;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.safetynet.safetynetalerts.model.FireStation;
 import com.safetynet.safetynetalerts.model.Person;
 
 @SpringBootTest
@@ -23,6 +25,66 @@ public class PersonControllerIntegrationTest {
 
 	@Autowired
 	private MockMvc mockMvc;
+
+	/* TESTS CONCERNANT LES URLS DEMANDEES */
+
+	@Test
+	public void testUrl1() throws Exception {
+		mockMvc.perform(get("/firestation")
+			      .param("stationNumber", "1")).andExpect(status().isOk())
+			      .andExpect(content().contentType("application/json"))
+			      .andExpect(jsonPath("$[0].firstName").value("Peter"));
+	}
+	
+	@Test
+	public void testUrl2() throws Exception {
+		mockMvc.perform(get("/childAlert")
+			      .param("address", "1509 Culver St")).andExpect(status().isOk())
+			      .andExpect(content().contentType("application/json"))
+			      .andExpect(jsonPath("$[0].firstName").value("Tenley"));
+	}
+	
+	@Test
+	public void testUrl3() throws Exception {
+		mockMvc.perform(get("/phoneAlert")
+			      .param("firestation", "1")).andExpect(status().isOk())
+			      .andExpect(content().contentType("application/json"))
+			      .andExpect(jsonPath("$[0]").value("841-874-6512"));
+	}
+	
+	@Test
+	public void testUrl4() throws Exception {
+		mockMvc.perform(get("/fire")
+			      .param("address", "112 Steppes Pl")).andExpect(status().isOk())
+			      .andExpect(content().contentType("application/json"))
+			      .andExpect(jsonPath("$[0].firstName").value("Tony"));
+	}
+	
+	@Test
+	public void testUrl5() throws Exception {
+		mockMvc.perform(get("/flood/stations")
+			      .param("stations", "2,4")).andExpect(status().isOk())
+			      .andExpect(content().contentType("application/json"))
+			      .andExpect(jsonPath("$[0].firstName").value("Jonanathan"));
+	}
+	
+	@Test
+	public void testUrl6() throws Exception {
+		mockMvc.perform(get("/personInfo")
+			      .param("firstName", "Tessa").param("lastName", "Carman")).andExpect(status().isOk())
+			      .andExpect(content().contentType("application/json"))
+			      .andExpect(jsonPath("$[0].address").value("834 Binoc Ave"));
+	}
+	
+	@Test
+	public void testUrl7() throws Exception {
+		mockMvc.perform(get("/communityEmail")
+			      .param("city", "Culver")).andExpect(status().isOk())
+			      .andExpect(content().contentType("application/json"))
+			      .andExpect(jsonPath("$[1]").value("drk@email.com"));
+	}
+
+	/* TESTS CONCERNANT LE CRUD DES PERSONS*/
 
 	@Test
 	public void testGetPersonFromService() throws Exception {
