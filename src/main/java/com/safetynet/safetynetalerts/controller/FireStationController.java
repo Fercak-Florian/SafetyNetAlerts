@@ -35,7 +35,7 @@ public class FireStationController {
 	}
 
 	@PostMapping("/firestation")
-	public ResponseEntity<FireStation> postFirestation(@RequestBody FireStation firestation) {
+	public ResponseEntity<FireStation> postFirestation(@RequestBody(required = true) FireStation firestation) {
 		if (StringUtils.isEmpty(firestation.getAddress()) || firestation.getStationNumber() == 0) {
 			log.error("Impossible d'ajouter cette caserne");
 			return ResponseEntity.badRequest().build();
@@ -51,7 +51,7 @@ public class FireStationController {
 	}
 
 	@PutMapping("/firestation")
-	public ResponseEntity<FireStation> putFirestation(@RequestBody FireStation firestation) {
+	public ResponseEntity<FireStation> putFirestation(@RequestBody(required = true) FireStation firestation) {
 		if (StringUtils.isEmpty(firestation.getAddress()) || firestation.getStationNumber() == 0) {
 			log.error("Erreur lors de la mise à jour");
 			return ResponseEntity.badRequest().build();
@@ -67,7 +67,7 @@ public class FireStationController {
 	}
 
 	@DeleteMapping("/firestation")
-	public ResponseEntity<FireStation> deleteFirestation(@RequestBody FireStation firestation) {
+	public ResponseEntity<FireStation> deleteFirestation(@RequestBody(required = true) FireStation firestation) {
 		if (StringUtils.isEmpty(firestation.getAddress()) || firestation.getStationNumber() == 0) {
 			log.error("Impossible de supprimer cette caserne");
 			return ResponseEntity.badRequest().build();
