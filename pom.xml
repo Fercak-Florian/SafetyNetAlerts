@@ -80,7 +80,12 @@
 				<version>0.8.5</version>
 				<configuration>
 					<excludes>
-						<exclude>com/safetynet/safetynetalerts/model/FireStation.class</exclude>
+						<exclude>com/safetynet/safetynetalerts/workclasses/*Url1.class*</exclude>
+						<exclude>com/safetynet/safetynetalerts/workclasses/*Url2.class*</exclude>
+						<exclude>com/safetynet/safetynetalerts/workclasses/*Url4.class*</exclude>
+						<exclude>com/safetynet/safetynetalerts/workclasses/*Url5.class*</exclude>
+						<exclude>com/safetynet/safetynetalerts/workclasses/*Url6.class*</exclude>
+						<exclude>com/safetynet/safetynetalerts/workclasses/*firstNameAndLastName.class*</exclude>
 					</excludes>
 				</configuration>
 				<executions>

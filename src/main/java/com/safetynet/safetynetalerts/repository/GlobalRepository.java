@@ -185,7 +185,6 @@ public class GlobalRepository implements IGlobalRepository {
 						}
 					}
 					listOfStationAddress.add(f.getAddress());
-					System.out.println(f.getAddress());
 				}
 			}
 
@@ -253,17 +252,14 @@ public class GlobalRepository implements IGlobalRepository {
 	/* SUPPRESSION D'UNE FIRESTATION AVEC DELETE */
 	@Override
 	public List<FireStation> deleteFirestationToRepository(FireStation firestation) {
-		/*
-		 * boolean result = fireStations.remove(firestation); if(result) { return
-		 * fireStations; }else { return null; }
-		 */
 		List<FireStation> firestationToDelete = new ArrayList<>();
-		for(FireStation fs : fireStations) {
-			if(fs.getAddress().equalsIgnoreCase(firestation.getAddress()) && fs.getStationNumber() == firestation.getStationNumber()) {
+		for (FireStation fs : fireStations) {
+			if (fs.getAddress().equalsIgnoreCase(firestation.getAddress())
+					&& fs.getStationNumber() == firestation.getStationNumber()) {
 				firestationToDelete.add(firestation);
 			}
 		}
-		for(FireStation fs : firestationToDelete) {
+		for (FireStation fs : firestationToDelete) {
 			fireStations.remove(fs);
 		}
 		return fireStations;
@@ -272,14 +268,14 @@ public class GlobalRepository implements IGlobalRepository {
 	/* CRUD POUR LES PERSONS */
 
 	/* AJOUT D'UNE PERSON AVEC POST */
-	public Person addPersonToRepository(Person person) {
+	public List<Person> addPersonToRepository(Person person) {
 		persons.add(person);
-		return person;
+		return persons;
 	}
 
 	/* MISE A JOUR D'UNE PERSON AVEC PUT */
 	@Override
-	public Person updatePersonToRepository(Person person) {
+	public List<Person> updatePersonToRepository(Person person) {
 		for (Person p : persons) {
 			if ((p.getFirstName().equalsIgnoreCase(person.getFirstName())
 					&& p.getLastName().equalsIgnoreCase(person.getLastName()))) {
@@ -290,12 +286,12 @@ public class GlobalRepository implements IGlobalRepository {
 				p.setZip(person.getZip());
 			}
 		}
-		return person;
+		return persons;
 	}
 
 	/* SUPPRESSION D'UNE PERSON AVEC DELETE */
 	@Override
-	public Person deletePersonToRepository(FirstNameAndLastName combination) {
+	public List<Person> deletePersonToRepository(FirstNameAndLastName combination) {
 		List<Person> personsToDelete = new ArrayList<>();
 		for (Person p : persons) {
 			if ((p.getFirstName().equalsIgnoreCase(combination.getFirstName())
@@ -307,7 +303,7 @@ public class GlobalRepository implements IGlobalRepository {
 		for (Person p : personsToDelete) {
 			persons.remove(p);
 		}
-		return null;
+		return persons;
 	}
 
 	/* CRUD POUR LES MEDICALRECORD */
@@ -315,7 +311,7 @@ public class GlobalRepository implements IGlobalRepository {
 	/* AJOUT D'UN MEDICALRECORD AVEC POST */
 	@Override
 	public List<MedicalRecord> addMedicalRecord(MedicalRecord medicalRecord) {
-		if(Objects.isNull(medicalRecord)) {
+		if (Objects.isNull(medicalRecord)) {
 			log.info("Erreur dans la requête");
 		}
 		medicalRecords.add(medicalRecord);

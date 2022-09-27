@@ -6,7 +6,6 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
-import com.safetynet.safetynetalerts.SafetyNetAlertsApplication;
 import com.safetynet.safetynetalerts.model.Person;
 import com.safetynet.safetynetalerts.repository.IGlobalRepository;
 import com.safetynet.safetynetalerts.repository.RepositoryInstance;
@@ -62,17 +61,17 @@ public class PersonServiceImpl implements IPersonService {
 	}
 
 	@Override
-	public Person addPersonService(Person person) {
+	public List<Person> addPersonService(Person person) {
 		return globalRepository.addPersonToRepository(person);
 	}
 
 	@Override
-	public Person updatePersonService(Person person) {
+	public List<Person> updatePersonService(Person person) {
 		return globalRepository.updatePersonToRepository(person);
 	}
 
 	@Override
-	public Person deletePersonService(FirstNameAndLastName combination) {
+	public List<Person> deletePersonService(FirstNameAndLastName combination) {
 		return globalRepository.deletePersonToRepository(combination);
 	}
 }
