@@ -1,8 +1,8 @@
 package com.safetynet.safetynetalerts.controller;
 
-
 import java.util.List;
 
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -35,13 +35,13 @@ public class MedicalRecordController {
 	}
 
 	@PostMapping("/medicalRecord")
-	public ResponseEntity<MedicalRecord> postMedicalRecord(@RequestBody MedicalRecord medicalRecord) {
-		if (medicalRecord.getFirstName() == null || medicalRecord.getLastName() == null) {
+	public ResponseEntity<MedicalRecord> postMedicalRecord(@RequestBody(required = true) MedicalRecord medicalRecord) {
+		if (StringUtils.isEmpty(medicalRecord.getFirstName()) || StringUtils.isEmpty(medicalRecord.getLastName())) {
 			log.error("Impossible d'ajouter ce dossier medical : {}", medicalRecord);
 			return ResponseEntity.badRequest().build();
 		} else {
-			List<MedicalRecord> mrList = medicalRecordService.addMedicalRecordService(medicalRecord);
-			if (mrList.contains(medicalRecord)) {
+			List<MedicalRecord> medicalRecords = medicalRecordService.addMedicalRecordService(medicalRecord);
+			if (medicalRecords.contains(medicalRecord)) {
 				log.info("Le dossier medical suivant à été créé : {}", medicalRecord);
 				return ResponseEntity.status(HttpStatus.CREATED).body(medicalRecord);
 			}
@@ -51,13 +51,13 @@ public class MedicalRecordController {
 	}
 
 	@PutMapping("/medicalRecord")
-	public ResponseEntity<MedicalRecord> putMedicalRecord(@RequestBody MedicalRecord medicalRecord) {
-		if (medicalRecord.getFirstName() == null || medicalRecord.getLastName() == null) {
+	public ResponseEntity<MedicalRecord> putMedicalRecord(@RequestBody(required = true) MedicalRecord medicalRecord) {
+		if (StringUtils.isEmpty(medicalRecord.getFirstName()) || StringUtils.isEmpty(medicalRecord.getLastName())) {
 			log.error("Impossible de modifier le dossier medical");
 			return ResponseEntity.badRequest().build();
 		} else {
-			List<MedicalRecord> mrList = medicalRecordService.updateMedicalRecordService(medicalRecord);
-			if (mrList.contains(medicalRecord)) {
+			List<MedicalRecord> medicalRecords = medicalRecordService.updateMedicalRecordService(medicalRecord);
+			if (medicalRecords.contains(medicalRecord)) {
 				log.info("Le dossier medical suivant à été mis à jour : {}", medicalRecord);
 				return ResponseEntity.status(HttpStatus.CREATED).body(medicalRecord);
 			}
@@ -67,13 +67,14 @@ public class MedicalRecordController {
 	}
 
 	@DeleteMapping("/medicalRecord")
-	public ResponseEntity<MedicalRecord> deleteMedicalRecord(@RequestBody FirstNameAndLastName combination) {
-		if (combination.getFirstName() == null || combination.getLastName() == null) {
+	public ResponseEntity<MedicalRecord> deleteMedicalRecord(
+			@RequestBody(required = true) FirstNameAndLastName combination) {
+		if (StringUtils.isEmpty(combination.getFirstName()) || StringUtils.isEmpty(combination.getLastName())) {
 			log.error("Impossible de supprimer le dossier medical");
 			return ResponseEntity.badRequest().build();
 		} else {
-			List<MedicalRecord> mrList = medicalRecordService.deleteMedicalRecordService(combination);
-			if (mrList.contains(combination)) {
+			List<MedicalRecord> medicalRecords = medicalRecordService.deleteMedicalRecordService(combination);
+			if (medicalRecords.contains(combination)) {
 				log.error("Erreur lors de la suppression du dossier medical");
 				return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
 			}
