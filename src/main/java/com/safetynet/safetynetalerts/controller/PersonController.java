@@ -40,6 +40,7 @@ public class PersonController {
 	public List<Object> getPersonsCoveredByFireStationAdressFromService(@RequestParam int stationNumber)
 			throws IOException, ParseException {
 		List<Object> result = personService.getPersonsCoveredByStationNumberFromRepository(stationNumber);
+		log.info("La requete à réussie");
 		return result;
 	}
 
@@ -48,6 +49,7 @@ public class PersonController {
 	 */
 	@GetMapping("/childAlert")
 	public List<Url2> getChildrenLivingAtThisAddress(@RequestParam String address) {
+		log.info("La requete à réussie");
 		return personService.getChildrenLivingAtThisAddressFromRepository(address);
 	}
 
@@ -57,6 +59,7 @@ public class PersonController {
 	@GetMapping("/phoneAlert")
 	public List<String> getPhoneNumbersCoveredByStationNumberFromService(
 			@RequestParam(value = "firestation") int stationNumber) {
+		log.info("La requete à réussie");
 		return personService.getPhoneNumbersCoveredByStationNumberFromRepository(stationNumber);
 	}
 
@@ -65,6 +68,7 @@ public class PersonController {
 	 */
 	@GetMapping("/fire")
 	public List<Url4> getPersonsLivingAtThisAdressWithFireStation(@RequestParam String address) throws ParseException {
+		log.info("La requete à réussie");
 		return personService.getPersonsLivingAtThisAddressWithFirestationFromRepository(address);
 	}
 
@@ -74,6 +78,7 @@ public class PersonController {
 	 */
 	@GetMapping("/flood/stations")
 	public List<Url5> getHomesCoveredByAListOfFirestationFromService(@RequestParam List<String> stations) {
+		log.info("La requete à réussie");
 		return personService.getHomesCoveredByAListOfFirestationFromRepository(stations);
 	}
 
@@ -83,6 +88,7 @@ public class PersonController {
 	 */
 	@GetMapping("/personInfo")
 	public List<Url6> getPersonInfoFromService(@RequestParam String firstName, String lastName) {
+		log.info("La requete à réussie");
 		return personService.getPersonInfoFromRepository(firstName, lastName);
 
 	}
@@ -92,6 +98,7 @@ public class PersonController {
 	 */
 	@GetMapping("/communityEmail")
 	public List<String> getPersonEmailFromService(@RequestParam String city) throws IOException {
+		log.info("La requete à réussie");
 		return personService.getPersonEmailFromRepository(city);
 	}
 
@@ -106,7 +113,7 @@ public class PersonController {
 	@PostMapping("/person")
 	public ResponseEntity<Person> postPerson(@RequestBody Person person) {
 		if (person.getFirstName() == null || person.getLastName() == null) {
-			log.info("Impossible de créer cette personne");
+			log.error("Impossible de créer cette personne");
 			return ResponseEntity.badRequest().build();
 		} else {
 			List<Person> p = personService.addPersonService(person);
@@ -114,7 +121,7 @@ public class PersonController {
 				log.info("La personne suivante à été créée : {}", person);
 				return ResponseEntity.status(HttpStatus.CREATED).body(person);
 			}
-			log.info("Erreur lors de la création d'une personne");
+			log.error("Erreur lors de la création d'une personne");
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(person);
 		}
 	}
@@ -122,7 +129,7 @@ public class PersonController {
 	@PutMapping("/person")
 	public ResponseEntity<Person> putPerson(@RequestBody Person person) {
 		if (person.getFirstName() == null || person.getLastName() == null) {
-			log.info("Impossible de modifier cette personne");
+			log.error("Impossible de modifier cette personne");
 			return ResponseEntity.badRequest().build();
 		} else {
 			List<Person> p = personService.updatePersonService(person);
@@ -130,21 +137,20 @@ public class PersonController {
 				log.info("La personne suivante à été mise à jour : {}", person);
 				return ResponseEntity.status(HttpStatus.CREATED).body(person);
 			}
-			log.info("Erreur lors de la modification de la personne");
+			log.error("Erreur lors de la modification de la personne");
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(person); 
 		}
 	}
 
 	@DeleteMapping("/person")
 	public ResponseEntity<FirstNameAndLastName> deletePerson(@RequestBody FirstNameAndLastName combination) {
-		log.info("La personne suivante à été supprimée : {}", combination);
 		if(combination.getFirstName() == null || combination.getLastName() == null) {
-			log.info("Impossible de supprimer cette personne");
+			log.error("Impossible de supprimer cette personne");
 			return ResponseEntity.badRequest().build(); 
 		} else {
 			List<Person> pList = personService.deletePersonService(combination);
 			if(pList.contains(combination)) {
-				log.info("Erreur lors de la suppression de la personne");
+				log.error("Erreur lors de la suppression de la personne");
 				return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(combination); 
 			}
 			log.info("Cette personne à été supprimée : {}", combination);

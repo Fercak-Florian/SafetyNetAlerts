@@ -37,7 +37,7 @@ public class MedicalRecordController {
 	@PostMapping("/medicalRecord")
 	public ResponseEntity<MedicalRecord> postMedicalRecord(@RequestBody MedicalRecord medicalRecord) {
 		if (medicalRecord.getFirstName() == null || medicalRecord.getLastName() == null) {
-			log.info("Impossible d'ajouter ce dossier medical : {}", medicalRecord);
+			log.error("Impossible d'ajouter ce dossier medical : {}", medicalRecord);
 			return ResponseEntity.badRequest().build();
 		} else {
 			List<MedicalRecord> mrList = medicalRecordService.addMedicalRecordService(medicalRecord);
@@ -45,7 +45,7 @@ public class MedicalRecordController {
 				log.info("Le dossier medical suivant à été créé : {}", medicalRecord);
 				return ResponseEntity.status(HttpStatus.CREATED).body(medicalRecord);
 			}
-			log.info("Erreur lors de la creation du dossier medical");
+			log.error("Erreur lors de la creation du dossier medical");
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(medicalRecord);
 		}
 	}
@@ -53,7 +53,7 @@ public class MedicalRecordController {
 	@PutMapping("/medicalRecord")
 	public ResponseEntity<MedicalRecord> putMedicalRecord(@RequestBody MedicalRecord medicalRecord) {
 		if (medicalRecord.getFirstName() == null || medicalRecord.getLastName() == null) {
-			log.info("Impossible de modifier le dossier medical");
+			log.error("Impossible de modifier le dossier medical");
 			return ResponseEntity.badRequest().build();
 		} else {
 			List<MedicalRecord> mrList = medicalRecordService.updateMedicalRecordService(medicalRecord);
@@ -61,7 +61,7 @@ public class MedicalRecordController {
 				log.info("Le dossier medical suivant à été mis à jour : {}", medicalRecord);
 				return ResponseEntity.status(HttpStatus.CREATED).body(medicalRecord);
 			}
-			log.info("Erreur lors de la modification du dossier medical");
+			log.error("Erreur lors de la modification du dossier medical");
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(medicalRecord);
 		}
 	}
@@ -69,12 +69,12 @@ public class MedicalRecordController {
 	@DeleteMapping("/medicalRecord")
 	public ResponseEntity<MedicalRecord> deleteMedicalRecord(@RequestBody FirstNameAndLastName combination) {
 		if (combination.getFirstName() == null || combination.getLastName() == null) {
-			log.info("Impossible de supprimer le dossier medical");
+			log.error("Impossible de supprimer le dossier medical");
 			return ResponseEntity.badRequest().build();
 		} else {
 			List<MedicalRecord> mrList = medicalRecordService.deleteMedicalRecordService(combination);
 			if (mrList.contains(combination)) {
-				log.info("Erreur lors de la suppression du dossier medical");
+				log.error("Erreur lors de la suppression du dossier medical");
 				return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
 			}
 		}
