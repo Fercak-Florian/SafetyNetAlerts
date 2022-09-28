@@ -56,6 +56,7 @@ public class GlobalRepository implements IGlobalRepository {
 	}
 
 	/* URL_1 LISTE DES FIRESTATIONS CROISEES AVEC LISTE DES PERSONS */
+	@Override
 	public List<Object> getPersonsCoveredByAFirestation(int stationNumber) {
 		List<Object> result = new ArrayList<>();
 		int numberOfChildren = 0;

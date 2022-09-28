@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.text.ParseException;
 import java.util.List;
 
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -111,13 +112,13 @@ public class PersonController {
 	}
 
 	@PostMapping("/person")
-	public ResponseEntity<Person> postPerson(@RequestBody Person person) {
-		if (person.getFirstName() == null || person.getLastName() == null) {
+	public ResponseEntity<Person> postPerson(@RequestBody(required = true) Person person) {
+		if (StringUtils.isEmpty(person.getFirstName()) || StringUtils.isEmpty(person.getLastName())) {
 			log.error("Impossible de créer cette personne");
 			return ResponseEntity.badRequest().build();
 		} else {
-			List<Person> p = personService.addPersonService(person);
-			if(p.contains(person)) {
+			List<Person> persons = personService.addPersonService(person);
+			if (persons.contains(person)) {
 				log.info("La personne suivante à été créée : {}", person);
 				return ResponseEntity.status(HttpStatus.CREATED).body(person);
 			}
@@ -127,31 +128,32 @@ public class PersonController {
 	}
 
 	@PutMapping("/person")
-	public ResponseEntity<Person> putPerson(@RequestBody Person person) {
-		if (person.getFirstName() == null || person.getLastName() == null) {
+	public ResponseEntity<Person> putPerson(@RequestBody(required = true) Person person) {
+		if (StringUtils.isEmpty(person.getFirstName()) || StringUtils.isEmpty(person.getLastName())) {
 			log.error("Impossible de modifier cette personne");
 			return ResponseEntity.badRequest().build();
 		} else {
-			List<Person> p = personService.updatePersonService(person);
-			if(p.contains(person)) {
+			List<Person> persons = personService.updatePersonService(person);
+			if (persons.contains(person)) {
 				log.info("La personne suivante à été mise à jour : {}", person);
 				return ResponseEntity.status(HttpStatus.CREATED).body(person);
 			}
 			log.error("Erreur lors de la modification de la personne");
-			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(person); 
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(person);
 		}
 	}
 
 	@DeleteMapping("/person")
-	public ResponseEntity<FirstNameAndLastName> deletePerson(@RequestBody FirstNameAndLastName combination) {
-		if(combination.getFirstName() == null || combination.getLastName() == null) {
+	public ResponseEntity<FirstNameAndLastName> deletePerson(
+			@RequestBody(required = true) FirstNameAndLastName combination) {
+		if (StringUtils.isEmpty(combination.getFirstName()) || StringUtils.isEmpty(combination.getLastName())) {
 			log.error("Impossible de supprimer cette personne");
-			return ResponseEntity.badRequest().build(); 
+			return ResponseEntity.badRequest().build();
 		} else {
-			List<Person> pList = personService.deletePersonService(combination);
-			if(pList.contains(combination)) {
+			List<Person> persons = personService.deletePersonService(combination);
+			if (persons.contains(combination)) {
 				log.error("Erreur lors de la suppression de la personne");
-				return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(combination); 
+				return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(combination);
 			}
 			log.info("Cette personne à été supprimée : {}", combination);
 			return ResponseEntity.ok().build();
