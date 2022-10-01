@@ -36,7 +36,7 @@ public class MedicalRecordController {
 
 	@PostMapping("/medicalRecord")
 	public ResponseEntity<MedicalRecord> postMedicalRecord(@RequestBody(required = true) MedicalRecord medicalRecord) {
-		if (StringUtils.isEmpty(medicalRecord.getFirstName()) || StringUtils.isEmpty(medicalRecord.getLastName())) {
+		if (StringUtils.isEmpty(medicalRecord.getFirstName()) && StringUtils.isEmpty(medicalRecord.getLastName())) {
 			log.error("Impossible d'ajouter ce dossier medical : {}", medicalRecord);
 			return ResponseEntity.badRequest().build();
 		} else {
@@ -52,7 +52,7 @@ public class MedicalRecordController {
 
 	@PutMapping("/medicalRecord")
 	public ResponseEntity<MedicalRecord> putMedicalRecord(@RequestBody(required = true) MedicalRecord medicalRecord) {
-		if (StringUtils.isEmpty(medicalRecord.getFirstName()) || StringUtils.isEmpty(medicalRecord.getLastName())) {
+		if (StringUtils.isEmpty(medicalRecord.getFirstName()) && StringUtils.isEmpty(medicalRecord.getLastName())) {
 			log.error("Impossible de modifier le dossier medical");
 			return ResponseEntity.badRequest().build();
 		} else {
@@ -69,7 +69,7 @@ public class MedicalRecordController {
 	@DeleteMapping("/medicalRecord")
 	public ResponseEntity<MedicalRecord> deleteMedicalRecord(
 			@RequestBody(required = true) FirstNameAndLastName combination) {
-		if (StringUtils.isEmpty(combination.getFirstName()) || StringUtils.isEmpty(combination.getLastName())) {
+		if (StringUtils.isEmpty(combination.getFirstName()) && StringUtils.isEmpty(combination.getLastName())) {
 			log.error("Impossible de supprimer le dossier medical");
 			return ResponseEntity.badRequest().build();
 		} else {

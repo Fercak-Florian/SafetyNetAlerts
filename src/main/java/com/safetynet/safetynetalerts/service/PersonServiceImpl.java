@@ -6,9 +6,9 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
+import com.safetynet.safetynetalerts.data.DataInMemory;
+import com.safetynet.safetynetalerts.data.IDataReader;
 import com.safetynet.safetynetalerts.model.Person;
-import com.safetynet.safetynetalerts.repository.IGlobalRepository;
-import com.safetynet.safetynetalerts.repository.RepositoryInstance;
 import com.safetynet.safetynetalerts.workclasses.FirstNameAndLastName;
 import com.safetynet.safetynetalerts.workclasses.Url2;
 import com.safetynet.safetynetalerts.workclasses.Url4;
@@ -18,7 +18,7 @@ import com.safetynet.safetynetalerts.workclasses.Url6;
 @Service
 public class PersonServiceImpl implements IPersonService {
 	
-	IGlobalRepository globalRepository = RepositoryInstance.getGlobalRepository();
+	IDataReader globalRepository = DataInMemory.getGlobalRepository();
 
 	@Override
 	public List<Person> getPerson() throws IOException {

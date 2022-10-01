@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.List;
+import java.lang.String;
 
 import org.springframework.stereotype.Component;
 
@@ -16,11 +17,14 @@ import com.safetynet.safetynetalerts.model.FireStation;
 public class FireStationRepositoryImpl implements IFireStationRepository {
 	/* SERT A COMMUNIQUER AVEC LA SOURCE DE DONNEES */
 
-	 List<FireStation> fireStationsArray;
+	List<FireStation> fireStationsArray;
+
+	public FireStationRepositoryImpl() {
+	}
 
 	/* CONSTRUCTEUR */
-	public FireStationRepositoryImpl() throws IOException {
-		getFireStationsFromJson();
+	public FireStationRepositoryImpl(String jsonFilePath) throws IOException {
+		getFireStationsFromJson(jsonFilePath);
 	}
 
 	@Override
@@ -28,9 +32,9 @@ public class FireStationRepositoryImpl implements IFireStationRepository {
 		return fireStationsArray;
 	}
 
-	public void getFireStationsFromJson() throws IOException {
+	public void getFireStationsFromJson(String filePath) throws IOException {
 
-		String filePath = "src/main/resources/data.json";
+		
 		String stringFile = Files.readString(new File(filePath).toPath());
 
 		JsonIterator iter = JsonIterator.parse(stringFile);

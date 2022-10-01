@@ -15,11 +15,14 @@ import com.safetynet.safetynetalerts.model.Person;
 @Component
 public class PersonRepositoryImpl implements IPersonRepository {
 
-	  List<Person> personsArray;
+	List<Person> personsArray;
+
+	public PersonRepositoryImpl() {
+	}
 
 	/* CONSTRUCTEUR */
-	public PersonRepositoryImpl() throws IOException {
-		getPersonFromJson();
+	public PersonRepositoryImpl(String jsonFilePath) throws IOException {
+		getPersonFromJson(jsonFilePath);
 	}
 
 	@Override
@@ -27,11 +30,11 @@ public class PersonRepositoryImpl implements IPersonRepository {
 		return personsArray;
 	}
 
-	public void getPersonFromJson() throws IOException {
+	public void getPersonFromJson(String filePath) throws IOException {
 
 		if (personsArray == null) {
 			personsArray = new ArrayList<>();
-			String filePath = "src/main/resources/data.json";
+			// String filePath = "src/main/resources/data.json";
 			String stringFile = Files.readString(new File(filePath).toPath());
 
 			JsonIterator iter = JsonIterator.parse(stringFile);

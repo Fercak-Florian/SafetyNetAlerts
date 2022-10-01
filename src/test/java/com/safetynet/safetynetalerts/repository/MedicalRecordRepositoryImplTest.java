@@ -2,6 +2,8 @@ package com.safetynet.safetynetalerts.repository;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import java.io.IOException;
+
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -10,12 +12,12 @@ import org.springframework.boot.test.context.SpringBootTest;
 public class MedicalRecordRepositoryImplTest {
 
 	@Autowired
-	IMedicalRecordRepository medicalRecordRepository;
+	FilePaths filePaths;
 
 	@Test
-	public void testGetMedicalRecordsFromJson() {
+	public void testGetMedicalRecordsFromJson() throws IOException {
 		/* GIVEN --> ARRANGE */
-
+		IMedicalRecordRepository medicalRecordRepository = new MedicalRecordRepositoryImpl(filePaths.getProductionFilePath());
 		/* WHEN --> ACT */
 		String result = medicalRecordRepository.getMedicalRecordList().get(1).getFirstName();
 		String expected = "Jacob";

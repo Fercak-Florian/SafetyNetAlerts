@@ -10,12 +10,12 @@ import org.springframework.boot.test.context.SpringBootTest;
 public class PersonRepositoryImplTest {
 
 	@Autowired
-	IPersonRepository personRepository;
+	FilePaths filePaths;
 
 	@Test
 	public void testGetPersonFromJson() throws Exception {
 		/* GIVEN --> ARRANGE */
-
+		IPersonRepository personRepository = new PersonRepositoryImpl(filePaths.getProductionFilePath());
 		/* WHEN --> ACT */
 		String result = personRepository.getPersonList().get(0).getFirstName();
 		String expected = "John";

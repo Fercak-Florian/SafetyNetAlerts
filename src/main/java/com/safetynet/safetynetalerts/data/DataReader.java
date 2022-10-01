@@ -1,10 +1,10 @@
-package com.safetynet.safetynetalerts.repository;
+package com.safetynet.safetynetalerts.data;
 
 import java.io.IOException;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
+import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Component;
 
@@ -19,25 +19,20 @@ import com.safetynet.safetynetalerts.workclasses.Url5;
 import com.safetynet.safetynetalerts.workclasses.Url6;
 
 import lombok.Data;
-import lombok.extern.slf4j.Slf4j;
 
 @Data
-@Slf4j
 @Component
-public class GlobalRepository implements IGlobalRepository {
+public class DataReader implements IDataReader {
 	private List<Person> persons;
 	private List<FireStation> fireStations;
 	private List<MedicalRecord> medicalRecords;
 
-	IPersonRepository personRepository = new PersonRepositoryImpl();
-	IFireStationRepository fireStationRepository = new FireStationRepositoryImpl();
-	IMedicalRecordRepository medicalRecordsRepository = new MedicalRecordRepositoryImpl();
-
 	/* CONSTRUCTEUR */
-	public GlobalRepository() throws IOException {
-		this.persons = personRepository.getPersonList();
-		this.fireStations = fireStationRepository.getFireStationList();
-		this.medicalRecords = medicalRecordsRepository.getMedicalRecordList();
+	public DataReader(List<Person> persons, List<FireStation> fireStations, List<MedicalRecord> medicalRecords)
+			throws IOException {
+		this.persons = persons;
+		this.fireStations = fireStations;
+		this.medicalRecords = medicalRecords;
 	}
 
 	@Override
@@ -66,8 +61,8 @@ public class GlobalRepository implements IGlobalRepository {
 				for (Person p : persons) {
 					if (p.getAddress().equalsIgnoreCase(fs.getAddress())) {
 						for (MedicalRecord mr : medicalRecords) {
-							if ((mr.getFirstName().equalsIgnoreCase(p.getFirstName())
-									&& mr.getLastName().equalsIgnoreCase(p.getLastName()))) {
+							if ((mr.getFirstName().equalsIgnoreCase(p.getFirstName()))
+									&& (mr.getLastName().equalsIgnoreCase(p.getLastName()))) {
 								result.add(new Url1(p.getFirstName(), p.getLastName(), p.getAddress(), p.getPhone()));
 								if (mr.isChild()) {
 									numberOfChildren += 1;
@@ -83,6 +78,7 @@ public class GlobalRepository implements IGlobalRepository {
 		result.add("Le nombre d'enfants est de : " + String.valueOf(numberOfChildren));
 		result.add("Le nombre d'adultes est de : " + String.valueOf(numberOfAdults));
 		return result;
+
 	}
 
 	/* URL_2 LISTE DES ENFANTS VIVANTS A UNE ADRESSE */
@@ -217,8 +213,16 @@ public class GlobalRepository implements IGlobalRepository {
 	/*
 	 * URL_7 LISTE DES ADRESSES MAILS DE TOUS LES HABITANTS DE LA VILLE
 	 */
-	@Override /* VERIFIER L'ADEQUATION DU NOM DE LA METHODE */
+	@Override
 	public List<String> getPersonEmailByCity(String city) {
+		List<String> result = new ArrayList<>();
+		persons.stream().filter((p) -> p.getCity().equalsIgnoreCase(city)).collect(Collectors.toList())
+				.forEach((p) -> result.add(p.getEmail()));
+		return result;
+	}
+
+	/* VOIR INTERET DU STREAM AVEC MENTOR */
+	public List<String> getPersonEmailByCityOld(String city) {
 		List<String> result = new ArrayList<>();
 		for (Person p : persons)
 			if (p.getCity().equalsIgnoreCase(city)) {
@@ -231,7 +235,9 @@ public class GlobalRepository implements IGlobalRepository {
 
 	/* AJOUT D'UNE FIRESTATION AVEC POST */
 	public List<FireStation> addFireStationToRepository(FireStation firestation) {
-		fireStations.add(firestation);
+		if (!firestation.getAddress().isEmpty() && firestation.getStationNumber() != 0) {
+			fireStations.add(firestation);
+		}
 		return fireStations;
 	}
 
@@ -239,12 +245,14 @@ public class GlobalRepository implements IGlobalRepository {
 	@Override
 	public List<FireStation> updateFirestationNumberToRepository(FireStation firestation) {
 		FireStation result = new FireStation();
-		for (FireStation fs : fireStations) {
-			if (fs.getAddress().equalsIgnoreCase(firestation.getAddress())) {
-				fs.setStationNumber(firestation.getStationNumber());
-				result.setAddress(firestation.getAddress());
-				result.setStationNumber(firestation.getStationNumber());
-				return fireStations;
+		if (!firestation.getAddress().isEmpty() && firestation.getStationNumber() != 0) {
+			for (FireStation fs : fireStations) {
+				if (fs.getAddress().equalsIgnoreCase(firestation.getAddress())) {
+					fs.setStationNumber(firestation.getStationNumber());
+					result.setAddress(firestation.getAddress());
+					result.setStationNumber(firestation.getStationNumber());
+					return fireStations;
+				}
 			}
 		}
 		return fireStations;
@@ -254,14 +262,16 @@ public class GlobalRepository implements IGlobalRepository {
 	@Override
 	public List<FireStation> deleteFirestationToRepository(FireStation firestation) {
 		List<FireStation> firestationToDelete = new ArrayList<>();
-		for (FireStation fs : fireStations) {
-			if (fs.getAddress().equalsIgnoreCase(firestation.getAddress())
-					&& fs.getStationNumber() == firestation.getStationNumber()) {
-				firestationToDelete.add(firestation);
+		if (!firestation.getAddress().isEmpty() && firestation.getStationNumber() != 0) {
+			for (FireStation fs : fireStations) {
+				if (fs.getAddress().equalsIgnoreCase(firestation.getAddress())
+						&& fs.getStationNumber() == firestation.getStationNumber()) {
+					firestationToDelete.add(firestation);
+				}
 			}
-		}
-		for (FireStation fs : firestationToDelete) {
-			fireStations.remove(fs);
+			for (FireStation fs : firestationToDelete) {
+				fireStations.remove(fs);
+			}
 		}
 		return fireStations;
 	}
@@ -270,21 +280,25 @@ public class GlobalRepository implements IGlobalRepository {
 
 	/* AJOUT D'UNE PERSON AVEC POST */
 	public List<Person> addPersonToRepository(Person person) {
-		persons.add(person);
+		if (!person.getFirstName().isEmpty() && !person.getLastName().isEmpty()) {
+			persons.add(person);
+		}
 		return persons;
 	}
 
 	/* MISE A JOUR D'UNE PERSON AVEC PUT */
 	@Override
 	public List<Person> updatePersonToRepository(Person person) {
-		for (Person p : persons) {
-			if ((p.getFirstName().equalsIgnoreCase(person.getFirstName())
-					&& p.getLastName().equalsIgnoreCase(person.getLastName()))) {
-				p.setAddress(person.getAddress());
-				p.setCity(person.getCity());
-				p.setEmail(person.getEmail());
-				p.setPhone(person.getPhone());
-				p.setZip(person.getZip());
+		if (!person.getFirstName().isEmpty() && !person.getLastName().isEmpty()) {
+			for (Person p : persons) {
+				if ((p.getFirstName().equalsIgnoreCase(person.getFirstName())
+						&& p.getLastName().equalsIgnoreCase(person.getLastName()))) {
+					p.setAddress(person.getAddress());
+					p.setCity(person.getCity());
+					p.setEmail(person.getEmail());
+					p.setPhone(person.getPhone());
+					p.setZip(person.getZip());
+				}
 			}
 		}
 		return persons;
@@ -293,16 +307,18 @@ public class GlobalRepository implements IGlobalRepository {
 	/* SUPPRESSION D'UNE PERSON AVEC DELETE */
 	@Override
 	public List<Person> deletePersonToRepository(FirstNameAndLastName combination) {
-		List<Person> personsToDelete = new ArrayList<>();
-		for (Person p : persons) {
-			if ((p.getFirstName().equalsIgnoreCase(combination.getFirstName())
-					&& p.getLastName().equalsIgnoreCase(combination.getLastName()))) {
-				personsToDelete.add(p);
+		if (!combination.getFirstName().isEmpty() && !combination.getLastName().isEmpty()) {
+			List<Person> personsToDelete = new ArrayList<>();
+			for (Person p : persons) {
+				if ((p.getFirstName().equalsIgnoreCase(combination.getFirstName())
+						&& p.getLastName().equalsIgnoreCase(combination.getLastName()))) {
+					personsToDelete.add(p);
+				}
 			}
-		}
 
-		for (Person p : personsToDelete) {
-			persons.remove(p);
+			for (Person p : personsToDelete) {
+				persons.remove(p);
+			}
 		}
 		return persons;
 	}
@@ -312,22 +328,23 @@ public class GlobalRepository implements IGlobalRepository {
 	/* AJOUT D'UN MEDICALRECORD AVEC POST */
 	@Override
 	public List<MedicalRecord> addMedicalRecord(MedicalRecord medicalRecord) {
-		if (Objects.isNull(medicalRecord)) {
-			log.info("Erreur dans la requête");
+		if (!medicalRecord.getFirstName().isEmpty() && !medicalRecord.getLastName().isEmpty()) {
+			medicalRecords.add(medicalRecord);
 		}
-		medicalRecords.add(medicalRecord);
 		return medicalRecords;
 	}
 
 	/* MISE A JOUR D'UN MEDICALRECORD AVEC PUT */
 	@Override
 	public List<MedicalRecord> updateMedicalRecord(MedicalRecord medicalRecord) {
-		for (MedicalRecord mr : medicalRecords) {
-			if ((mr.getFirstName().equalsIgnoreCase(medicalRecord.getFirstName())
-					&& mr.getLastName().equalsIgnoreCase(medicalRecord.getLastName()))) {
-				mr.setBirthDate(medicalRecord.getBirthDate());
-				mr.setMedicationsList(medicalRecord.getMedicationsList());
-				mr.setAllergiesList(medicalRecord.getAllergiesList());
+		if (!medicalRecord.getFirstName().isEmpty() && !medicalRecord.getLastName().isEmpty()) {
+			for (MedicalRecord mr : medicalRecords) {
+				if ((mr.getFirstName().equalsIgnoreCase(medicalRecord.getFirstName())
+						&& mr.getLastName().equalsIgnoreCase(medicalRecord.getLastName()))) {
+					mr.setBirthDate(medicalRecord.getBirthDate());
+					mr.setMedicationsList(medicalRecord.getMedicationsList());
+					mr.setAllergiesList(medicalRecord.getAllergiesList());
+				}
 			}
 		}
 		return medicalRecords;
@@ -336,16 +353,18 @@ public class GlobalRepository implements IGlobalRepository {
 	/* SUPPRESSION D'UN MEDICALRECORD AVEC DELETE */
 	@Override
 	public List<MedicalRecord> deleteMedicalRecord(FirstNameAndLastName combination) {
-		List<MedicalRecord> medicalRecordsToDelete = new ArrayList<>();
-		for (MedicalRecord mr : medicalRecords) {
-			if ((mr.getFirstName().equalsIgnoreCase(combination.getFirstName())
-					&& mr.getLastName().equalsIgnoreCase(combination.getLastName()))) {
-				medicalRecordsToDelete.add(mr);
+		if (!combination.getFirstName().isEmpty() && !combination.getLastName().isEmpty()) {
+			List<MedicalRecord> medicalRecordsToDelete = new ArrayList<>();
+			for (MedicalRecord mr : medicalRecords) {
+				if ((mr.getFirstName().equalsIgnoreCase(combination.getFirstName())
+						&& mr.getLastName().equalsIgnoreCase(combination.getLastName()))) {
+					medicalRecordsToDelete.add(mr);
+				}
 			}
-		}
 
-		for (MedicalRecord mr : medicalRecordsToDelete) {
-			medicalRecords.remove(mr);
+			for (MedicalRecord mr : medicalRecordsToDelete) {
+				medicalRecords.remove(mr);
+			}
 		}
 		return medicalRecords;
 	}

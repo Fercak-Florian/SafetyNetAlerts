@@ -5,14 +5,15 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.safetynet.safetynetalerts.data.DataInMemory;
+import com.safetynet.safetynetalerts.data.IDataReader;
 import com.safetynet.safetynetalerts.model.FireStation;
-import com.safetynet.safetynetalerts.repository.IGlobalRepository;
 
 @Service
 public class FireStationServiceImpl implements IFireStationService {
 
-	@Autowired
-	IGlobalRepository globalRepository;
+	
+	IDataReader globalRepository = DataInMemory.getGlobalRepository();
 
 	@Override
 	public List<FireStation> getFireStation() {

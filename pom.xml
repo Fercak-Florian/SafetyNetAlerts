@@ -75,6 +75,21 @@
 			<scope>test</scope>
 		</dependency>
 
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-configuration-processor</artifactId>
+			<optional>true</optional>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-configuration-processor</artifactId>
+			<optional>true</optional>
+		</dependency>
+		<dependency>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-validator</artifactId>
+			<version>6.0.16.Final</version>
+		</dependency>
 	</dependencies>
 
 	<build>
@@ -91,7 +106,8 @@
 						<exclude>com/safetynet/safetynetalerts/workclasses/*Url4.class*</exclude>
 						<exclude>com/safetynet/safetynetalerts/workclasses/*Url5.class*</exclude>
 						<exclude>com/safetynet/safetynetalerts/workclasses/*Url6.class*</exclude>
-						<exclude>com/safetynet/safetynetalerts/workclasses/*firstNameAndLastName.class*</exclude>
+						<exclude>com/safetynet/safetynetalerts/workclasses/*FirstNameAndLastName.class*</exclude>
+						<exclude>com/safetynet/safetynetalerts/data/*CustomProperties.class*</exclude>
 					</excludes>
 				</configuration>
 				<executions>

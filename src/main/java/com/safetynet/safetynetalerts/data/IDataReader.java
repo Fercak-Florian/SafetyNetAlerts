@@ -1,4 +1,4 @@
-package com.safetynet.safetynetalerts.repository;
+package com.safetynet.safetynetalerts.data;
 
 import java.text.ParseException;
 import java.util.List;
@@ -12,7 +12,7 @@ import com.safetynet.safetynetalerts.workclasses.Url4;
 import com.safetynet.safetynetalerts.workclasses.Url5;
 import com.safetynet.safetynetalerts.workclasses.Url6;
 
-public interface IGlobalRepository {
+public interface IDataReader {
 
 	List<FireStation> getFirestations();
 
@@ -21,9 +21,6 @@ public interface IGlobalRepository {
 	List<MedicalRecord> getMedicalRecords();
 
 	List<Object> getPersonsCoveredByAFirestation(int stationNumber);
-
-	/* VERIFIER CETTE SIGNATURE */
-	IPersonRepository getPersonRepository();
 
 	List<String> getPhoneNumbersCoveredByAFirestation(int stationNumber);
 
