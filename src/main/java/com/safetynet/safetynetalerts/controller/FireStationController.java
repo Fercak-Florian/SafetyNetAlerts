@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.google.inject.internal.util.Objects;
 import com.safetynet.safetynetalerts.model.FireStation;
 import com.safetynet.safetynetalerts.service.IFireStationService;
 
@@ -36,7 +37,7 @@ public class FireStationController {
 
 	@PostMapping("/firestation")
 	public ResponseEntity<FireStation> postFirestation(@RequestBody(required = true) FireStation firestation) {
-		if (StringUtils.isEmpty(firestation.getAddress()) || firestation.getStationNumber() == 0) {
+		if (StringUtils.isEmpty(firestation.getAddress()) && firestation.getStationNumber() == 0) {
 			log.error("Impossible d'ajouter cette caserne");
 			return ResponseEntity.badRequest().build();
 		} else {
@@ -44,15 +45,16 @@ public class FireStationController {
 			if (fireStations.contains(firestation)) {
 				log.info("La caserne suivante à été créee : {}", firestation);
 				return ResponseEntity.status(HttpStatus.CREATED).body(firestation);
+			} else {
+				log.error("Erreur lors de la creation de la caserne");
+				return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(firestation);
 			}
-			log.error("Erreur lors de la creation de la caserne");
-			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(firestation);
 		}
 	}
 
 	@PutMapping("/firestation")
 	public ResponseEntity<FireStation> putFirestation(@RequestBody(required = true) FireStation firestation) {
-		if (StringUtils.isEmpty(firestation.getAddress()) || firestation.getStationNumber() == 0) {
+		if (StringUtils.isEmpty(firestation.getAddress()) && firestation.getStationNumber() == 0) {
 			log.error("Erreur lors de la mise à jour");
 			return ResponseEntity.badRequest().build();
 		} else {
@@ -68,7 +70,7 @@ public class FireStationController {
 
 	@DeleteMapping("/firestation")
 	public ResponseEntity<FireStation> deleteFirestation(@RequestBody(required = true) FireStation firestation) {
-		if (StringUtils.isEmpty(firestation.getAddress()) || firestation.getStationNumber() == 0) {
+		if (StringUtils.isEmpty(firestation.getAddress()) && firestation.getStationNumber() == 0) {
 			log.error("Impossible de supprimer cette caserne");
 			return ResponseEntity.badRequest().build();
 		} else {

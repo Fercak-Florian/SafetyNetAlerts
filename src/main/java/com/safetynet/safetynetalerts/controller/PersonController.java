@@ -113,7 +113,7 @@ public class PersonController {
 
 	@PostMapping("/person")
 	public ResponseEntity<Person> postPerson(@RequestBody(required = true) Person person) {
-		if (StringUtils.isEmpty(person.getFirstName()) || StringUtils.isEmpty(person.getLastName())) {
+		if (StringUtils.isEmpty(person.getFirstName()) && StringUtils.isEmpty(person.getLastName())) {
 			log.error("Impossible de créer cette personne");
 			return ResponseEntity.badRequest().build();
 		} else {
@@ -129,7 +129,7 @@ public class PersonController {
 
 	@PutMapping("/person")
 	public ResponseEntity<Person> putPerson(@RequestBody(required = true) Person person) {
-		if (StringUtils.isEmpty(person.getFirstName()) || StringUtils.isEmpty(person.getLastName())) {
+		if (StringUtils.isEmpty(person.getFirstName()) && StringUtils.isEmpty(person.getLastName())) {
 			log.error("Impossible de modifier cette personne");
 			return ResponseEntity.badRequest().build();
 		} else {
@@ -146,7 +146,7 @@ public class PersonController {
 	@DeleteMapping("/person")
 	public ResponseEntity<FirstNameAndLastName> deletePerson(
 			@RequestBody(required = true) FirstNameAndLastName combination) {
-		if (StringUtils.isEmpty(combination.getFirstName()) || StringUtils.isEmpty(combination.getLastName())) {
+		if (StringUtils.isEmpty(combination.getFirstName()) && StringUtils.isEmpty(combination.getLastName())) {
 			log.error("Impossible de supprimer cette personne");
 			return ResponseEntity.badRequest().build();
 		} else {

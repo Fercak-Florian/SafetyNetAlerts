@@ -5,8 +5,9 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.safetynet.safetynetalerts.data.DataInMemory;
+import com.safetynet.safetynetalerts.data.IDataReader;
 import com.safetynet.safetynetalerts.model.MedicalRecord;
-import com.safetynet.safetynetalerts.repository.IGlobalRepository;
 import com.safetynet.safetynetalerts.repository.IMedicalRecordRepository;
 import com.safetynet.safetynetalerts.workclasses.FirstNameAndLastName;
 
@@ -14,8 +15,7 @@ import com.safetynet.safetynetalerts.workclasses.FirstNameAndLastName;
 public class MedicalRecordServiceImpl implements IMedicalRecordService {
 	/* APPELER LES METHODES DE LA CLASSE REPOSITORY */
 
-	@Autowired
-	IGlobalRepository globalRepository;
+	IDataReader globalRepository = DataInMemory.getGlobalRepository();
 
 	@Override
 	public List<MedicalRecord> getMedicalRecords() {
