@@ -7,6 +7,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.lang.String;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import com.jsoniter.JsonIterator;
@@ -17,28 +19,46 @@ import com.safetynet.safetynetalerts.model.FireStation;
 public class FireStationRepositoryImpl implements IFireStationRepository {
 	/* SERT A COMMUNIQUER AVEC LA SOURCE DE DONNEES */
 
-	List<FireStation> fireStationsArray;
+	private List<FireStation> fireStationsArray;
 
+	private String jsonFilePath = "src/main/resources/data.json";
+	//@Value("${test.filePath}")
+	//private String jsonFilePath;
+	
+	/*
+	 * public String jsonFilePath() {
+	 * 
+	 * @Value("${test.filePath}") String path; return path; }
+	 */
+
+	/* CONSTRUCTEUR AVEC ARGUMENT */
+	@Autowired
 	public FireStationRepositoryImpl() {
-	}
-
-	/* CONSTRUCTEUR */
-	public FireStationRepositoryImpl(String jsonFilePath) throws IOException {
-		getFireStationsFromJson(jsonFilePath);
+		getFireStationsFromJson();
 	}
 
 	@Override
-	public List<FireStation> getFireStationList() throws IOException {
+	public List<FireStation> getFireStationList() {
 		return fireStationsArray;
 	}
 
-	public void getFireStationsFromJson(String filePath) throws IOException {
-
-		
-		String stringFile = Files.readString(new File(filePath).toPath());
+	public void getFireStationsFromJson() {
+		String stringFile = "";
+		try {
+			stringFile = Files.readString(new File(jsonFilePath).toPath());
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 
 		JsonIterator iter = JsonIterator.parse(stringFile);
-		Any any = iter.readAny();
+		Any any = null;
+		try {
+			any = iter.readAny();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		Any fireStationAny = any.get("firestations");
 		fireStationsArray = new ArrayList<>();
 

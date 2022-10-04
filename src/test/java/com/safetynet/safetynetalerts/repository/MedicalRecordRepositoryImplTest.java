@@ -17,7 +17,7 @@ public class MedicalRecordRepositoryImplTest {
 	@Test
 	public void testGetMedicalRecordsFromJson() throws IOException {
 		/* GIVEN --> ARRANGE */
-		IMedicalRecordRepository medicalRecordRepository = new MedicalRecordRepositoryImpl(filePaths.getProductionFilePath());
+		IMedicalRecordRepository medicalRecordRepository = new MedicalRecordRepositoryImpl();
 		/* WHEN --> ACT */
 		String result = medicalRecordRepository.getMedicalRecordList().get(1).getFirstName();
 		String expected = "Jacob";

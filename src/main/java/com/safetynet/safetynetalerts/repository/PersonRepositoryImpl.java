@@ -17,12 +17,11 @@ public class PersonRepositoryImpl implements IPersonRepository {
 
 	List<Person> personsArray;
 
-	public PersonRepositoryImpl() {
-	}
+	private String jsonFilePath = "src/main/resources/data.json";
 
 	/* CONSTRUCTEUR */
-	public PersonRepositoryImpl(String jsonFilePath) throws IOException {
-		getPersonFromJson(jsonFilePath);
+	public PersonRepositoryImpl() {
+		getPersonFromJson();
 	}
 
 	@Override
@@ -30,15 +29,27 @@ public class PersonRepositoryImpl implements IPersonRepository {
 		return personsArray;
 	}
 
-	public void getPersonFromJson(String filePath) throws IOException {
+	public void getPersonFromJson() {
 
 		if (personsArray == null) {
 			personsArray = new ArrayList<>();
 			// String filePath = "src/main/resources/data.json";
-			String stringFile = Files.readString(new File(filePath).toPath());
+			String stringFile = null;
+			try {
+				stringFile = Files.readString(new File(jsonFilePath).toPath());
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 
 			JsonIterator iter = JsonIterator.parse(stringFile);
-			Any any = iter.readAny();
+			Any any = null;
+			try {
+				any = iter.readAny();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 			Any personAny = any.get("persons");
 
 			for (Any person : personAny) {

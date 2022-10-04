@@ -20,12 +20,11 @@ public class MedicalRecordRepositoryImpl implements IMedicalRecordRepository {
 
 	List<MedicalRecord> medicalRecordsArray;
 
-	public MedicalRecordRepositoryImpl() {
-	}
+	private String jsonFilePath = "src/main/resources/data.json";
 
 	/* CONSTRUCTEUR */
-	public MedicalRecordRepositoryImpl(String jsonFilePath) throws IOException {
-		getMedicalRecordsFromJson(jsonFilePath);
+	public MedicalRecordRepositoryImpl() {
+		getMedicalRecordsFromJson();
 	}
 
 	@Override
@@ -33,11 +32,23 @@ public class MedicalRecordRepositoryImpl implements IMedicalRecordRepository {
 		return medicalRecordsArray;
 	}
 
-	public void getMedicalRecordsFromJson(String filePath) throws IOException {
-		String stringFile = Files.readString(new File(filePath).toPath(), StandardCharsets.UTF_8);
+	public void getMedicalRecordsFromJson() {
+		String stringFile = null;
+		try {
+			stringFile = Files.readString(new File(jsonFilePath).toPath(), StandardCharsets.UTF_8);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 
 		JsonIterator iter = JsonIterator.parse(stringFile);
-		Any any = iter.readAny();
+		Any any = null;
+		try {
+			any = iter.readAny();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		Any medicalRecordsAny = any.get("medicalrecords");
 
 		medicalRecordsArray = new ArrayList<>();
