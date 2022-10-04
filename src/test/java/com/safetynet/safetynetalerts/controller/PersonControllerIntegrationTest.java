@@ -5,20 +5,33 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.forwardedUrl;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-import org.junit.jupiter.api.Disabled;
+import java.io.IOException;
+import java.util.List;
+
+import org.junit.Before;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.ResultActions;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.safetynet.safetynetalerts.data.DataInMemory;
+import com.safetynet.safetynetalerts.data.IDataReader;
 import com.safetynet.safetynetalerts.model.Person;
-@Disabled
+import com.safetynet.safetynetalerts.repository.FilePaths;
+import com.safetynet.safetynetalerts.repository.FireStationRepositoryImpl;
+import com.safetynet.safetynetalerts.repository.MedicalRecordRepositoryImpl;
+import com.safetynet.safetynetalerts.repository.PersonRepositoryImpl;
+
 @SpringBootTest
 @AutoConfigureMockMvc
 public class PersonControllerIntegrationTest {
@@ -27,6 +40,15 @@ public class PersonControllerIntegrationTest {
 	private MockMvc mockMvc;
 
 	/* TESTS CONCERNANT LES URLS DEMANDEES */
+
+	@BeforeEach
+	public void init() throws Exception {
+		final String jsonFilePath = new FilePaths().getProductionFilePath();
+		IDataReader globalRepository = DataInMemory.getGlobalRepository();
+		globalRepository.setDataReader(new PersonRepositoryImpl(jsonFilePath).getPersonList(),
+				new FireStationRepositoryImpl(jsonFilePath).getFireStationList(),
+				new MedicalRecordRepositoryImpl(jsonFilePath).getMedicalRecordList());
+	}
 
 	@Test
 	public void testUrl1() throws Exception {
@@ -39,7 +61,7 @@ public class PersonControllerIntegrationTest {
 	public void testUrl2() throws Exception {
 		mockMvc.perform(get("/childAlert").param("address", "1509 Culver St")).andExpect(status().isOk())
 				.andExpect(content().contentType("application/json"))
-				.andExpect(jsonPath("$[0].firstName").value("Tenley"));
+				.andExpectAll(jsonPath("$[0].firstName").value("Tenley"));
 	}
 
 	@Test
@@ -197,8 +219,7 @@ public class PersonControllerIntegrationTest {
 
 	@Test
 	public void testDeletePersonWithEmptyFirstNameAndLastName() throws Exception {
-		Person person = new Person("", "", "1509 Culver St", "Culver", "97451", "841-874-6512",
-				"aboyd@emapeekil.com");
+		Person person = new Person("", "", "1509 Culver St", "Culver", "97451", "841-874-6512", "aboyd@emapeekil.com");
 		ObjectMapper om = new ObjectMapper();
 
 		mockMvc.perform(delete("/person").contentType("application/json").content(om.writeValueAsString(person)))
