@@ -17,7 +17,7 @@ public class FireStationRepositoryImplTest {
 	@Test
 	public void testGetFireStationsFromJson() throws Exception {
 		/* GIVEN --> ARRANGE */
-		IFireStationRepository fireStationRepository = new FireStationRepositoryImpl(filePaths.getProductionFilePath());
+		IFireStationRepository fireStationRepository = new FireStationRepositoryImpl();
 		
 		/* WHEN --> ACT */
 		String result = fireStationRepository.getFireStationList().get(0).getAddress();

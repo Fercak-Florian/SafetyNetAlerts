@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.lang.String;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
@@ -20,15 +21,20 @@ public class FireStationRepositoryImpl implements IFireStationRepository {
 
 	private List<FireStation> fireStationsArray;
 
-	@Value("${test.filePath}")
-	private String jsonFilePath;
+	private String jsonFilePath = "src/main/resources/data.json";
+	//@Value("${test.filePath}")
+	//private String jsonFilePath;
+	
+	/*
+	 * public String jsonFilePath() {
+	 * 
+	 * @Value("${test.filePath}") String path; return path; }
+	 */
 
+	/* CONSTRUCTEUR AVEC ARGUMENT */
+	@Autowired
 	public FireStationRepositoryImpl() {
-	}
-
-	/* CONSTRUCTEUR */
-	public FireStationRepositoryImpl(String jsonFilePath) {
-		getFireStationsFromJson(jsonFilePath);
+		getFireStationsFromJson();
 	}
 
 	@Override
@@ -36,10 +42,10 @@ public class FireStationRepositoryImpl implements IFireStationRepository {
 		return fireStationsArray;
 	}
 
-	public void getFireStationsFromJson(String filePath) {
-		String stringFile = null;
+	public void getFireStationsFromJson() {
+		String stringFile = "";
 		try {
-			stringFile = Files.readString(new File(filePath).toPath());
+			stringFile = Files.readString(new File(jsonFilePath).toPath());
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

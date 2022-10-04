@@ -15,7 +15,7 @@ public class PersonRepositoryImplTest {
 	@Test
 	public void testGetPersonFromJson() throws Exception {
 		/* GIVEN --> ARRANGE */
-		IPersonRepository personRepository = new PersonRepositoryImpl(filePaths.getProductionFilePath());
+		IPersonRepository personRepository = new PersonRepositoryImpl();
 		/* WHEN --> ACT */
 		String result = personRepository.getPersonList().get(0).getFirstName();
 		String expected = "John";

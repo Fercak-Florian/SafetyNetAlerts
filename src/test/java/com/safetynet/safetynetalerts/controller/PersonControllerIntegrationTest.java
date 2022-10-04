@@ -45,9 +45,9 @@ public class PersonControllerIntegrationTest {
 	public void init() throws Exception {
 		final String jsonFilePath = new FilePaths().getProductionFilePath();
 		IDataReader globalRepository = DataInMemory.getGlobalRepository();
-		globalRepository.setDataReader(new PersonRepositoryImpl(jsonFilePath).getPersonList(),
-				new FireStationRepositoryImpl(jsonFilePath).getFireStationList(),
-				new MedicalRecordRepositoryImpl(jsonFilePath).getMedicalRecordList());
+		globalRepository.setDataReader(new PersonRepositoryImpl().getPersonList(),
+				new FireStationRepositoryImpl().getFireStationList(),
+				new MedicalRecordRepositoryImpl().getMedicalRecordList());
 	}
 
 	@Test

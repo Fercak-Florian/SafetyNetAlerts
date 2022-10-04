@@ -27,8 +27,8 @@ public class DataInMemory {
 		if (globalRepository == null) {
 			try {
 				
-				globalRepository = new DataReader(new PersonRepositoryImpl(jsonFilePath).getPersonList(),
-						new FireStationRepositoryImpl(jsonFilePath).getFireStationList(), new MedicalRecordRepositoryImpl(jsonFilePath).getMedicalRecordList());
+				globalRepository = new DataReader(new PersonRepositoryImpl().getPersonList(),
+						new FireStationRepositoryImpl().getFireStationList(), new MedicalRecordRepositoryImpl().getMedicalRecordList());
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
