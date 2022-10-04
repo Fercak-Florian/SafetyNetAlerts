@@ -11,7 +11,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import java.util.ArrayList;
 import java.util.List;
 
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -21,7 +20,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.safetynet.safetynetalerts.model.MedicalRecord;
 import com.safetynet.safetynetalerts.workclasses.FirstNameAndLastName;
-@Disabled
+
 @SpringBootTest
 @AutoConfigureMockMvc
 public class MedicalRecordControllerIntegrationTest {
@@ -32,7 +31,7 @@ public class MedicalRecordControllerIntegrationTest {
 	@Test
 	public void testGetMedicalRecordFromService() throws Exception {
 		mockMvc.perform(get("/medicalRecord")).andExpect(status().isOk())
-				.andExpect(jsonPath("$[0].birthDate", is("03/06/1984")));
+				.andExpect(jsonPath("$[0].firstName", is("John")));
 	}
 
 	@Test
@@ -118,7 +117,7 @@ public class MedicalRecordControllerIntegrationTest {
 		allergies.add("Ewok");
 		allergies.add("Jawas");
 
-		MedicalRecord mr = new MedicalRecord("John", "Boyd", "03/06/1984", medications, allergies);
+		MedicalRecord mr = new MedicalRecord("Tenley", "Boyd", "02/18/2012", medications, allergies);
 		ObjectMapper om = new ObjectMapper();
 
 		mockMvc.perform(put("/medicalRecord").contentType("application/json").content(om.writeValueAsString(mr)))
@@ -178,7 +177,7 @@ public class MedicalRecordControllerIntegrationTest {
 
 	@Test
 	public void testDeleteMedicalRecord() throws Exception {
-		FirstNameAndLastName fl = new FirstNameAndLastName("John", "Boyd");
+		FirstNameAndLastName fl = new FirstNameAndLastName("Eric", "Cadigan");
 		ObjectMapper om = new ObjectMapper();
 		mockMvc.perform(delete("/medicalRecord").contentType("application/json").content(om.writeValueAsString(fl)))
 				.andExpect(status().isOk());

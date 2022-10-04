@@ -34,6 +34,12 @@ public class DataReader implements IDataReader {
 		this.fireStations = fireStations;
 		this.medicalRecords = medicalRecords;
 	}
+	
+	public void setDataReader(List<Person> persons, List<FireStation> fireStations, List<MedicalRecord> medicalRecords) {
+		this.persons = persons;
+		this.fireStations = fireStations;
+		this.medicalRecords = medicalRecords;
+	}
 
 	@Override
 	public List<FireStation> getFirestations() {
@@ -368,4 +374,5 @@ public class DataReader implements IDataReader {
 		}
 		return medicalRecords;
 	}
+
 }

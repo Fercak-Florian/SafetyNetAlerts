@@ -12,7 +12,7 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import com.safetynet.safetynetalerts.service.FireStationServiceImpl;
 
-@Disabled
+
 @WebMvcTest(controllers = FireStationController.class)
 public class FireStationControllerTest {
 

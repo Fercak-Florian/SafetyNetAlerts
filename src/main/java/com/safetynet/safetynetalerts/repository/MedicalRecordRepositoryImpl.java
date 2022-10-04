@@ -34,7 +34,6 @@ public class MedicalRecordRepositoryImpl implements IMedicalRecordRepository {
 	}
 
 	public void getMedicalRecordsFromJson(String filePath) throws IOException {
-		// String filePath = "src/main/resources/data.json";
 		String stringFile = Files.readString(new File(filePath).toPath(), StandardCharsets.UTF_8);
 
 		JsonIterator iter = JsonIterator.parse(stringFile);

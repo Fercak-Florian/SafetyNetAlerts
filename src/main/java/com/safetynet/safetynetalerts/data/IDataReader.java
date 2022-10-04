@@ -13,6 +13,8 @@ import com.safetynet.safetynetalerts.workclasses.Url5;
 import com.safetynet.safetynetalerts.workclasses.Url6;
 
 public interface IDataReader {
+	
+	void setDataReader(List<Person> persons, List<FireStation> fireStations, List<MedicalRecord> medicalRecords);
 
 	List<FireStation> getFirestations();
 
