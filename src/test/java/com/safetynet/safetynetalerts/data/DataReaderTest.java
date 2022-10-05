@@ -1,12 +1,16 @@
 package com.safetynet.safetynetalerts.data;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.ArgumentMatchers.any;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Mockito;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
@@ -20,15 +24,15 @@ import com.safetynet.safetynetalerts.workclasses.Url4;
 import com.safetynet.safetynetalerts.workclasses.Url5;
 import com.safetynet.safetynetalerts.workclasses.Url6;
 
-@SpringBootTest
+@ExtendWith(MockitoExtension.class)
 public class DataReaderTest {
 
 	@Autowired
 	FilePaths filePaths;
-	
-	
-	
-	
+
+	//@Autowired
+	IDataReader dataReader = DataInMemory.getGlobalRepository();
+
 	@Test
 	public void testGetFirestations() throws Exception {
 		/* GIVEN --> ARRANGE */
@@ -42,14 +46,14 @@ public class DataReaderTest {
 		medicalRecords
 				.add(new MedicalRecord("John", "Boyd", "21/08/1988", new ArrayList<String>(), new ArrayList<String>()));
 
-		IDataReader dataReader = new DataReader(persons, fireStations, medicalRecords);
+		dataReader.setDataReader(persons, fireStations, medicalRecords);
 		/* WHEN --> ACT */
 
 		List<FireStation> result = dataReader.getFirestations();
 		/* THEN --> ASSERT */
 		assertThat(result.get(0).getStationNumber()).isEqualTo(3);
 	}
-	
+
 	@Test
 	public void testGetPersons() throws Exception {
 		/* GIVEN --> ARRANGE */
@@ -63,14 +67,14 @@ public class DataReaderTest {
 		medicalRecords
 				.add(new MedicalRecord("John", "Boyd", "21/08/1988", new ArrayList<String>(), new ArrayList<String>()));
 
-		IDataReader dataReader = new DataReader(persons, fireStations, medicalRecords);
+		dataReader.setDataReader(persons, fireStations, medicalRecords);
 		/* WHEN --> ACT */
 
 		List<Person> result = dataReader.getPersons();
 		/* THEN --> ASSERT */
 		assertThat(result.get(0).getFirstName()).isEqualTo("John");
 	}
-	
+
 	@Test
 	public void testGetMedicalRecords() throws Exception {
 		/* GIVEN --> ARRANGE */
@@ -84,7 +88,7 @@ public class DataReaderTest {
 		medicalRecords
 				.add(new MedicalRecord("John", "Boyd", "21/08/1988", new ArrayList<String>(), new ArrayList<String>()));
 
-		IDataReader dataReader = new DataReader(persons, fireStations, medicalRecords);
+		dataReader.setDataReader(persons, fireStations, medicalRecords);
 		/* WHEN --> ACT */
 
 		List<MedicalRecord> result = dataReader.getMedicalRecords();
@@ -107,7 +111,7 @@ public class DataReaderTest {
 		medicalRecords
 				.add(new MedicalRecord("John", "Boyd", "21/08/1988", new ArrayList<String>(), new ArrayList<String>()));
 
-		IDataReader dataReader = new DataReader(persons, fireStations, medicalRecords);
+		dataReader.setDataReader(persons, fireStations, medicalRecords);
 		/* WHEN --> ACT */
 
 		List<Object> result = dataReader.getPersonsCoveredByAFirestation(3);
@@ -128,7 +132,7 @@ public class DataReaderTest {
 		medicalRecords
 				.add(new MedicalRecord("John", "Boyd", "21/08/1988", new ArrayList<String>(), new ArrayList<String>()));
 
-		IDataReader dataReader = new DataReader(persons, fireStations, medicalRecords);
+		dataReader.setDataReader(persons, fireStations, medicalRecords);
 		/* WHEN --> ACT */
 
 		List<Object> result = dataReader.getPersonsCoveredByAFirestation(1);
@@ -149,7 +153,7 @@ public class DataReaderTest {
 		medicalRecords
 				.add(new MedicalRecord("John", "Boyd", "21/08/1988", new ArrayList<String>(), new ArrayList<String>()));
 
-		IDataReader dataReader = new DataReader(persons, fireStations, medicalRecords);
+		dataReader.setDataReader(persons, fireStations, medicalRecords);
 		/* WHEN --> ACT */
 
 		List<Object> result = dataReader.getPersonsCoveredByAFirestation(3);
@@ -174,7 +178,7 @@ public class DataReaderTest {
 		medicalRecords.add(
 				new MedicalRecord("Tenley", "Boyd", "02/18/2012", new ArrayList<String>(), new ArrayList<String>()));
 
-		IDataReader dataReader = new DataReader(persons, fireStations, medicalRecords);
+		dataReader.setDataReader(persons, fireStations, medicalRecords);
 		/* WHEN --> ACT */
 
 		List<Object> result = dataReader.getPersonsCoveredByAFirestation(3);
@@ -193,7 +197,7 @@ public class DataReaderTest {
 
 		List<MedicalRecord> medicalRecords = new ArrayList<>();
 
-		IDataReader dataReader = new DataReader(persons, fireStations, medicalRecords);
+		dataReader.setDataReader(persons, fireStations, medicalRecords);
 		/* WHEN --> ACT */
 
 		List<Object> result = dataReader.getPersonsCoveredByAFirestation(3);
@@ -214,7 +218,7 @@ public class DataReaderTest {
 		medicalRecords.add(
 				new MedicalRecord("Jacob", "Boyd", "21/08/1988", new ArrayList<String>(), new ArrayList<String>()));
 
-		IDataReader dataReader = new DataReader(persons, fireStations, medicalRecords);
+		dataReader.setDataReader(persons, fireStations, medicalRecords);
 		/* WHEN --> ACT */
 
 		List<Object> result = dataReader.getPersonsCoveredByAFirestation(3);
@@ -236,7 +240,7 @@ public class DataReaderTest {
 		medicalRecords
 				.add(new MedicalRecord("John", "Boyd", "21/08/1988", new ArrayList<String>(), new ArrayList<String>()));
 
-		IDataReader dataReader = new DataReader(persons, fireStations, medicalRecords);
+		dataReader.setDataReader(persons, fireStations, medicalRecords);
 		/* WHEN --> ACT */
 
 		List<Object> result = dataReader.getPersonsCoveredByAFirestation(3);
@@ -265,7 +269,7 @@ public class DataReaderTest {
 				new Person("Jacob", "Boyd", "1509 Culver St", "Culver", "98774", "841-874-5631", "jboyd@email.com"));
 		/* WHEN --> ACT */
 
-		IDataReader dataReader = new DataReader(persons, fireStations, medicalRecords);
+		dataReader.setDataReader(persons, fireStations, medicalRecords);
 		List<Url2> result = dataReader.getChildrenLivingAtThisAddress("1509 Culver St");
 
 		/* THEN --> ASSERT */
@@ -291,7 +295,7 @@ public class DataReaderTest {
 				new Person("Jacob", "Boyd", "1509 Culver St", "Culver", "98774", "841-874-5631", "jboyd@email.com"));
 		/* WHEN --> ACT */
 
-		IDataReader dataReader = new DataReader(persons, fireStations, medicalRecords);
+		dataReader.setDataReader(persons, fireStations, medicalRecords);
 		List<Url2> result = dataReader.getChildrenLivingAtThisAddress("1509 Culver St");
 
 		/* THEN --> ASSERT */
@@ -319,7 +323,7 @@ public class DataReaderTest {
 				new Person("Eric", "Cadigan", "951", "951 LoneTree Rd", "98774", "841-874-5631", "jboyd@email.com"));
 		/* WHEN --> ACT */
 
-		IDataReader dataReader = new DataReader(persons, fireStations, medicalRecords);
+		dataReader.setDataReader(persons, fireStations, medicalRecords);
 		List<Url2> result = dataReader.getChildrenLivingAtThisAddress("1509 Culver St");
 
 		/* THEN --> ASSERT */
@@ -341,7 +345,7 @@ public class DataReaderTest {
 				new Person("Tenley", "Boyd", "1509 Culver St", "Culver", "98774", "841-874-6512", "tenz@email.com"));
 		/* WHEN --> ACT */
 
-		IDataReader dataReader = new DataReader(persons, fireStations, medicalRecords);
+		dataReader.setDataReader(persons, fireStations, medicalRecords);
 		List<Url2> result = dataReader.getChildrenLivingAtThisAddress("1509 Culver St");
 
 		/* THEN --> ASSERT */
@@ -363,7 +367,7 @@ public class DataReaderTest {
 				new Person("Tenley", "Boyd", "1509 Culver St", "Culver", "98774", "841-874-6512", "tenz@email.com"));
 		/* WHEN --> ACT */
 
-		IDataReader dataReader = new DataReader(persons, fireStations, medicalRecords);
+		dataReader.setDataReader(persons, fireStations, medicalRecords);
 		List<Url2> result = dataReader.getChildrenLivingAtThisAddress("1509 Culver St");
 
 		/* THEN --> ASSERT */
@@ -385,7 +389,7 @@ public class DataReaderTest {
 				new Person("Tenley", "Boyd", "1509 Culver St", "Culver", "98774", "841-874-6512", "tenz@email.com"));
 		/* WHEN --> ACT */
 
-		IDataReader dataReader = new DataReader(persons, fireStations, medicalRecords);
+		dataReader.setDataReader(persons, fireStations, medicalRecords);
 		List<Url2> result = dataReader.getChildrenLivingAtThisAddress("1509 Culver St");
 
 		/* THEN --> ASSERT */
@@ -408,7 +412,7 @@ public class DataReaderTest {
 		medicalRecords.add(
 				new MedicalRecord("Kendrik", "Boyd", "02/18/2012", new ArrayList<String>(), new ArrayList<String>()));
 		/* WHEN --> ACT */
-		IDataReader dataReader = new DataReader(persons, fireStations, medicalRecords);
+		dataReader.setDataReader(persons, fireStations, medicalRecords);
 		List<String> result = dataReader.getPhoneNumbersCoveredByAFirestation(3);
 		String expected = "841-874-6512";
 
@@ -430,7 +434,7 @@ public class DataReaderTest {
 		medicalRecords.add(
 				new MedicalRecord("Kendrik", "Boyd", "02/18/2012", new ArrayList<String>(), new ArrayList<String>()));
 		/* WHEN --> ACT */
-		IDataReader dataReader = new DataReader(persons, fireStations, medicalRecords);
+		dataReader.setDataReader(persons, fireStations, medicalRecords);
 		List<String> result = dataReader.getPhoneNumbersCoveredByAFirestation(6);
 
 		/* THEN --> ASSERT */
@@ -451,7 +455,7 @@ public class DataReaderTest {
 		medicalRecords.add(
 				new MedicalRecord("Kendrik", "Boyd", "02/18/2012", new ArrayList<String>(), new ArrayList<String>()));
 		/* WHEN --> ACT */
-		IDataReader dataReader = new DataReader(persons, fireStations, medicalRecords);
+		dataReader.setDataReader(persons, fireStations, medicalRecords);
 		List<String> result = dataReader.getPhoneNumbersCoveredByAFirestation(3);
 
 		/* THEN --> ASSERT */
@@ -473,7 +477,7 @@ public class DataReaderTest {
 		medicalRecords
 				.add(new MedicalRecord("John", "Boyd", "02/18/1984", new ArrayList<String>(), new ArrayList<String>()));
 		/* WHEN --> ACT */
-		IDataReader dataReader = new DataReader(persons, fireStations, medicalRecords);
+		dataReader.setDataReader(persons, fireStations, medicalRecords);
 		List<Url4> result = dataReader.getPersonsLivingAtThisAddressWithFirestation("1509 Culver St");
 
 		/* THEN --> ASSERT */
@@ -493,7 +497,7 @@ public class DataReaderTest {
 		medicalRecords
 				.add(new MedicalRecord("John", "Boyd", "02/18/1984", new ArrayList<String>(), new ArrayList<String>()));
 		/* WHEN --> ACT */
-		IDataReader dataReader = new DataReader(persons, fireStations, medicalRecords);
+		dataReader.setDataReader(persons, fireStations, medicalRecords);
 		List<Url4> result = dataReader.getPersonsLivingAtThisAddressWithFirestation("951 LoneTree Rd");
 
 		/* THEN --> ASSERT */
@@ -515,7 +519,7 @@ public class DataReaderTest {
 				.add(new MedicalRecord("John", "Boyd", "02/18/1984", new ArrayList<String>(), new ArrayList<String>()));
 
 		/* WHEN --> ACT */
-		IDataReader dataReader = new DataReader(persons, fireStations, medicalRecords);
+		dataReader.setDataReader(persons, fireStations, medicalRecords);
 		List<Url4> result = dataReader.getPersonsLivingAtThisAddressWithFirestation("1509 Culver St");
 
 		/* THEN --> ASSERT */
@@ -537,7 +541,7 @@ public class DataReaderTest {
 				.add(new MedicalRecord("John", "Boyd", "02/18/1984", new ArrayList<String>(), new ArrayList<String>()));
 
 		/* WHEN --> ACT */
-		IDataReader dataReader = new DataReader(persons, fireStations, medicalRecords);
+		dataReader.setDataReader(persons, fireStations, medicalRecords);
 		List<Url4> result = dataReader.getPersonsLivingAtThisAddressWithFirestation("1509 Culver St");
 
 		/* THEN --> ASSERT */
@@ -569,7 +573,7 @@ public class DataReaderTest {
 		medicalRecords.add(new MedicalRecord("Jonathan", "Marrack", "02/18/1984", new ArrayList<String>(),
 				new ArrayList<String>()));
 		/* WHEN --> ACT */
-		IDataReader dataReader = new DataReader(persons, fireStations, medicalRecords);
+		dataReader.setDataReader(persons, fireStations, medicalRecords);
 		List<Url5> result = dataReader.getHomesCoveredByAListOfFirestation(stationNumbers);
 
 		/* THEN --> ASSERT */
@@ -599,7 +603,7 @@ public class DataReaderTest {
 		medicalRecords.add(new MedicalRecord("Jonathan", "Marrack", "02/18/1984", new ArrayList<String>(),
 				new ArrayList<String>()));
 		/* WHEN --> ACT */
-		IDataReader dataReader = new DataReader(persons, fireStations, medicalRecords);
+		dataReader.setDataReader(persons, fireStations, medicalRecords);
 		List<Url5> result = dataReader.getHomesCoveredByAListOfFirestation(stationNumbers);
 
 		/* THEN --> ASSERT */
@@ -622,7 +626,7 @@ public class DataReaderTest {
 				.add(new MedicalRecord("John", "Boyd", "02/18/1984", new ArrayList<String>(), new ArrayList<String>()));
 
 		/* WHEN --> ACT */
-		IDataReader dataReader = new DataReader(persons, fireStations, medicalRecords);
+		dataReader.setDataReader(persons, fireStations, medicalRecords);
 		List<Url6> result = dataReader.getPersonInfo("John", "Boyd");
 
 		/* THEN --> ASSERT */
@@ -643,7 +647,7 @@ public class DataReaderTest {
 				new MedicalRecord("Eric", "Cadigan", "02/18/1984", new ArrayList<String>(), new ArrayList<String>()));
 
 		/* WHEN --> ACT */
-		IDataReader dataReader = new DataReader(persons, fireStations, medicalRecords);
+		dataReader.setDataReader(persons, fireStations, medicalRecords);
 		List<Url6> result = dataReader.getPersonInfo("John", "Boyd");
 
 		/* THEN --> ASSERT */
@@ -664,7 +668,7 @@ public class DataReaderTest {
 				new MedicalRecord("John", "Cadigan", "02/18/1984", new ArrayList<String>(), new ArrayList<String>()));
 
 		/* WHEN --> ACT */
-		IDataReader dataReader = new DataReader(persons, fireStations, medicalRecords);
+		dataReader.setDataReader(persons, fireStations, medicalRecords);
 		List<Url6> result = dataReader.getPersonInfo("John", "Boyd");
 
 		/* THEN --> ASSERT */
@@ -685,7 +689,7 @@ public class DataReaderTest {
 				.add(new MedicalRecord("John", "Boyd", "02/18/1984", new ArrayList<String>(), new ArrayList<String>()));
 
 		/* WHEN --> ACT */
-		IDataReader dataReader = new DataReader(persons, fireStations, medicalRecords);
+		dataReader.setDataReader(persons, fireStations, medicalRecords);
 		List<Url6> result = dataReader.getPersonInfo("Eric", "Cadigan");
 
 		/* THEN --> ASSERT */
@@ -706,7 +710,7 @@ public class DataReaderTest {
 				.add(new MedicalRecord("John", "Boyd", "02/18/1984", new ArrayList<String>(), new ArrayList<String>()));
 
 		/* WHEN --> ACT */
-		IDataReader dataReader = new DataReader(persons, fireStations, medicalRecords);
+		dataReader.setDataReader(persons, fireStations, medicalRecords);
 		List<Url6> result = dataReader.getPersonInfo("John", "Cadigan");
 
 		/* THEN --> ASSERT */
@@ -729,7 +733,7 @@ public class DataReaderTest {
 				.add(new MedicalRecord("John", "Boyd", "21/08/1988", new ArrayList<String>(), new ArrayList<String>()));
 
 		/* WHEN --> ACT */
-		IDataReader dataReader = new DataReader(persons, fireStations, medicalRecords);
+		dataReader.setDataReader(persons, fireStations, medicalRecords);
 		List<String> result = dataReader.getPersonEmailByCity("Culver");
 
 		/* THEN --> ASSERT */
@@ -753,7 +757,7 @@ public class DataReaderTest {
 		medicalRecords
 				.add(new MedicalRecord("John", "Boyd", "21/08/1988", new ArrayList<String>(), new ArrayList<String>()));
 
-		IDataReader dataReader = new DataReader(persons, fireStations, medicalRecords);
+		dataReader.setDataReader(persons, fireStations, medicalRecords);
 		List<FireStation> result = dataReader.addFireStationToRepository(fireStationToAdd);
 
 		/* THEN --> ASSERT */
@@ -774,7 +778,7 @@ public class DataReaderTest {
 		medicalRecords
 				.add(new MedicalRecord("John", "Boyd", "21/08/1988", new ArrayList<String>(), new ArrayList<String>()));
 
-		IDataReader dataReader = new DataReader(persons, fireStations, medicalRecords);
+		dataReader.setDataReader(persons, fireStations, medicalRecords);
 		List<FireStation> result = dataReader.addFireStationToRepository(fireStationToAdd);
 
 		/* THEN --> ASSERT */
@@ -795,7 +799,7 @@ public class DataReaderTest {
 		medicalRecords
 				.add(new MedicalRecord("John", "Boyd", "21/08/1988", new ArrayList<String>(), new ArrayList<String>()));
 
-		IDataReader dataReader = new DataReader(persons, fireStations, medicalRecords);
+		dataReader.setDataReader(persons, fireStations, medicalRecords);
 		List<FireStation> result = dataReader.addFireStationToRepository(fireStationToAdd);
 
 		/* THEN --> ASSERT */
@@ -820,7 +824,7 @@ public class DataReaderTest {
 		medicalRecords
 				.add(new MedicalRecord("John", "Boyd", "21/08/1988", new ArrayList<String>(), new ArrayList<String>()));
 
-		IDataReader dataReader = new DataReader(persons, fireStations, medicalRecords);
+		dataReader.setDataReader(persons, fireStations, medicalRecords);
 		List<FireStation> result = dataReader.updateFirestationNumberToRepository(fireStationToUpdate);
 
 		/* THEN --> ASSERT */
@@ -843,7 +847,7 @@ public class DataReaderTest {
 		medicalRecords
 				.add(new MedicalRecord("John", "Boyd", "21/08/1988", new ArrayList<String>(), new ArrayList<String>()));
 
-		IDataReader dataReader = new DataReader(persons, fireStations, medicalRecords);
+		dataReader.setDataReader(persons, fireStations, medicalRecords);
 		List<FireStation> result = dataReader.updateFirestationNumberToRepository(fireStationToUpdate);
 
 		/* THEN --> ASSERT */
@@ -866,7 +870,7 @@ public class DataReaderTest {
 		medicalRecords
 				.add(new MedicalRecord("John", "Boyd", "21/08/1988", new ArrayList<String>(), new ArrayList<String>()));
 
-		IDataReader dataReader = new DataReader(persons, fireStations, medicalRecords);
+		dataReader.setDataReader(persons, fireStations, medicalRecords);
 		List<FireStation> result = dataReader.updateFirestationNumberToRepository(fireStationToUpdate);
 
 		/* THEN --> ASSERT */
@@ -887,7 +891,7 @@ public class DataReaderTest {
 		medicalRecords
 				.add(new MedicalRecord("John", "Boyd", "21/08/1988", new ArrayList<String>(), new ArrayList<String>()));
 
-		IDataReader dataReader = new DataReader(persons, fireStations, medicalRecords);
+		dataReader.setDataReader(persons, fireStations, medicalRecords);
 		List<FireStation> result = dataReader.updateFirestationNumberToRepository(fireStationToUpdate);
 
 		/* THEN --> ASSERT */
@@ -912,7 +916,7 @@ public class DataReaderTest {
 		medicalRecords
 				.add(new MedicalRecord("John", "Boyd", "21/08/1988", new ArrayList<String>(), new ArrayList<String>()));
 
-		IDataReader dataReader = new DataReader(persons, fireStations, medicalRecords);
+		dataReader.setDataReader(persons, fireStations, medicalRecords);
 		List<FireStation> result = dataReader.deleteFirestationToRepository(fireStationToDelete);
 
 		/* THEN --> ASSERT */
@@ -935,7 +939,7 @@ public class DataReaderTest {
 		medicalRecords
 				.add(new MedicalRecord("John", "Boyd", "21/08/1988", new ArrayList<String>(), new ArrayList<String>()));
 
-		IDataReader dataReader = new DataReader(persons, fireStations, medicalRecords);
+		dataReader.setDataReader(persons, fireStations, medicalRecords);
 		List<FireStation> result = dataReader.deleteFirestationToRepository(fireStationToDelete);
 
 		/* THEN --> ASSERT */
@@ -958,7 +962,7 @@ public class DataReaderTest {
 		medicalRecords
 				.add(new MedicalRecord("John", "Boyd", "21/08/1988", new ArrayList<String>(), new ArrayList<String>()));
 
-		IDataReader dataReader = new DataReader(persons, fireStations, medicalRecords);
+		dataReader.setDataReader(persons, fireStations, medicalRecords);
 		List<FireStation> result = dataReader.deleteFirestationToRepository(fireStationToDelete);
 
 		/* THEN --> ASSERT */
@@ -981,7 +985,7 @@ public class DataReaderTest {
 		medicalRecords
 				.add(new MedicalRecord("John", "Boyd", "21/08/1988", new ArrayList<String>(), new ArrayList<String>()));
 
-		IDataReader dataReader = new DataReader(persons, fireStations, medicalRecords);
+		dataReader.setDataReader(persons, fireStations, medicalRecords);
 		List<FireStation> result = dataReader.deleteFirestationToRepository(fireStationToDelete);
 
 		/* THEN --> ASSERT */
@@ -1003,7 +1007,7 @@ public class DataReaderTest {
 
 		List<MedicalRecord> medicalRecords = new ArrayList<>();
 
-		IDataReader dataReader = new DataReader(persons, fireStations, medicalRecords);
+		dataReader.setDataReader(persons, fireStations, medicalRecords);
 		List<Person> result = dataReader.addPersonToRepository(personToAdd);
 
 		/* THEN --> ASSERT */
@@ -1022,7 +1026,7 @@ public class DataReaderTest {
 
 		List<MedicalRecord> medicalRecords = new ArrayList<>();
 
-		IDataReader dataReader = new DataReader(persons, fireStations, medicalRecords);
+		dataReader.setDataReader(persons, fireStations, medicalRecords);
 		List<Person> result = dataReader.addPersonToRepository(personToAdd);
 
 		/* THEN --> ASSERT */
@@ -1041,7 +1045,7 @@ public class DataReaderTest {
 
 		List<MedicalRecord> medicalRecords = new ArrayList<>();
 
-		IDataReader dataReader = new DataReader(persons, fireStations, medicalRecords);
+		dataReader.setDataReader(persons, fireStations, medicalRecords);
 		List<Person> result = dataReader.addPersonToRepository(personToAdd);
 
 		/* THEN --> ASSERT */
@@ -1063,7 +1067,7 @@ public class DataReaderTest {
 
 		List<MedicalRecord> medicalRecords = new ArrayList<>();
 
-		IDataReader dataReader = new DataReader(persons, fireStations, medicalRecords);
+		dataReader.setDataReader(persons, fireStations, medicalRecords);
 		List<Person> result = dataReader.updatePersonToRepository(personToUpdate);
 
 		/* THEN --> ASSERT */
@@ -1083,7 +1087,7 @@ public class DataReaderTest {
 
 		List<MedicalRecord> medicalRecords = new ArrayList<>();
 
-		IDataReader dataReader = new DataReader(persons, fireStations, medicalRecords);
+		dataReader.setDataReader(persons, fireStations, medicalRecords);
 		List<Person> result = dataReader.updatePersonToRepository(personToUpdate);
 
 		/* THEN --> ASSERT */
@@ -1103,7 +1107,7 @@ public class DataReaderTest {
 
 		List<MedicalRecord> medicalRecords = new ArrayList<>();
 
-		IDataReader dataReader = new DataReader(persons, fireStations, medicalRecords);
+		dataReader.setDataReader(persons, fireStations, medicalRecords);
 		List<Person> result = dataReader.updatePersonToRepository(personToUpdate);
 
 		/* THEN --> ASSERT */
@@ -1123,7 +1127,7 @@ public class DataReaderTest {
 
 		List<MedicalRecord> medicalRecords = new ArrayList<>();
 
-		IDataReader dataReader = new DataReader(persons, fireStations, medicalRecords);
+		dataReader.setDataReader(persons, fireStations, medicalRecords);
 		List<Person> result = dataReader.updatePersonToRepository(personToUpdate);
 
 		/* THEN --> ASSERT */
@@ -1143,7 +1147,7 @@ public class DataReaderTest {
 
 		List<MedicalRecord> medicalRecords = new ArrayList<>();
 
-		IDataReader dataReader = new DataReader(persons, fireStations, medicalRecords);
+		dataReader.setDataReader(persons, fireStations, medicalRecords);
 		List<Person> result = dataReader.updatePersonToRepository(personToUpdate);
 
 		/* THEN --> ASSERT */
@@ -1164,7 +1168,7 @@ public class DataReaderTest {
 
 		List<MedicalRecord> medicalRecords = new ArrayList<>();
 
-		IDataReader dataReader = new DataReader(persons, fireStations, medicalRecords);
+		dataReader.setDataReader(persons, fireStations, medicalRecords);
 		List<Person> result = dataReader.deletePersonToRepository(personToDelete);
 
 		/* THEN --> ASSERT */
@@ -1183,7 +1187,7 @@ public class DataReaderTest {
 
 		List<MedicalRecord> medicalRecords = new ArrayList<>();
 
-		IDataReader dataReader = new DataReader(persons, fireStations, medicalRecords);
+		dataReader.setDataReader(persons, fireStations, medicalRecords);
 		List<Person> result = dataReader.deletePersonToRepository(personToDelete);
 
 		/* THEN --> ASSERT */
@@ -1202,7 +1206,7 @@ public class DataReaderTest {
 
 		List<MedicalRecord> medicalRecords = new ArrayList<>();
 
-		IDataReader dataReader = new DataReader(persons, fireStations, medicalRecords);
+		dataReader.setDataReader(persons, fireStations, medicalRecords);
 		List<Person> result = dataReader.deletePersonToRepository(personToDelete);
 
 		/* THEN --> ASSERT */
@@ -1221,7 +1225,7 @@ public class DataReaderTest {
 
 		List<MedicalRecord> medicalRecords = new ArrayList<>();
 
-		IDataReader dataReader = new DataReader(persons, fireStations, medicalRecords);
+		dataReader.setDataReader(persons, fireStations, medicalRecords);
 		List<Person> result = dataReader.deletePersonToRepository(personToDelete);
 
 		/* THEN --> ASSERT */
@@ -1240,7 +1244,7 @@ public class DataReaderTest {
 
 		List<MedicalRecord> medicalRecords = new ArrayList<>();
 
-		IDataReader dataReader = new DataReader(persons, fireStations, medicalRecords);
+		dataReader.setDataReader(persons, fireStations, medicalRecords);
 		List<Person> result = dataReader.deletePersonToRepository(personToDelete);
 
 		/* THEN --> ASSERT */
@@ -1268,7 +1272,7 @@ public class DataReaderTest {
 		List<MedicalRecord> medicalRecords = new ArrayList<>();
 		medicalRecords.add(new MedicalRecord("John", "Boyd", "01/02/1984", new ArrayList<>(), new ArrayList<>()));
 
-		IDataReader dataReader = new DataReader(persons, fireStations, medicalRecords);
+		dataReader.setDataReader(persons, fireStations, medicalRecords);
 		List<MedicalRecord> result = dataReader.addMedicalRecord(medicalRecordToAdd);
 
 		/* THEN --> ASSERT */
@@ -1293,7 +1297,7 @@ public class DataReaderTest {
 		List<MedicalRecord> medicalRecords = new ArrayList<>();
 		medicalRecords.add(new MedicalRecord("John", "Boyd", "01/02/1984", new ArrayList<>(), new ArrayList<>()));
 
-		IDataReader dataReader = new DataReader(persons, fireStations, medicalRecords);
+		dataReader.setDataReader(persons, fireStations, medicalRecords);
 		List<MedicalRecord> result = dataReader.addMedicalRecord(medicalRecordToAdd);
 
 		/* THEN --> ASSERT */
@@ -1318,7 +1322,7 @@ public class DataReaderTest {
 		List<MedicalRecord> medicalRecords = new ArrayList<>();
 		medicalRecords.add(new MedicalRecord("John", "Boyd", "01/02/1984", new ArrayList<>(), new ArrayList<>()));
 
-		IDataReader dataReader = new DataReader(persons, fireStations, medicalRecords);
+		dataReader.setDataReader(persons, fireStations, medicalRecords);
 		List<MedicalRecord> result = dataReader.addMedicalRecord(medicalRecordToAdd);
 
 		/* THEN --> ASSERT */
@@ -1345,7 +1349,7 @@ public class DataReaderTest {
 		List<MedicalRecord> medicalRecords = new ArrayList<>();
 		medicalRecords.add(new MedicalRecord("John", "Boyd", "01/02/1984", new ArrayList<>(), new ArrayList<>()));
 
-		IDataReader dataReader = new DataReader(persons, fireStations, medicalRecords);
+		dataReader.setDataReader(persons, fireStations, medicalRecords);
 		List<MedicalRecord> result = dataReader.updateMedicalRecord(medicalRecordToUpdate);
 
 		/* THEN --> ASSERT */
@@ -1370,7 +1374,7 @@ public class DataReaderTest {
 		List<MedicalRecord> medicalRecords = new ArrayList<>();
 		medicalRecords.add(new MedicalRecord("John", "Boyd", "01/02/1984", new ArrayList<>(), new ArrayList<>()));
 
-		IDataReader dataReader = new DataReader(persons, fireStations, medicalRecords);
+		dataReader.setDataReader(persons, fireStations, medicalRecords);
 		List<MedicalRecord> result = dataReader.updateMedicalRecord(medicalRecordToUpdate);
 
 		/* THEN --> ASSERT */
@@ -1395,7 +1399,7 @@ public class DataReaderTest {
 		List<MedicalRecord> medicalRecords = new ArrayList<>();
 		medicalRecords.add(new MedicalRecord("John", "Boyd", "01/02/1984", new ArrayList<>(), new ArrayList<>()));
 
-		IDataReader dataReader = new DataReader(persons, fireStations, medicalRecords);
+		dataReader.setDataReader(persons, fireStations, medicalRecords);
 		List<MedicalRecord> result = dataReader.updateMedicalRecord(medicalRecordToUpdate);
 
 		/* THEN --> ASSERT */
@@ -1420,7 +1424,7 @@ public class DataReaderTest {
 		List<MedicalRecord> medicalRecords = new ArrayList<>();
 		medicalRecords.add(new MedicalRecord("John", "Boyd", "01/02/1984", new ArrayList<>(), new ArrayList<>()));
 
-		IDataReader dataReader = new DataReader(persons, fireStations, medicalRecords);
+		dataReader.setDataReader(persons, fireStations, medicalRecords);
 		List<MedicalRecord> result = dataReader.updateMedicalRecord(medicalRecordToUpdate);
 
 		/* THEN --> ASSERT */
@@ -1446,7 +1450,7 @@ public class DataReaderTest {
 		List<MedicalRecord> medicalRecords = new ArrayList<>();
 		medicalRecords.add(new MedicalRecord("John", "Boyd", "01/02/1984", new ArrayList<>(), new ArrayList<>()));
 
-		IDataReader dataReader = new DataReader(persons, fireStations, medicalRecords);
+		dataReader.setDataReader(persons, fireStations, medicalRecords);
 		List<MedicalRecord> result = dataReader.updateMedicalRecord(medicalRecordToUpdate);
 
 		/* THEN --> ASSERT */
@@ -1466,9 +1470,8 @@ public class DataReaderTest {
 		allergies.add("fruits de mer");
 
 		FirstNameAndLastName combination = new FirstNameAndLastName("John", "Boyd");
-		
-		MedicalRecord medicalRecordToDelete = new MedicalRecord("John", "Boyd", "01/02/1984", medications,
-				allergies);
+
+		MedicalRecord medicalRecordToDelete = new MedicalRecord("John", "Boyd", "01/02/1984", medications, allergies);
 
 		/* WHEN --> ACT */
 		List<Person> persons = new ArrayList<>();
@@ -1476,13 +1479,13 @@ public class DataReaderTest {
 		List<MedicalRecord> medicalRecords = new ArrayList<>();
 		medicalRecords.add(medicalRecordToDelete);
 
-		IDataReader dataReader = new DataReader(persons, fireStations, medicalRecords);
+		dataReader.setDataReader(persons, fireStations, medicalRecords);
 		List<MedicalRecord> result = dataReader.deleteMedicalRecord(combination);
 
 		/* THEN --> ASSERT */
 		assertThat(result.size()).isEqualTo(0);
 	}
-	
+
 	@Test
 	public void testDeleteMedicalRecordWithEmptyFirstName() throws Exception {
 		/* GIVEN --> ARRANGE */
@@ -1494,9 +1497,8 @@ public class DataReaderTest {
 		allergies.add("fruits de mer");
 
 		FirstNameAndLastName combination = new FirstNameAndLastName("", "Boyd");
-		
-		MedicalRecord medicalRecordToDelete = new MedicalRecord("John", "Boyd", "01/02/1984", medications,
-				allergies);
+
+		MedicalRecord medicalRecordToDelete = new MedicalRecord("John", "Boyd", "01/02/1984", medications, allergies);
 
 		/* WHEN --> ACT */
 		List<Person> persons = new ArrayList<>();
@@ -1504,13 +1506,13 @@ public class DataReaderTest {
 		List<MedicalRecord> medicalRecords = new ArrayList<>();
 		medicalRecords.add(medicalRecordToDelete);
 
-		IDataReader dataReader = new DataReader(persons, fireStations, medicalRecords);
+		dataReader.setDataReader(persons, fireStations, medicalRecords);
 		List<MedicalRecord> result = dataReader.deleteMedicalRecord(combination);
 
 		/* THEN --> ASSERT */
 		assertThat(result.get(0).getFirstName()).isEqualTo("John");
 	}
-	
+
 	@Test
 	public void testDeleteMedicalRecordWithEmptyLastName() throws Exception {
 		/* GIVEN --> ARRANGE */
@@ -1522,9 +1524,8 @@ public class DataReaderTest {
 		allergies.add("fruits de mer");
 
 		FirstNameAndLastName combination = new FirstNameAndLastName("John", "");
-		
-		MedicalRecord medicalRecordToDelete = new MedicalRecord("John", "Boyd", "01/02/1984", medications,
-				allergies);
+
+		MedicalRecord medicalRecordToDelete = new MedicalRecord("John", "Boyd", "01/02/1984", medications, allergies);
 
 		/* WHEN --> ACT */
 		List<Person> persons = new ArrayList<>();
@@ -1532,13 +1533,13 @@ public class DataReaderTest {
 		List<MedicalRecord> medicalRecords = new ArrayList<>();
 		medicalRecords.add(medicalRecordToDelete);
 
-		IDataReader dataReader = new DataReader(persons, fireStations, medicalRecords);
+		dataReader.setDataReader(persons, fireStations, medicalRecords);
 		List<MedicalRecord> result = dataReader.deleteMedicalRecord(combination);
 
 		/* THEN --> ASSERT */
 		assertThat(result.get(0).getFirstName()).isEqualTo("John");
 	}
-	
+
 	@Test
 	public void testDeleteMedicalRecordWithNoMatchingFirstName() throws Exception {
 		/* GIVEN --> ARRANGE */
@@ -1550,9 +1551,8 @@ public class DataReaderTest {
 		allergies.add("fruits de mer");
 
 		FirstNameAndLastName combination = new FirstNameAndLastName("Eric", "Boyd");
-		
-		MedicalRecord medicalRecordToDelete = new MedicalRecord("John", "Boyd", "01/02/1984", medications,
-				allergies);
+
+		MedicalRecord medicalRecordToDelete = new MedicalRecord("John", "Boyd", "01/02/1984", medications, allergies);
 
 		/* WHEN --> ACT */
 		List<Person> persons = new ArrayList<>();
@@ -1560,13 +1560,13 @@ public class DataReaderTest {
 		List<MedicalRecord> medicalRecords = new ArrayList<>();
 		medicalRecords.add(medicalRecordToDelete);
 
-		IDataReader dataReader = new DataReader(persons, fireStations, medicalRecords);
+		dataReader.setDataReader(persons, fireStations, medicalRecords);
 		List<MedicalRecord> result = dataReader.deleteMedicalRecord(combination);
 
 		/* THEN --> ASSERT */
 		assertThat(result.get(0).getFirstName()).isEqualTo("John");
 	}
-	
+
 	@Test
 	public void testDeleteMedicalRecordWithNoMatchingLastName() throws Exception {
 		/* GIVEN --> ARRANGE */
@@ -1578,9 +1578,8 @@ public class DataReaderTest {
 		allergies.add("fruits de mer");
 
 		FirstNameAndLastName combination = new FirstNameAndLastName("John", "Cadigan");
-		
-		MedicalRecord medicalRecordToDelete = new MedicalRecord("John", "Boyd", "01/02/1984", medications,
-				allergies);
+
+		MedicalRecord medicalRecordToDelete = new MedicalRecord("John", "Boyd", "01/02/1984", medications, allergies);
 
 		/* WHEN --> ACT */
 		List<Person> persons = new ArrayList<>();
@@ -1588,7 +1587,7 @@ public class DataReaderTest {
 		List<MedicalRecord> medicalRecords = new ArrayList<>();
 		medicalRecords.add(medicalRecordToDelete);
 
-		IDataReader dataReader = new DataReader(persons, fireStations, medicalRecords);
+		dataReader.setDataReader(persons, fireStations, medicalRecords);
 		List<MedicalRecord> result = dataReader.deleteMedicalRecord(combination);
 
 		/* THEN --> ASSERT */
