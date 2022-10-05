@@ -3,14 +3,15 @@ package com.safetynet.safetynetalerts.repository;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-@SpringBootTest
+@ExtendWith(MockitoExtension.class)
 public class PersonRepositoryImplTest {
 
-	@Autowired
-	FilePaths filePaths;
+	FilePaths filePaths = new FilePaths();
 
 	@Test
 	public void testGetPersonFromJson() throws Exception {

@@ -1,6 +1,5 @@
 package com.safetynet.safetynetalerts.data;
 
-import java.text.ParseException;
 import java.util.List;
 
 import com.safetynet.safetynetalerts.model.FireStation;
@@ -13,7 +12,7 @@ import com.safetynet.safetynetalerts.workclasses.Url5;
 import com.safetynet.safetynetalerts.workclasses.Url6;
 
 public interface IDataReader {
-	
+
 	void setDataReader(List<Person> persons, List<FireStation> fireStations, List<MedicalRecord> medicalRecords);
 
 	List<FireStation> getFirestations();
@@ -26,7 +25,7 @@ public interface IDataReader {
 
 	List<String> getPhoneNumbersCoveredByAFirestation(int stationNumber);
 
-	List<Url4> getPersonsLivingAtThisAddressWithFirestation(String address) throws ParseException;
+	List<Url4> getPersonsLivingAtThisAddressWithFirestation(String address);
 
 	List<Url2> getChildrenLivingAtThisAddress(String address);
 

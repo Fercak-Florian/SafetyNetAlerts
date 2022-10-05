@@ -1,21 +1,18 @@
 package com.safetynet.safetynetalerts.repository;
 
-import static org.junit.jupiter.api.Assertions.assertTrue;
-
-import java.io.IOException;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.junit.jupiter.MockitoExtension;
 
-@SpringBootTest
+@ExtendWith(MockitoExtension.class)
 public class MedicalRecordRepositoryImplTest {
 
-	@Autowired
-	FilePaths filePaths;
+	FilePaths filePaths = new FilePaths();
 
 	@Test
-	public void testGetMedicalRecordsFromJson() throws IOException {
+	public void testGetMedicalRecordsFromJson() {
 		/* GIVEN --> ARRANGE */
 		IMedicalRecordRepository medicalRecordRepository = new MedicalRecordRepositoryImpl();
 		/* WHEN --> ACT */
@@ -23,6 +20,6 @@ public class MedicalRecordRepositoryImplTest {
 		String expected = "Jacob";
 
 		/* THEN --> ASSERT */
-		assertTrue(expected.equals(result));
+		assertThat(expected).isEqualTo(result);
 	}
 }
