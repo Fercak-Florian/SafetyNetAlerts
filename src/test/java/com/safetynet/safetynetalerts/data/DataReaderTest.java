@@ -1,23 +1,19 @@
 package com.safetynet.safetynetalerts.data;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.ArgumentMatchers.any;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
 
 import com.safetynet.safetynetalerts.model.FireStation;
 import com.safetynet.safetynetalerts.model.MedicalRecord;
 import com.safetynet.safetynetalerts.model.Person;
-import com.safetynet.safetynetalerts.repository.FilePaths;
 import com.safetynet.safetynetalerts.workclasses.FirstNameAndLastName;
 import com.safetynet.safetynetalerts.workclasses.Url2;
 import com.safetynet.safetynetalerts.workclasses.Url4;
@@ -27,14 +23,28 @@ import com.safetynet.safetynetalerts.workclasses.Url6;
 @ExtendWith(MockitoExtension.class)
 public class DataReaderTest {
 
-	@Autowired
-	FilePaths filePaths;
+	// @Autowired
+	// FilePaths filePaths;
 
-	//@Autowired
-	IDataReader dataReader = DataInMemory.getGlobalRepository();
+	// @Autowired
+	// IDataReader dataReader;
+	// IDataReader dataReader = DataInMemory.getGlobalRepository();
+
+	@BeforeEach
+	public void init() {
+		// IPersonRepository personRepository = new PersonRepositoryImpl();
+		// IFireStationRepository fireStationRepository = new
+		// FireStationRepositoryImpl();
+		// IMedicalRecordRepository medicalRecordRepository = new
+		// MedicalRecordRepositoryImpl();
+
+		// IDataReader dataReader = new DataReader(personRepository,
+		// fireStationRepository, medicalRecordRepository);
+		IDataReader dataReader = new DataReader();
+	}
 
 	@Test
-	public void testGetFirestations() throws Exception {
+	public void testGetFirestations() {
 		/* GIVEN --> ARRANGE */
 		List<FireStation> fireStations = new ArrayList<>();
 		fireStations.add(new FireStation("1509 Culver St", 3));
@@ -46,6 +56,7 @@ public class DataReaderTest {
 		medicalRecords
 				.add(new MedicalRecord("John", "Boyd", "21/08/1988", new ArrayList<String>(), new ArrayList<String>()));
 
+		IDataReader dataReader = new DataReader();
 		dataReader.setDataReader(persons, fireStations, medicalRecords);
 		/* WHEN --> ACT */
 
@@ -55,7 +66,7 @@ public class DataReaderTest {
 	}
 
 	@Test
-	public void testGetPersons() throws Exception {
+	public void testGetPersons() {
 		/* GIVEN --> ARRANGE */
 		List<FireStation> fireStations = new ArrayList<>();
 		fireStations.add(new FireStation("1509 Culver St", 3));
@@ -67,6 +78,7 @@ public class DataReaderTest {
 		medicalRecords
 				.add(new MedicalRecord("John", "Boyd", "21/08/1988", new ArrayList<String>(), new ArrayList<String>()));
 
+		IDataReader dataReader = new DataReader();
 		dataReader.setDataReader(persons, fireStations, medicalRecords);
 		/* WHEN --> ACT */
 
@@ -76,7 +88,7 @@ public class DataReaderTest {
 	}
 
 	@Test
-	public void testGetMedicalRecords() throws Exception {
+	public void testGetMedicalRecords() {
 		/* GIVEN --> ARRANGE */
 		List<FireStation> fireStations = new ArrayList<>();
 		fireStations.add(new FireStation("1509 Culver St", 3));
@@ -88,6 +100,7 @@ public class DataReaderTest {
 		medicalRecords
 				.add(new MedicalRecord("John", "Boyd", "21/08/1988", new ArrayList<String>(), new ArrayList<String>()));
 
+		IDataReader dataReader = new DataReader();
 		dataReader.setDataReader(persons, fireStations, medicalRecords);
 		/* WHEN --> ACT */
 
@@ -99,7 +112,7 @@ public class DataReaderTest {
 	/* TESTS CONCERNANT L'URL_1 */
 
 	@Test
-	public void testGetPersonsCoveredByAFirestation() throws Exception {
+	public void testGetPersonsCoveredByAFirestation() {
 		/* GIVEN --> ARRANGE */
 		List<FireStation> fireStations = new ArrayList<>();
 		fireStations.add(new FireStation("1509 Culver St", 3));
@@ -111,6 +124,7 @@ public class DataReaderTest {
 		medicalRecords
 				.add(new MedicalRecord("John", "Boyd", "21/08/1988", new ArrayList<String>(), new ArrayList<String>()));
 
+		IDataReader dataReader = new DataReader();
 		dataReader.setDataReader(persons, fireStations, medicalRecords);
 		/* WHEN --> ACT */
 
@@ -120,7 +134,7 @@ public class DataReaderTest {
 	}
 
 	@Test
-	public void testGetPersonsCoveredByAFirestationWithUnknownStationNumber() throws Exception {
+	public void testGetPersonsCoveredByAFirestationWithUnknownStationNumber() {
 		/* GIVEN --> ARRANGE */
 		List<FireStation> fireStations = new ArrayList<>();
 		fireStations.add(new FireStation("1509 Culver St", 3));
@@ -132,6 +146,7 @@ public class DataReaderTest {
 		medicalRecords
 				.add(new MedicalRecord("John", "Boyd", "21/08/1988", new ArrayList<String>(), new ArrayList<String>()));
 
+		IDataReader dataReader = new DataReader();
 		dataReader.setDataReader(persons, fireStations, medicalRecords);
 		/* WHEN --> ACT */
 
@@ -141,7 +156,7 @@ public class DataReaderTest {
 	}
 
 	@Test
-	public void testGetPersonsCoveredByAFirestationWhenNoMatchingAddress() throws Exception {
+	public void testGetPersonsCoveredByAFirestationWhenNoMatchingAddress() {
 		/* GIVEN --> ARRANGE */
 		List<FireStation> fireStations = new ArrayList<>();
 		fireStations.add(new FireStation("29 15th St", 3));
@@ -153,6 +168,7 @@ public class DataReaderTest {
 		medicalRecords
 				.add(new MedicalRecord("John", "Boyd", "21/08/1988", new ArrayList<String>(), new ArrayList<String>()));
 
+		IDataReader dataReader = new DataReader();
 		dataReader.setDataReader(persons, fireStations, medicalRecords);
 		/* WHEN --> ACT */
 
@@ -162,7 +178,7 @@ public class DataReaderTest {
 	}
 
 	@Test
-	public void testGetPersonsCoveredByAFirestationWithOneChild() throws Exception {
+	public void testGetPersonsCoveredByAFirestationWithOneChild() {
 		/* GIVEN --> ARRANGE */
 		List<FireStation> fireStations = new ArrayList<>();
 		fireStations.add(new FireStation("1509 Culver St", 3));
@@ -178,6 +194,7 @@ public class DataReaderTest {
 		medicalRecords.add(
 				new MedicalRecord("Tenley", "Boyd", "02/18/2012", new ArrayList<String>(), new ArrayList<String>()));
 
+		IDataReader dataReader = new DataReader();
 		dataReader.setDataReader(persons, fireStations, medicalRecords);
 		/* WHEN --> ACT */
 
@@ -187,7 +204,7 @@ public class DataReaderTest {
 	}
 
 	@Test
-	public void testGetPersonsCoveredByAFirestationWithNullMedicalRecord() throws Exception {
+	public void testGetPersonsCoveredByAFirestationWithNullMedicalRecord() {
 		/* GIVEN --> ARRANGE */
 		List<FireStation> fireStations = new ArrayList<>();
 		fireStations.add(new FireStation("1509 Culver St", 3));
@@ -197,6 +214,7 @@ public class DataReaderTest {
 
 		List<MedicalRecord> medicalRecords = new ArrayList<>();
 
+		IDataReader dataReader = new DataReader();
 		dataReader.setDataReader(persons, fireStations, medicalRecords);
 		/* WHEN --> ACT */
 
@@ -206,7 +224,7 @@ public class DataReaderTest {
 	}
 
 	@Test
-	public void testGetPersonsCoveredByAFirestationWithFirstNameError() throws Exception {
+	public void testGetPersonsCoveredByAFirestationWithFirstNameError() {
 		/* GIVEN --> ARRANGE */
 		List<FireStation> fireStations = new ArrayList<>();
 		fireStations.add(new FireStation("1509 Culver St", 3));
@@ -218,6 +236,7 @@ public class DataReaderTest {
 		medicalRecords.add(
 				new MedicalRecord("Jacob", "Boyd", "21/08/1988", new ArrayList<String>(), new ArrayList<String>()));
 
+		IDataReader dataReader = new DataReader();
 		dataReader.setDataReader(persons, fireStations, medicalRecords);
 		/* WHEN --> ACT */
 
@@ -227,7 +246,7 @@ public class DataReaderTest {
 	}
 
 	@Test
-	public void testGetPersonsCoveredByAFirestationWithLastNameError() throws Exception {
+	public void testGetPersonsCoveredByAFirestationWithLastNameError() {
 		/* GIVEN --> ARRANGE */
 		List<FireStation> fireStations = new ArrayList<>();
 		fireStations.add(new FireStation("1509 Culver St", 3));
@@ -240,6 +259,7 @@ public class DataReaderTest {
 		medicalRecords
 				.add(new MedicalRecord("John", "Boyd", "21/08/1988", new ArrayList<String>(), new ArrayList<String>()));
 
+		IDataReader dataReader = new DataReader();
 		dataReader.setDataReader(persons, fireStations, medicalRecords);
 		/* WHEN --> ACT */
 
@@ -251,7 +271,7 @@ public class DataReaderTest {
 	/* TESTS CONCERNANT L'URL_2 */
 
 	@Test
-	public void testGetChildrenLivingAtThisAddress() throws Exception {
+	public void testGetChildrenLivingAtThisAddress() {
 		/* GIVEN --> ARRANGE */
 		List<FireStation> fireStations = new ArrayList<>();
 		fireStations.add(new FireStation("1509 Culver St", 3));
@@ -269,6 +289,7 @@ public class DataReaderTest {
 				new Person("Jacob", "Boyd", "1509 Culver St", "Culver", "98774", "841-874-5631", "jboyd@email.com"));
 		/* WHEN --> ACT */
 
+		IDataReader dataReader = new DataReader();
 		dataReader.setDataReader(persons, fireStations, medicalRecords);
 		List<Url2> result = dataReader.getChildrenLivingAtThisAddress("1509 Culver St");
 
@@ -277,7 +298,7 @@ public class DataReaderTest {
 	}
 
 	@Test
-	public void testGetChildrenLivingAtThisAddressWithUnknownPersonAdress() throws Exception {
+	public void testGetChildrenLivingAtThisAddressWithUnknownPersonAdress() {
 		/* GIVEN --> ARRANGE */
 		List<FireStation> fireStations = new ArrayList<>();
 		fireStations.add(new FireStation("1509 Culver St", 3));
@@ -294,7 +315,7 @@ public class DataReaderTest {
 		persons.add(
 				new Person("Jacob", "Boyd", "1509 Culver St", "Culver", "98774", "841-874-5631", "jboyd@email.com"));
 		/* WHEN --> ACT */
-
+		IDataReader dataReader = new DataReader();
 		dataReader.setDataReader(persons, fireStations, medicalRecords);
 		List<Url2> result = dataReader.getChildrenLivingAtThisAddress("1509 Culver St");
 
@@ -303,7 +324,7 @@ public class DataReaderTest {
 	}
 
 	@Test
-	public void testGetChildrenLivingAtThisAddressWithPersonWithOtherAdress() throws Exception {
+	public void testGetChildrenLivingAtThisAddressWithPersonWithOtherAdress() {
 		/* GIVEN --> ARRANGE */
 		List<FireStation> fireStations = new ArrayList<>();
 		fireStations.add(new FireStation("1509 Culver St", 3));
@@ -322,7 +343,7 @@ public class DataReaderTest {
 		persons.add(
 				new Person("Eric", "Cadigan", "951", "951 LoneTree Rd", "98774", "841-874-5631", "jboyd@email.com"));
 		/* WHEN --> ACT */
-
+		IDataReader dataReader = new DataReader();
 		dataReader.setDataReader(persons, fireStations, medicalRecords);
 		List<Url2> result = dataReader.getChildrenLivingAtThisAddress("1509 Culver St");
 
@@ -331,7 +352,7 @@ public class DataReaderTest {
 	}
 
 	@Test
-	public void testGetChildrenLivingAtThisAddressWithNoMatchingNames() throws Exception {
+	public void testGetChildrenLivingAtThisAddressWithNoMatchingNames() {
 		/* GIVEN --> ARRANGE */
 		List<FireStation> fireStations = new ArrayList<>();
 		fireStations.add(new FireStation("1509 Culver St", 3));
@@ -344,7 +365,7 @@ public class DataReaderTest {
 		persons.add(
 				new Person("Tenley", "Boyd", "1509 Culver St", "Culver", "98774", "841-874-6512", "tenz@email.com"));
 		/* WHEN --> ACT */
-
+		IDataReader dataReader = new DataReader();
 		dataReader.setDataReader(persons, fireStations, medicalRecords);
 		List<Url2> result = dataReader.getChildrenLivingAtThisAddress("1509 Culver St");
 
@@ -353,7 +374,7 @@ public class DataReaderTest {
 	}
 
 	@Test
-	public void testGetChildrenLivingAtThisAddressWithNoMatchingLastName() throws Exception {
+	public void testGetChildrenLivingAtThisAddressWithNoMatchingLastName() {
 		/* GIVEN --> ARRANGE */
 		List<FireStation> fireStations = new ArrayList<>();
 		fireStations.add(new FireStation("1509 Culver St", 3));
@@ -366,7 +387,7 @@ public class DataReaderTest {
 		persons.add(
 				new Person("Tenley", "Boyd", "1509 Culver St", "Culver", "98774", "841-874-6512", "tenz@email.com"));
 		/* WHEN --> ACT */
-
+		IDataReader dataReader = new DataReader();
 		dataReader.setDataReader(persons, fireStations, medicalRecords);
 		List<Url2> result = dataReader.getChildrenLivingAtThisAddress("1509 Culver St");
 
@@ -375,7 +396,7 @@ public class DataReaderTest {
 	}
 
 	@Test
-	public void testGetChildrenLivingAtThisAddressWithNoMatchingFirstName() throws Exception {
+	public void testGetChildrenLivingAtThisAddressWithNoMatchingFirstName() {
 		/* GIVEN --> ARRANGE */
 		List<FireStation> fireStations = new ArrayList<>();
 		fireStations.add(new FireStation("1509 Culver St", 3));
@@ -388,7 +409,7 @@ public class DataReaderTest {
 		persons.add(
 				new Person("Tenley", "Boyd", "1509 Culver St", "Culver", "98774", "841-874-6512", "tenz@email.com"));
 		/* WHEN --> ACT */
-
+		IDataReader dataReader = new DataReader();
 		dataReader.setDataReader(persons, fireStations, medicalRecords);
 		List<Url2> result = dataReader.getChildrenLivingAtThisAddress("1509 Culver St");
 
@@ -399,7 +420,7 @@ public class DataReaderTest {
 	/* TESTS CONCERNANT L'URL_3 */
 
 	@Test
-	public void testGetPhoneNumbersCoveredByAFirestation() throws Exception {
+	public void testGetPhoneNumbersCoveredByAFirestation() {
 		/* GIVEN --> ARRANGE */
 		List<FireStation> fireStations = new ArrayList<>();
 		fireStations.add(new FireStation("1509 Culver St", 3));
@@ -412,6 +433,7 @@ public class DataReaderTest {
 		medicalRecords.add(
 				new MedicalRecord("Kendrik", "Boyd", "02/18/2012", new ArrayList<String>(), new ArrayList<String>()));
 		/* WHEN --> ACT */
+		IDataReader dataReader = new DataReader();
 		dataReader.setDataReader(persons, fireStations, medicalRecords);
 		List<String> result = dataReader.getPhoneNumbersCoveredByAFirestation(3);
 		String expected = "841-874-6512";
@@ -421,7 +443,7 @@ public class DataReaderTest {
 	}
 
 	@Test
-	public void testGetPhoneNumbersCoveredByAFireStationWithUnknownFireStation() throws Exception {
+	public void testGetPhoneNumbersCoveredByAFireStationWithUnknownFireStation() {
 		/* GIVEN --> ARRANGE */
 		List<FireStation> fireStations = new ArrayList<>();
 		fireStations.add(new FireStation("1509 Culver St", 3));
@@ -434,6 +456,7 @@ public class DataReaderTest {
 		medicalRecords.add(
 				new MedicalRecord("Kendrik", "Boyd", "02/18/2012", new ArrayList<String>(), new ArrayList<String>()));
 		/* WHEN --> ACT */
+		IDataReader dataReader = new DataReader();
 		dataReader.setDataReader(persons, fireStations, medicalRecords);
 		List<String> result = dataReader.getPhoneNumbersCoveredByAFirestation(6);
 
@@ -442,7 +465,7 @@ public class DataReaderTest {
 	}
 
 	@Test
-	public void testGetPhoneNumbersCoveredByAFirestationWithNoMatchingAddress() throws Exception {
+	public void testGetPhoneNumbersCoveredByAFirestationWithNoMatchingAddress() {
 		/* GIVEN --> ARRANGE */
 		List<FireStation> fireStations = new ArrayList<>();
 		fireStations.add(new FireStation("1509 Culver St", 3));
@@ -455,6 +478,7 @@ public class DataReaderTest {
 		medicalRecords.add(
 				new MedicalRecord("Kendrik", "Boyd", "02/18/2012", new ArrayList<String>(), new ArrayList<String>()));
 		/* WHEN --> ACT */
+		IDataReader dataReader = new DataReader();
 		dataReader.setDataReader(persons, fireStations, medicalRecords);
 		List<String> result = dataReader.getPhoneNumbersCoveredByAFirestation(3);
 
@@ -465,7 +489,7 @@ public class DataReaderTest {
 	/* TESTS CONCERNANT L'URL_4 */
 
 	@Test
-	public void testGetPersonsLivingAtThisAddressWithFirestation() throws Exception {
+	public void testGetPersonsLivingAtThisAddressWithFirestation() {
 		/* GIVEN --> ARRANGE */
 		List<FireStation> fireStations = new ArrayList<>();
 		fireStations.add(new FireStation("1509 Culver St", 3));
@@ -477,6 +501,7 @@ public class DataReaderTest {
 		medicalRecords
 				.add(new MedicalRecord("John", "Boyd", "02/18/1984", new ArrayList<String>(), new ArrayList<String>()));
 		/* WHEN --> ACT */
+		IDataReader dataReader = new DataReader();
 		dataReader.setDataReader(persons, fireStations, medicalRecords);
 		List<Url4> result = dataReader.getPersonsLivingAtThisAddressWithFirestation("1509 Culver St");
 
@@ -485,7 +510,7 @@ public class DataReaderTest {
 	}
 
 	@Test
-	public void testGetPersonsLivingAtThisAddressWithUnKnownAddress() throws Exception {
+	public void testGetPersonsLivingAtThisAddressWithUnKnownAddress() {
 		/* GIVEN --> ARRANGE */
 		List<FireStation> fireStations = new ArrayList<>();
 		fireStations.add(new FireStation("1509 Culver St", 3));
@@ -497,6 +522,7 @@ public class DataReaderTest {
 		medicalRecords
 				.add(new MedicalRecord("John", "Boyd", "02/18/1984", new ArrayList<String>(), new ArrayList<String>()));
 		/* WHEN --> ACT */
+		IDataReader dataReader = new DataReader();
 		dataReader.setDataReader(persons, fireStations, medicalRecords);
 		List<Url4> result = dataReader.getPersonsLivingAtThisAddressWithFirestation("951 LoneTree Rd");
 
@@ -505,7 +531,7 @@ public class DataReaderTest {
 	}
 
 	@Test
-	public void testGetPersonsLivingAtThisAddressWithFirestationWithNoMatchingNames() throws Exception {
+	public void testGetPersonsLivingAtThisAddressWithFirestationWithNoMatchingNames() {
 		/* GIVEN --> ARRANGE */
 		List<FireStation> fireStations = new ArrayList<>();
 		fireStations.add(new FireStation("1509 Culver St", 3));
@@ -519,6 +545,7 @@ public class DataReaderTest {
 				.add(new MedicalRecord("John", "Boyd", "02/18/1984", new ArrayList<String>(), new ArrayList<String>()));
 
 		/* WHEN --> ACT */
+		IDataReader dataReader = new DataReader();
 		dataReader.setDataReader(persons, fireStations, medicalRecords);
 		List<Url4> result = dataReader.getPersonsLivingAtThisAddressWithFirestation("1509 Culver St");
 
@@ -527,7 +554,7 @@ public class DataReaderTest {
 	}
 
 	@Test
-	public void testGetPersonsLivingAtThisAddressWithFirestationWithNoMatchingLastName() throws Exception {
+	public void testGetPersonsLivingAtThisAddressWithFirestationWithNoMatchingLastName() {
 		/* GIVEN --> ARRANGE */
 		List<FireStation> fireStations = new ArrayList<>();
 		fireStations.add(new FireStation("1509 Culver St", 3));
@@ -541,6 +568,7 @@ public class DataReaderTest {
 				.add(new MedicalRecord("John", "Boyd", "02/18/1984", new ArrayList<String>(), new ArrayList<String>()));
 
 		/* WHEN --> ACT */
+		IDataReader dataReader = new DataReader();
 		dataReader.setDataReader(persons, fireStations, medicalRecords);
 		List<Url4> result = dataReader.getPersonsLivingAtThisAddressWithFirestation("1509 Culver St");
 
@@ -551,7 +579,7 @@ public class DataReaderTest {
 	/* TESTS CONCERNANT L'URL_5 */
 
 	@Test
-	public void testGetHomesCoveredByAListOfFirestation() throws Exception {
+	public void testGetHomesCoveredByAListOfFirestation() {
 		/* GIVEN --> ARRANGE */
 		List<String> stationNumbers = new ArrayList<>();
 		stationNumbers.add("1");
@@ -573,6 +601,7 @@ public class DataReaderTest {
 		medicalRecords.add(new MedicalRecord("Jonathan", "Marrack", "02/18/1984", new ArrayList<String>(),
 				new ArrayList<String>()));
 		/* WHEN --> ACT */
+		IDataReader dataReader = new DataReader();
 		dataReader.setDataReader(persons, fireStations, medicalRecords);
 		List<Url5> result = dataReader.getHomesCoveredByAListOfFirestation(stationNumbers);
 
@@ -581,7 +610,7 @@ public class DataReaderTest {
 	}
 
 	@Test
-	public void testGetHomesCoveredByAListOfFirestationWithNoMatchingLastName() throws Exception {
+	public void testGetHomesCoveredByAListOfFirestationWithNoMatchingLastName() {
 		/* GIVEN --> ARRANGE */
 		List<String> stationNumbers = new ArrayList<>();
 		stationNumbers.add("1");
@@ -603,6 +632,7 @@ public class DataReaderTest {
 		medicalRecords.add(new MedicalRecord("Jonathan", "Marrack", "02/18/1984", new ArrayList<String>(),
 				new ArrayList<String>()));
 		/* WHEN --> ACT */
+		IDataReader dataReader = new DataReader();
 		dataReader.setDataReader(persons, fireStations, medicalRecords);
 		List<Url5> result = dataReader.getHomesCoveredByAListOfFirestation(stationNumbers);
 
@@ -613,7 +643,7 @@ public class DataReaderTest {
 	/* TESTS CONCERNANT L'URL_6 */
 
 	@Test
-	public void testGetPersonInfo() throws Exception {
+	public void testGetPersonInfo() {
 		/* GIVEN --> ARRANGE */
 		List<FireStation> fireStations = new ArrayList<>();
 		fireStations.add(new FireStation("1509 Culver St", 3));
@@ -626,6 +656,7 @@ public class DataReaderTest {
 				.add(new MedicalRecord("John", "Boyd", "02/18/1984", new ArrayList<String>(), new ArrayList<String>()));
 
 		/* WHEN --> ACT */
+		IDataReader dataReader = new DataReader();
 		dataReader.setDataReader(persons, fireStations, medicalRecords);
 		List<Url6> result = dataReader.getPersonInfo("John", "Boyd");
 
@@ -634,7 +665,7 @@ public class DataReaderTest {
 	}
 
 	@Test
-	public void testGetPersonInfoWithNoMathingNames() throws Exception {
+	public void testGetPersonInfoWithNoMathingNames() {
 		/* GIVEN --> ARRANGE */
 		List<FireStation> fireStations = new ArrayList<>();
 		fireStations.add(new FireStation("1509 Culver St", 3));
@@ -647,6 +678,7 @@ public class DataReaderTest {
 				new MedicalRecord("Eric", "Cadigan", "02/18/1984", new ArrayList<String>(), new ArrayList<String>()));
 
 		/* WHEN --> ACT */
+		IDataReader dataReader = new DataReader();
 		dataReader.setDataReader(persons, fireStations, medicalRecords);
 		List<Url6> result = dataReader.getPersonInfo("John", "Boyd");
 
@@ -655,7 +687,7 @@ public class DataReaderTest {
 	}
 
 	@Test
-	public void testGetPersonInfoWithNoMathingLastName() throws Exception {
+	public void testGetPersonInfoWithNoMathingLastName() {
 		/* GIVEN --> ARRANGE */
 		List<FireStation> fireStations = new ArrayList<>();
 		fireStations.add(new FireStation("1509 Culver St", 3));
@@ -668,6 +700,7 @@ public class DataReaderTest {
 				new MedicalRecord("John", "Cadigan", "02/18/1984", new ArrayList<String>(), new ArrayList<String>()));
 
 		/* WHEN --> ACT */
+		IDataReader dataReader = new DataReader();
 		dataReader.setDataReader(persons, fireStations, medicalRecords);
 		List<Url6> result = dataReader.getPersonInfo("John", "Boyd");
 
@@ -676,7 +709,7 @@ public class DataReaderTest {
 	}
 
 	@Test
-	public void testGetPersonInfoWithNoMatchingNamesWithInMedicalRecords() throws Exception {
+	public void testGetPersonInfoWithNoMatchingNamesWithInMedicalRecords() {
 		/* GIVEN --> ARRANGE */
 		List<FireStation> fireStations = new ArrayList<>();
 		fireStations.add(new FireStation("1509 Culver St", 3));
@@ -689,6 +722,7 @@ public class DataReaderTest {
 				.add(new MedicalRecord("John", "Boyd", "02/18/1984", new ArrayList<String>(), new ArrayList<String>()));
 
 		/* WHEN --> ACT */
+		IDataReader dataReader = new DataReader();
 		dataReader.setDataReader(persons, fireStations, medicalRecords);
 		List<Url6> result = dataReader.getPersonInfo("Eric", "Cadigan");
 
@@ -697,7 +731,7 @@ public class DataReaderTest {
 	}
 
 	@Test
-	public void testGetPersonInfoWithNoMatchingLastNameWithInMedicalRecords() throws Exception {
+	public void testGetPersonInfoWithNoMatchingLastNameWithInMedicalRecords() {
 		/* GIVEN --> ARRANGE */
 		List<FireStation> fireStations = new ArrayList<>();
 		fireStations.add(new FireStation("1509 Culver St", 3));
@@ -710,6 +744,7 @@ public class DataReaderTest {
 				.add(new MedicalRecord("John", "Boyd", "02/18/1984", new ArrayList<String>(), new ArrayList<String>()));
 
 		/* WHEN --> ACT */
+		IDataReader dataReader = new DataReader();
 		dataReader.setDataReader(persons, fireStations, medicalRecords);
 		List<Url6> result = dataReader.getPersonInfo("John", "Cadigan");
 
@@ -720,7 +755,7 @@ public class DataReaderTest {
 	/* TESTS CONCERNANT L'URL_7 */
 
 	@Test
-	public void testGetPersonEmailByCity() throws Exception {
+	public void testGetPersonEmailByCity() {
 		/* GIVEN --> ARRANGE */
 		List<FireStation> fireStations = new ArrayList<>();
 		fireStations.add(new FireStation("1509 Culver St", 3));
@@ -733,6 +768,7 @@ public class DataReaderTest {
 				.add(new MedicalRecord("John", "Boyd", "21/08/1988", new ArrayList<String>(), new ArrayList<String>()));
 
 		/* WHEN --> ACT */
+		IDataReader dataReader = new DataReader();
 		dataReader.setDataReader(persons, fireStations, medicalRecords);
 		List<String> result = dataReader.getPersonEmailByCity("Culver");
 
@@ -744,7 +780,7 @@ public class DataReaderTest {
 	/* TEST POUR AJOUT FIRESTATION */
 
 	@Test
-	public void testAddFireStationToRepository() throws Exception {
+	public void testAddFireStationToRepository() {
 		/* GIVEN --> ARRANGE */
 		List<FireStation> fireStations = new ArrayList<>();
 		FireStation fireStationToAdd = new FireStation("1509 Culver St", 3);
@@ -757,6 +793,7 @@ public class DataReaderTest {
 		medicalRecords
 				.add(new MedicalRecord("John", "Boyd", "21/08/1988", new ArrayList<String>(), new ArrayList<String>()));
 
+		IDataReader dataReader = new DataReader();
 		dataReader.setDataReader(persons, fireStations, medicalRecords);
 		List<FireStation> result = dataReader.addFireStationToRepository(fireStationToAdd);
 
@@ -765,7 +802,7 @@ public class DataReaderTest {
 	}
 
 	@Test
-	public void testAddFireStationToRepositoryWithUnproperStationNumber() throws Exception {
+	public void testAddFireStationToRepositoryWithUnproperStationNumber() {
 		/* GIVEN --> ARRANGE */
 		List<FireStation> fireStations = new ArrayList<>();
 		FireStation fireStationToAdd = new FireStation("1509 Culver St", 0);
@@ -777,7 +814,7 @@ public class DataReaderTest {
 		List<MedicalRecord> medicalRecords = new ArrayList<>();
 		medicalRecords
 				.add(new MedicalRecord("John", "Boyd", "21/08/1988", new ArrayList<String>(), new ArrayList<String>()));
-
+		IDataReader dataReader = new DataReader();
 		dataReader.setDataReader(persons, fireStations, medicalRecords);
 		List<FireStation> result = dataReader.addFireStationToRepository(fireStationToAdd);
 
@@ -786,7 +823,7 @@ public class DataReaderTest {
 	}
 
 	@Test
-	public void testAddFireStationToRepositoryWithUnproperFireStationAddress() throws Exception {
+	public void testAddFireStationToRepositoryWithUnproperFireStationAddress() {
 		/* GIVEN --> ARRANGE */
 		List<FireStation> fireStations = new ArrayList<>();
 		FireStation fireStationToAdd = new FireStation("", 3);
@@ -798,7 +835,7 @@ public class DataReaderTest {
 		List<MedicalRecord> medicalRecords = new ArrayList<>();
 		medicalRecords
 				.add(new MedicalRecord("John", "Boyd", "21/08/1988", new ArrayList<String>(), new ArrayList<String>()));
-
+		IDataReader dataReader = new DataReader();
 		dataReader.setDataReader(persons, fireStations, medicalRecords);
 		List<FireStation> result = dataReader.addFireStationToRepository(fireStationToAdd);
 
@@ -809,7 +846,7 @@ public class DataReaderTest {
 	/* TEST POUR MODIFICATION FIRESTATION */
 
 	@Test
-	public void testUpdateFirestationNumberToRepository() throws Exception {
+	public void testUpdateFirestationNumberToRepository() {
 		/* GIVEN --> ARRANGE */
 		List<FireStation> fireStations = new ArrayList<>();
 		fireStations.add(new FireStation("29 15th St", 2));
@@ -823,7 +860,7 @@ public class DataReaderTest {
 		List<MedicalRecord> medicalRecords = new ArrayList<>();
 		medicalRecords
 				.add(new MedicalRecord("John", "Boyd", "21/08/1988", new ArrayList<String>(), new ArrayList<String>()));
-
+		IDataReader dataReader = new DataReader();
 		dataReader.setDataReader(persons, fireStations, medicalRecords);
 		List<FireStation> result = dataReader.updateFirestationNumberToRepository(fireStationToUpdate);
 
@@ -832,7 +869,7 @@ public class DataReaderTest {
 	}
 
 	@Test
-	public void testUpdateFirestationNumberToRepositoryWithNullAddress() throws Exception {
+	public void testUpdateFirestationNumberToRepositoryWithNullAddress() {
 		/* GIVEN --> ARRANGE */
 		List<FireStation> fireStations = new ArrayList<>();
 		fireStations.add(new FireStation("29 15th St", 2));
@@ -846,7 +883,7 @@ public class DataReaderTest {
 		List<MedicalRecord> medicalRecords = new ArrayList<>();
 		medicalRecords
 				.add(new MedicalRecord("John", "Boyd", "21/08/1988", new ArrayList<String>(), new ArrayList<String>()));
-
+		IDataReader dataReader = new DataReader();
 		dataReader.setDataReader(persons, fireStations, medicalRecords);
 		List<FireStation> result = dataReader.updateFirestationNumberToRepository(fireStationToUpdate);
 
@@ -855,7 +892,7 @@ public class DataReaderTest {
 	}
 
 	@Test
-	public void testUpdateFirestationNumberToRepositoryWhenStationNumberIsZero() throws Exception {
+	public void testUpdateFirestationNumberToRepositoryWhenStationNumberIsZero() {
 		/* GIVEN --> ARRANGE */
 		List<FireStation> fireStations = new ArrayList<>();
 		fireStations.add(new FireStation("29 15th St", 2));
@@ -869,7 +906,7 @@ public class DataReaderTest {
 		List<MedicalRecord> medicalRecords = new ArrayList<>();
 		medicalRecords
 				.add(new MedicalRecord("John", "Boyd", "21/08/1988", new ArrayList<String>(), new ArrayList<String>()));
-
+		IDataReader dataReader = new DataReader();
 		dataReader.setDataReader(persons, fireStations, medicalRecords);
 		List<FireStation> result = dataReader.updateFirestationNumberToRepository(fireStationToUpdate);
 
@@ -878,7 +915,7 @@ public class DataReaderTest {
 	}
 
 	@Test
-	public void testUpdateFirestationNumberToRepositoryWithEmptyFireStationsList() throws Exception {
+	public void testUpdateFirestationNumberToRepositoryWithEmptyFireStationsList() {
 		/* GIVEN --> ARRANGE */
 		List<FireStation> fireStations = new ArrayList<>();
 		FireStation fireStationToUpdate = new FireStation("1509 Culver St", 6);
@@ -890,7 +927,7 @@ public class DataReaderTest {
 		List<MedicalRecord> medicalRecords = new ArrayList<>();
 		medicalRecords
 				.add(new MedicalRecord("John", "Boyd", "21/08/1988", new ArrayList<String>(), new ArrayList<String>()));
-
+		IDataReader dataReader = new DataReader();
 		dataReader.setDataReader(persons, fireStations, medicalRecords);
 		List<FireStation> result = dataReader.updateFirestationNumberToRepository(fireStationToUpdate);
 
@@ -901,7 +938,7 @@ public class DataReaderTest {
 	/* TEST POUR SUPPRESSION FIRESTATION */
 
 	@Test
-	public void testDeleteFirestationToRepository() throws Exception {
+	public void testDeleteFirestationToRepository() {
 		/* GIVEN --> ARRANGE */
 		List<FireStation> fireStations = new ArrayList<>();
 		fireStations.add(new FireStation("29 15th St", 2));
@@ -915,7 +952,7 @@ public class DataReaderTest {
 		List<MedicalRecord> medicalRecords = new ArrayList<>();
 		medicalRecords
 				.add(new MedicalRecord("John", "Boyd", "21/08/1988", new ArrayList<String>(), new ArrayList<String>()));
-
+		IDataReader dataReader = new DataReader();
 		dataReader.setDataReader(persons, fireStations, medicalRecords);
 		List<FireStation> result = dataReader.deleteFirestationToRepository(fireStationToDelete);
 
@@ -924,7 +961,7 @@ public class DataReaderTest {
 	}
 
 	@Test
-	public void testDeleteFirestationToRepositoryWhenFireStationIsEmpty() throws Exception {
+	public void testDeleteFirestationToRepositoryWhenFireStationIsEmpty() {
 		/* GIVEN --> ARRANGE */
 		List<FireStation> fireStations = new ArrayList<>();
 		fireStations.add(new FireStation("29 15th St", 2));
@@ -938,7 +975,7 @@ public class DataReaderTest {
 		List<MedicalRecord> medicalRecords = new ArrayList<>();
 		medicalRecords
 				.add(new MedicalRecord("John", "Boyd", "21/08/1988", new ArrayList<String>(), new ArrayList<String>()));
-
+		IDataReader dataReader = new DataReader();
 		dataReader.setDataReader(persons, fireStations, medicalRecords);
 		List<FireStation> result = dataReader.deleteFirestationToRepository(fireStationToDelete);
 
@@ -947,7 +984,7 @@ public class DataReaderTest {
 	}
 
 	@Test
-	public void testDeleteFirestationToRepositoryWhenStationNumberIsZero() throws Exception {
+	public void testDeleteFirestationToRepositoryWhenStationNumberIsZero() {
 		/* GIVEN --> ARRANGE */
 		List<FireStation> fireStations = new ArrayList<>();
 		fireStations.add(new FireStation("29 15th St", 2));
@@ -961,7 +998,7 @@ public class DataReaderTest {
 		List<MedicalRecord> medicalRecords = new ArrayList<>();
 		medicalRecords
 				.add(new MedicalRecord("John", "Boyd", "21/08/1988", new ArrayList<String>(), new ArrayList<String>()));
-
+		IDataReader dataReader = new DataReader();
 		dataReader.setDataReader(persons, fireStations, medicalRecords);
 		List<FireStation> result = dataReader.deleteFirestationToRepository(fireStationToDelete);
 
@@ -970,7 +1007,7 @@ public class DataReaderTest {
 	}
 
 	@Test
-	public void testDeleteFirestationToRepositoryWithUnknownStationNumber() throws Exception {
+	public void testDeleteFirestationToRepositoryWithUnknownStationNumber() {
 		/* GIVEN --> ARRANGE */
 		List<FireStation> fireStations = new ArrayList<>();
 		fireStations.add(new FireStation("29 15th St", 2));
@@ -984,7 +1021,7 @@ public class DataReaderTest {
 		List<MedicalRecord> medicalRecords = new ArrayList<>();
 		medicalRecords
 				.add(new MedicalRecord("John", "Boyd", "21/08/1988", new ArrayList<String>(), new ArrayList<String>()));
-
+		IDataReader dataReader = new DataReader();
 		dataReader.setDataReader(persons, fireStations, medicalRecords);
 		List<FireStation> result = dataReader.deleteFirestationToRepository(fireStationToDelete);
 
@@ -996,7 +1033,7 @@ public class DataReaderTest {
 	/* TEST POUR AJOUT PERSON */
 
 	@Test
-	public void testAddPersonToRepository() throws Exception {
+	public void testAddPersonToRepository() {
 		/* GIVEN --> ARRANGE */
 		List<FireStation> fireStations = new ArrayList<>();
 		Person personToAdd = new Person("John", "Boyd", "1509 Culver St", "Culver", "98556", "001-596-874",
@@ -1006,7 +1043,7 @@ public class DataReaderTest {
 		List<Person> persons = new ArrayList<>();
 
 		List<MedicalRecord> medicalRecords = new ArrayList<>();
-
+		IDataReader dataReader = new DataReader();
 		dataReader.setDataReader(persons, fireStations, medicalRecords);
 		List<Person> result = dataReader.addPersonToRepository(personToAdd);
 
@@ -1015,7 +1052,7 @@ public class DataReaderTest {
 	}
 
 	@Test
-	public void testAddPersonToRepositoryWithEmptyFirstName() throws Exception {
+	public void testAddPersonToRepositoryWithEmptyFirstName() {
 		/* GIVEN --> ARRANGE */
 		List<FireStation> fireStations = new ArrayList<>();
 		Person personToAdd = new Person("", "Boyd", "1509 Culver St", "Culver", "98556", "001-596-874",
@@ -1025,7 +1062,7 @@ public class DataReaderTest {
 		List<Person> persons = new ArrayList<>();
 
 		List<MedicalRecord> medicalRecords = new ArrayList<>();
-
+		IDataReader dataReader = new DataReader();
 		dataReader.setDataReader(persons, fireStations, medicalRecords);
 		List<Person> result = dataReader.addPersonToRepository(personToAdd);
 
@@ -1034,7 +1071,7 @@ public class DataReaderTest {
 	}
 
 	@Test
-	public void testAddPersonToRepositoryWithEmptyLastName() throws Exception {
+	public void testAddPersonToRepositoryWithEmptyLastName() {
 		/* GIVEN --> ARRANGE */
 		List<FireStation> fireStations = new ArrayList<>();
 		Person personToAdd = new Person("John", "", "1509 Culver St", "Culver", "98556", "001-596-874",
@@ -1044,7 +1081,7 @@ public class DataReaderTest {
 		List<Person> persons = new ArrayList<>();
 
 		List<MedicalRecord> medicalRecords = new ArrayList<>();
-
+		IDataReader dataReader = new DataReader();
 		dataReader.setDataReader(persons, fireStations, medicalRecords);
 		List<Person> result = dataReader.addPersonToRepository(personToAdd);
 
@@ -1055,7 +1092,7 @@ public class DataReaderTest {
 	/* TEST POUR MODIFICATION PERSON */
 
 	@Test
-	public void testUpdatePersonToRepository() throws Exception {
+	public void testUpdatePersonToRepository() {
 		/* GIVEN --> ARRANGE */
 		List<FireStation> fireStations = new ArrayList<>();
 		Person personToUpdate = new Person("John", "Boyd", "2 rue de Paris", "Paris", "75012", "+336 08 09 70 50",
@@ -1066,7 +1103,7 @@ public class DataReaderTest {
 		persons.add(new Person("John", "Boyd", "1509 Culver St", "Culver", "98556", "001-596-874", "jboyd@email.com"));
 
 		List<MedicalRecord> medicalRecords = new ArrayList<>();
-
+		IDataReader dataReader = new DataReader();
 		dataReader.setDataReader(persons, fireStations, medicalRecords);
 		List<Person> result = dataReader.updatePersonToRepository(personToUpdate);
 
@@ -1075,7 +1112,7 @@ public class DataReaderTest {
 	}
 
 	@Test
-	public void testUpdatePersonToRepositoryWithEmptyFirstName() throws Exception {
+	public void testUpdatePersonToRepositoryWithEmptyFirstName() {
 		/* GIVEN --> ARRANGE */
 		List<FireStation> fireStations = new ArrayList<>();
 		Person personToUpdate = new Person("", "Boyd", "2 rue de Paris", "Paris", "75012", "+336 08 09 70 50",
@@ -1086,7 +1123,7 @@ public class DataReaderTest {
 		persons.add(new Person("John", "Boyd", "1509 Culver St", "Culver", "98556", "001-596-874", "jboyd@email.com"));
 
 		List<MedicalRecord> medicalRecords = new ArrayList<>();
-
+		IDataReader dataReader = new DataReader();
 		dataReader.setDataReader(persons, fireStations, medicalRecords);
 		List<Person> result = dataReader.updatePersonToRepository(personToUpdate);
 
@@ -1095,7 +1132,7 @@ public class DataReaderTest {
 	}
 
 	@Test
-	public void testUpdatePersonToRepositoryWithEmptyLastName() throws Exception {
+	public void testUpdatePersonToRepositoryWithEmptyLastName() {
 		/* GIVEN --> ARRANGE */
 		List<FireStation> fireStations = new ArrayList<>();
 		Person personToUpdate = new Person("John", "", "2 rue de Paris", "Paris", "75012", "+336 08 09 70 50",
@@ -1106,7 +1143,7 @@ public class DataReaderTest {
 		persons.add(new Person("John", "Boyd", "1509 Culver St", "Culver", "98556", "001-596-874", "jboyd@email.com"));
 
 		List<MedicalRecord> medicalRecords = new ArrayList<>();
-
+		IDataReader dataReader = new DataReader();
 		dataReader.setDataReader(persons, fireStations, medicalRecords);
 		List<Person> result = dataReader.updatePersonToRepository(personToUpdate);
 
@@ -1115,7 +1152,7 @@ public class DataReaderTest {
 	}
 
 	@Test
-	public void testUpdatePersonToRepositoryWithNoMatchingFirstName() throws Exception {
+	public void testUpdatePersonToRepositoryWithNoMatchingFirstName() {
 		/* GIVEN --> ARRANGE */
 		List<FireStation> fireStations = new ArrayList<>();
 		Person personToUpdate = new Person("Eric", "Boyd", "2 rue de Paris", "Paris", "75012", "+336 08 09 70 50",
@@ -1126,7 +1163,7 @@ public class DataReaderTest {
 		persons.add(new Person("John", "Boyd", "1509 Culver St", "Culver", "98556", "001-596-874", "jboyd@email.com"));
 
 		List<MedicalRecord> medicalRecords = new ArrayList<>();
-
+		IDataReader dataReader = new DataReader();
 		dataReader.setDataReader(persons, fireStations, medicalRecords);
 		List<Person> result = dataReader.updatePersonToRepository(personToUpdate);
 
@@ -1135,7 +1172,7 @@ public class DataReaderTest {
 	}
 
 	@Test
-	public void testUpdatePersonToRepositoryWithNoMatchingLastName() throws Exception {
+	public void testUpdatePersonToRepositoryWithNoMatchingLastName() {
 		/* GIVEN --> ARRANGE */
 		List<FireStation> fireStations = new ArrayList<>();
 		Person personToUpdate = new Person("John", "Cadigan", "2 rue de Paris", "Paris", "75012", "+336 08 09 70 50",
@@ -1146,7 +1183,7 @@ public class DataReaderTest {
 		persons.add(new Person("John", "Boyd", "1509 Culver St", "Culver", "98556", "001-596-874", "jboyd@email.com"));
 
 		List<MedicalRecord> medicalRecords = new ArrayList<>();
-
+		IDataReader dataReader = new DataReader();
 		dataReader.setDataReader(persons, fireStations, medicalRecords);
 		List<Person> result = dataReader.updatePersonToRepository(personToUpdate);
 
@@ -1157,7 +1194,7 @@ public class DataReaderTest {
 	/* TEST POUR SUPPRESSION PERSON */
 
 	@Test
-	public void testDeletePersonToRepository() throws Exception {
+	public void testDeletePersonToRepository() {
 		/* GIVEN --> ARRANGE */
 		List<FireStation> fireStations = new ArrayList<>();
 		FirstNameAndLastName personToDelete = new FirstNameAndLastName("John", "Boyd");
@@ -1167,7 +1204,7 @@ public class DataReaderTest {
 		persons.add(new Person("John", "Boyd", "1509 Culver St", "Culver", "98774", "069 258 255", "jboyd@email.com"));
 
 		List<MedicalRecord> medicalRecords = new ArrayList<>();
-
+		IDataReader dataReader = new DataReader();
 		dataReader.setDataReader(persons, fireStations, medicalRecords);
 		List<Person> result = dataReader.deletePersonToRepository(personToDelete);
 
@@ -1176,7 +1213,7 @@ public class DataReaderTest {
 	}
 
 	@Test
-	public void testDeletePersonToRepositoryWithEmptyFisrtName() throws Exception {
+	public void testDeletePersonToRepositoryWithEmptyFisrtName() {
 		/* GIVEN --> ARRANGE */
 		List<FireStation> fireStations = new ArrayList<>();
 		FirstNameAndLastName personToDelete = new FirstNameAndLastName("", "Boyd");
@@ -1186,7 +1223,7 @@ public class DataReaderTest {
 		persons.add(new Person("John", "Boyd", "1509 Culver St", "Culver", "98774", "069 258 255", "jboyd@email.com"));
 
 		List<MedicalRecord> medicalRecords = new ArrayList<>();
-
+		IDataReader dataReader = new DataReader();
 		dataReader.setDataReader(persons, fireStations, medicalRecords);
 		List<Person> result = dataReader.deletePersonToRepository(personToDelete);
 
@@ -1195,7 +1232,7 @@ public class DataReaderTest {
 	}
 
 	@Test
-	public void testDeletePersonToRepositoryWithEmptyLastName() throws Exception {
+	public void testDeletePersonToRepositoryWithEmptyLastName() {
 		/* GIVEN --> ARRANGE */
 		List<FireStation> fireStations = new ArrayList<>();
 		FirstNameAndLastName personToDelete = new FirstNameAndLastName("John", "");
@@ -1205,7 +1242,7 @@ public class DataReaderTest {
 		persons.add(new Person("John", "Boyd", "1509 Culver St", "Culver", "98774", "069 258 255", "jboyd@email.com"));
 
 		List<MedicalRecord> medicalRecords = new ArrayList<>();
-
+		IDataReader dataReader = new DataReader();
 		dataReader.setDataReader(persons, fireStations, medicalRecords);
 		List<Person> result = dataReader.deletePersonToRepository(personToDelete);
 
@@ -1214,7 +1251,7 @@ public class DataReaderTest {
 	}
 
 	@Test
-	public void testDeletePersonToRepositoryWithNoMatchingFirstName() throws Exception {
+	public void testDeletePersonToRepositoryWithNoMatchingFirstName() {
 		/* GIVEN --> ARRANGE */
 		List<FireStation> fireStations = new ArrayList<>();
 		FirstNameAndLastName personToDelete = new FirstNameAndLastName("Eric", "Boyd");
@@ -1224,7 +1261,7 @@ public class DataReaderTest {
 		persons.add(new Person("John", "Boyd", "1509 Culver St", "Culver", "98774", "069 258 255", "jboyd@email.com"));
 
 		List<MedicalRecord> medicalRecords = new ArrayList<>();
-
+		IDataReader dataReader = new DataReader();
 		dataReader.setDataReader(persons, fireStations, medicalRecords);
 		List<Person> result = dataReader.deletePersonToRepository(personToDelete);
 
@@ -1233,7 +1270,7 @@ public class DataReaderTest {
 	}
 
 	@Test
-	public void testDeletePersonToRepositoryWithNoMatchingLastName() throws Exception {
+	public void testDeletePersonToRepositoryWithNoMatchingLastName() {
 		/* GIVEN --> ARRANGE */
 		List<FireStation> fireStations = new ArrayList<>();
 		FirstNameAndLastName personToDelete = new FirstNameAndLastName("John", "Cadigan");
@@ -1243,7 +1280,7 @@ public class DataReaderTest {
 		persons.add(new Person("John", "Boyd", "1509 Culver St", "Culver", "98774", "069 258 255", "jboyd@email.com"));
 
 		List<MedicalRecord> medicalRecords = new ArrayList<>();
-
+		IDataReader dataReader = new DataReader();
 		dataReader.setDataReader(persons, fireStations, medicalRecords);
 		List<Person> result = dataReader.deletePersonToRepository(personToDelete);
 
@@ -1255,7 +1292,7 @@ public class DataReaderTest {
 	/* TEST POUR AJOUT MEDICALRECORDS */
 
 	@Test
-	public void testAddMedicalRecord() throws Exception {
+	public void testAddMedicalRecord() {
 		/* GIVEN --> ARRANGE */
 		List<FireStation> fireStations = new ArrayList<>();
 		List<String> medications = new ArrayList<>();
@@ -1271,7 +1308,7 @@ public class DataReaderTest {
 
 		List<MedicalRecord> medicalRecords = new ArrayList<>();
 		medicalRecords.add(new MedicalRecord("John", "Boyd", "01/02/1984", new ArrayList<>(), new ArrayList<>()));
-
+		IDataReader dataReader = new DataReader();
 		dataReader.setDataReader(persons, fireStations, medicalRecords);
 		List<MedicalRecord> result = dataReader.addMedicalRecord(medicalRecordToAdd);
 
@@ -1280,7 +1317,7 @@ public class DataReaderTest {
 	}
 
 	@Test
-	public void testAddMedicalRecordWithEmptyFirstName() throws Exception {
+	public void testAddMedicalRecordWithEmptyFirstName() {
 		/* GIVEN --> ARRANGE */
 		List<FireStation> fireStations = new ArrayList<>();
 		List<String> medications = new ArrayList<>();
@@ -1296,7 +1333,7 @@ public class DataReaderTest {
 
 		List<MedicalRecord> medicalRecords = new ArrayList<>();
 		medicalRecords.add(new MedicalRecord("John", "Boyd", "01/02/1984", new ArrayList<>(), new ArrayList<>()));
-
+		IDataReader dataReader = new DataReader();
 		dataReader.setDataReader(persons, fireStations, medicalRecords);
 		List<MedicalRecord> result = dataReader.addMedicalRecord(medicalRecordToAdd);
 
@@ -1305,7 +1342,7 @@ public class DataReaderTest {
 	}
 
 	@Test
-	public void testAddMedicalRecordWithEmptyLastName() throws Exception {
+	public void testAddMedicalRecordWithEmptyLastName() {
 		/* GIVEN --> ARRANGE */
 		List<FireStation> fireStations = new ArrayList<>();
 		List<String> medications = new ArrayList<>();
@@ -1321,7 +1358,7 @@ public class DataReaderTest {
 
 		List<MedicalRecord> medicalRecords = new ArrayList<>();
 		medicalRecords.add(new MedicalRecord("John", "Boyd", "01/02/1984", new ArrayList<>(), new ArrayList<>()));
-
+		IDataReader dataReader = new DataReader();
 		dataReader.setDataReader(persons, fireStations, medicalRecords);
 		List<MedicalRecord> result = dataReader.addMedicalRecord(medicalRecordToAdd);
 
@@ -1332,7 +1369,7 @@ public class DataReaderTest {
 	/* TEST POUR MODIFICATION MEDICALRECORDS */
 
 	@Test
-	public void testUpdateMedicalRecord() throws Exception {
+	public void testUpdateMedicalRecord() {
 		/* GIVEN --> ARRANGE */
 		List<FireStation> fireStations = new ArrayList<>();
 		List<String> medications = new ArrayList<>();
@@ -1348,7 +1385,7 @@ public class DataReaderTest {
 
 		List<MedicalRecord> medicalRecords = new ArrayList<>();
 		medicalRecords.add(new MedicalRecord("John", "Boyd", "01/02/1984", new ArrayList<>(), new ArrayList<>()));
-
+		IDataReader dataReader = new DataReader();
 		dataReader.setDataReader(persons, fireStations, medicalRecords);
 		List<MedicalRecord> result = dataReader.updateMedicalRecord(medicalRecordToUpdate);
 
@@ -1357,7 +1394,7 @@ public class DataReaderTest {
 	}
 
 	@Test
-	public void testUpdateMedicalRecordWithEmptyFirstName() throws Exception {
+	public void testUpdateMedicalRecordWithEmptyFirstName() {
 		/* GIVEN --> ARRANGE */
 		List<FireStation> fireStations = new ArrayList<>();
 		List<String> medications = new ArrayList<>();
@@ -1373,7 +1410,7 @@ public class DataReaderTest {
 
 		List<MedicalRecord> medicalRecords = new ArrayList<>();
 		medicalRecords.add(new MedicalRecord("John", "Boyd", "01/02/1984", new ArrayList<>(), new ArrayList<>()));
-
+		IDataReader dataReader = new DataReader();
 		dataReader.setDataReader(persons, fireStations, medicalRecords);
 		List<MedicalRecord> result = dataReader.updateMedicalRecord(medicalRecordToUpdate);
 
@@ -1382,7 +1419,7 @@ public class DataReaderTest {
 	}
 
 	@Test
-	public void testUpdateMedicalRecordWithEmptyLastName() throws Exception {
+	public void testUpdateMedicalRecordWithEmptyLastName() {
 		/* GIVEN --> ARRANGE */
 		List<FireStation> fireStations = new ArrayList<>();
 		List<String> medications = new ArrayList<>();
@@ -1398,7 +1435,7 @@ public class DataReaderTest {
 
 		List<MedicalRecord> medicalRecords = new ArrayList<>();
 		medicalRecords.add(new MedicalRecord("John", "Boyd", "01/02/1984", new ArrayList<>(), new ArrayList<>()));
-
+		IDataReader dataReader = new DataReader();
 		dataReader.setDataReader(persons, fireStations, medicalRecords);
 		List<MedicalRecord> result = dataReader.updateMedicalRecord(medicalRecordToUpdate);
 
@@ -1407,7 +1444,7 @@ public class DataReaderTest {
 	}
 
 	@Test
-	public void testUpdateMedicalRecordWithNoMatchingFirstName() throws Exception {
+	public void testUpdateMedicalRecordWithNoMatchingFirstName() {
 		/* GIVEN --> ARRANGE */
 		List<FireStation> fireStations = new ArrayList<>();
 		List<String> medications = new ArrayList<>();
@@ -1423,7 +1460,7 @@ public class DataReaderTest {
 
 		List<MedicalRecord> medicalRecords = new ArrayList<>();
 		medicalRecords.add(new MedicalRecord("John", "Boyd", "01/02/1984", new ArrayList<>(), new ArrayList<>()));
-
+		IDataReader dataReader = new DataReader();
 		dataReader.setDataReader(persons, fireStations, medicalRecords);
 		List<MedicalRecord> result = dataReader.updateMedicalRecord(medicalRecordToUpdate);
 
@@ -1432,7 +1469,7 @@ public class DataReaderTest {
 	}
 
 	@Test
-	public void testUpdateMedicalRecordWithNoMatchingLastName() throws Exception {
+	public void testUpdateMedicalRecordWithNoMatchingLastName() {
 		/* GIVEN --> ARRANGE */
 		List<FireStation> fireStations = new ArrayList<>();
 		List<String> medications = new ArrayList<>();
@@ -1449,7 +1486,7 @@ public class DataReaderTest {
 
 		List<MedicalRecord> medicalRecords = new ArrayList<>();
 		medicalRecords.add(new MedicalRecord("John", "Boyd", "01/02/1984", new ArrayList<>(), new ArrayList<>()));
-
+		IDataReader dataReader = new DataReader();
 		dataReader.setDataReader(persons, fireStations, medicalRecords);
 		List<MedicalRecord> result = dataReader.updateMedicalRecord(medicalRecordToUpdate);
 
@@ -1460,7 +1497,7 @@ public class DataReaderTest {
 	/* TEST POUR SUPPRESSION MEDICALRECORDS */
 
 	@Test
-	public void testDeleteMedicalRecord() throws Exception {
+	public void testDeleteMedicalRecord() {
 		/* GIVEN --> ARRANGE */
 		List<FireStation> fireStations = new ArrayList<>();
 		List<String> medications = new ArrayList<>();
@@ -1478,7 +1515,7 @@ public class DataReaderTest {
 
 		List<MedicalRecord> medicalRecords = new ArrayList<>();
 		medicalRecords.add(medicalRecordToDelete);
-
+		IDataReader dataReader = new DataReader();
 		dataReader.setDataReader(persons, fireStations, medicalRecords);
 		List<MedicalRecord> result = dataReader.deleteMedicalRecord(combination);
 
@@ -1487,7 +1524,7 @@ public class DataReaderTest {
 	}
 
 	@Test
-	public void testDeleteMedicalRecordWithEmptyFirstName() throws Exception {
+	public void testDeleteMedicalRecordWithEmptyFirstName() {
 		/* GIVEN --> ARRANGE */
 		List<FireStation> fireStations = new ArrayList<>();
 		List<String> medications = new ArrayList<>();
@@ -1505,7 +1542,7 @@ public class DataReaderTest {
 
 		List<MedicalRecord> medicalRecords = new ArrayList<>();
 		medicalRecords.add(medicalRecordToDelete);
-
+		IDataReader dataReader = new DataReader();
 		dataReader.setDataReader(persons, fireStations, medicalRecords);
 		List<MedicalRecord> result = dataReader.deleteMedicalRecord(combination);
 
@@ -1514,7 +1551,7 @@ public class DataReaderTest {
 	}
 
 	@Test
-	public void testDeleteMedicalRecordWithEmptyLastName() throws Exception {
+	public void testDeleteMedicalRecordWithEmptyLastName() {
 		/* GIVEN --> ARRANGE */
 		List<FireStation> fireStations = new ArrayList<>();
 		List<String> medications = new ArrayList<>();
@@ -1532,7 +1569,7 @@ public class DataReaderTest {
 
 		List<MedicalRecord> medicalRecords = new ArrayList<>();
 		medicalRecords.add(medicalRecordToDelete);
-
+		IDataReader dataReader = new DataReader();
 		dataReader.setDataReader(persons, fireStations, medicalRecords);
 		List<MedicalRecord> result = dataReader.deleteMedicalRecord(combination);
 
@@ -1541,7 +1578,7 @@ public class DataReaderTest {
 	}
 
 	@Test
-	public void testDeleteMedicalRecordWithNoMatchingFirstName() throws Exception {
+	public void testDeleteMedicalRecordWithNoMatchingFirstName() {
 		/* GIVEN --> ARRANGE */
 		List<FireStation> fireStations = new ArrayList<>();
 		List<String> medications = new ArrayList<>();
@@ -1559,7 +1596,7 @@ public class DataReaderTest {
 
 		List<MedicalRecord> medicalRecords = new ArrayList<>();
 		medicalRecords.add(medicalRecordToDelete);
-
+		IDataReader dataReader = new DataReader();
 		dataReader.setDataReader(persons, fireStations, medicalRecords);
 		List<MedicalRecord> result = dataReader.deleteMedicalRecord(combination);
 
@@ -1568,7 +1605,7 @@ public class DataReaderTest {
 	}
 
 	@Test
-	public void testDeleteMedicalRecordWithNoMatchingLastName() throws Exception {
+	public void testDeleteMedicalRecordWithNoMatchingLastName() {
 		/* GIVEN --> ARRANGE */
 		List<FireStation> fireStations = new ArrayList<>();
 		List<String> medications = new ArrayList<>();
@@ -1586,7 +1623,7 @@ public class DataReaderTest {
 
 		List<MedicalRecord> medicalRecords = new ArrayList<>();
 		medicalRecords.add(medicalRecordToDelete);
-
+		IDataReader dataReader = new DataReader();
 		dataReader.setDataReader(persons, fireStations, medicalRecords);
 		List<MedicalRecord> result = dataReader.deleteMedicalRecord(combination);
 

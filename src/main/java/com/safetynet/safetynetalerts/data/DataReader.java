@@ -1,11 +1,10 @@
 package com.safetynet.safetynetalerts.data;
 
-import java.io.IOException;
-import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.safetynet.safetynetalerts.model.FireStation;
@@ -22,9 +21,11 @@ import com.safetynet.safetynetalerts.workclasses.Url5;
 import com.safetynet.safetynetalerts.workclasses.Url6;
 
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
 @Component
+@NoArgsConstructor
 public class DataReader implements IDataReader {
 	private List<Person> persons;
 	private List<FireStation> fireStations;
@@ -35,12 +36,14 @@ public class DataReader implements IDataReader {
 	IMedicalRecordRepository medicalRecordRepository;
 
 	/* CONSTRUCTEUR */
+	@Autowired
 	public DataReader(IPersonRepository personRepository, IFireStationRepository fireStationRepository,
-			IMedicalRecordRepository medicalRecordRepository) throws IOException {
+			IMedicalRecordRepository medicalRecordRepository) {
+
 		this.personRepository = personRepository;
-		this.persons = personRepository.getPersonList();
 		this.fireStationRepository = fireStationRepository;
 		this.medicalRecordRepository = medicalRecordRepository;
+		this.persons = personRepository.getPersonList();
 		this.fireStations = fireStationRepository.getFireStationList();
 		this.medicalRecords = medicalRecordRepository.getMedicalRecordList();
 	}
@@ -147,7 +150,7 @@ public class DataReader implements IDataReader {
 	 * COUVRANT
 	 */
 	@Override
-	public List<Url4> getPersonsLivingAtThisAddressWithFirestation(String address) throws ParseException {
+	public List<Url4> getPersonsLivingAtThisAddressWithFirestation(String address){
 		List<Url4> myList = new ArrayList<>();
 		int stationNumber = 0;
 		for (FireStation fs : fireStations) {
