@@ -11,6 +11,9 @@ import org.springframework.stereotype.Component;
 import com.safetynet.safetynetalerts.model.FireStation;
 import com.safetynet.safetynetalerts.model.MedicalRecord;
 import com.safetynet.safetynetalerts.model.Person;
+import com.safetynet.safetynetalerts.repository.IFireStationRepository;
+import com.safetynet.safetynetalerts.repository.IMedicalRecordRepository;
+import com.safetynet.safetynetalerts.repository.IPersonRepository;
 import com.safetynet.safetynetalerts.workclasses.FirstNameAndLastName;
 import com.safetynet.safetynetalerts.workclasses.Url1;
 import com.safetynet.safetynetalerts.workclasses.Url2;
@@ -27,15 +30,23 @@ public class DataReader implements IDataReader {
 	private List<FireStation> fireStations;
 	private List<MedicalRecord> medicalRecords;
 
+	IFireStationRepository fireStationRepository;
+	IPersonRepository personRepository;
+	IMedicalRecordRepository medicalRecordRepository;
+
 	/* CONSTRUCTEUR */
-	public DataReader(List<Person> persons, List<FireStation> fireStations, List<MedicalRecord> medicalRecords)
-			throws IOException {
-		this.persons = persons;
-		this.fireStations = fireStations;
-		this.medicalRecords = medicalRecords;
+	public DataReader(IPersonRepository personRepository, IFireStationRepository fireStationRepository,
+			IMedicalRecordRepository medicalRecordRepository) throws IOException {
+		this.personRepository = personRepository;
+		this.persons = personRepository.getPersonList();
+		this.fireStationRepository = fireStationRepository;
+		this.medicalRecordRepository = medicalRecordRepository;
+		this.fireStations = fireStationRepository.getFireStationList();
+		this.medicalRecords = medicalRecordRepository.getMedicalRecordList();
 	}
-	
-	public void setDataReader(List<Person> persons, List<FireStation> fireStations, List<MedicalRecord> medicalRecords) {
+
+	public void setDataReader(List<Person> persons, List<FireStation> fireStations,
+			List<MedicalRecord> medicalRecords) {
 		this.persons = persons;
 		this.fireStations = fireStations;
 		this.medicalRecords = medicalRecords;
