@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.google.inject.internal.util.Objects;
 import com.safetynet.safetynetalerts.model.FireStation;
 import com.safetynet.safetynetalerts.service.IFireStationService;
 
@@ -22,7 +21,6 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @RestController
 public class FireStationController {
-	/* APPELER DES METHODES DE LA CLASSE SERVICE */
 
 	@Autowired
 	private IFireStationService fireStationService;
@@ -30,18 +28,18 @@ public class FireStationController {
 	/* CRUD POUR FIRESTATIONS */
 
 	@GetMapping("/firestations")
-	public List<FireStation> getFireStationFromService() {
+	public List<FireStation> getFireStations() {
 		log.info("Récuperation de toutes les casernes");
 		return fireStationService.getFireStation();
 	}
 
 	@PostMapping("/firestation")
-	public ResponseEntity<FireStation> postFirestation(@RequestBody(required = true) FireStation firestation) {
+	public ResponseEntity<FireStation> postFireStation(@RequestBody(required = true) FireStation firestation) {
 		if (StringUtils.isEmpty(firestation.getAddress()) && firestation.getStationNumber() == 0) {
 			log.error("Impossible d'ajouter cette caserne");
 			return ResponseEntity.badRequest().build();
 		} else {
-			List<FireStation> fireStations = fireStationService.addFirestationService(firestation);
+			List<FireStation> fireStations = fireStationService.addFireStation(firestation);
 			if (fireStations.contains(firestation)) {
 				log.info("La caserne suivante à été créee : {}", firestation);
 				return ResponseEntity.status(HttpStatus.CREATED).body(firestation);
@@ -53,12 +51,12 @@ public class FireStationController {
 	}
 
 	@PutMapping("/firestation")
-	public ResponseEntity<FireStation> putFirestation(@RequestBody(required = true) FireStation firestation) {
+	public ResponseEntity<FireStation> putFireStation(@RequestBody(required = true) FireStation firestation) {
 		if (StringUtils.isEmpty(firestation.getAddress()) && firestation.getStationNumber() == 0) {
 			log.error("Erreur lors de la mise à jour");
 			return ResponseEntity.badRequest().build();
 		} else {
-			List<FireStation> fireStations = fireStationService.updateFirestationNumberService(firestation);
+			List<FireStation> fireStations = fireStationService.updateFireStationNumber(firestation);
 			if (fireStations.contains(firestation)) {
 				log.info("Le numéro de la caserne à été modifié par : {}", firestation.getStationNumber());
 				return ResponseEntity.status(HttpStatus.CREATED).body(firestation);
@@ -69,12 +67,12 @@ public class FireStationController {
 	}
 
 	@DeleteMapping("/firestation")
-	public ResponseEntity<FireStation> deleteFirestation(@RequestBody(required = true) FireStation firestation) {
+	public ResponseEntity<FireStation> deleteFireStation(@RequestBody(required = true) FireStation firestation) {
 		if (StringUtils.isEmpty(firestation.getAddress()) && firestation.getStationNumber() == 0) {
 			log.error("Impossible de supprimer cette caserne");
 			return ResponseEntity.badRequest().build();
 		} else {
-			List<FireStation> fireStations = fireStationService.deleteFirestationService(firestation);
+			List<FireStation> fireStations = fireStationService.deleteFireStation(firestation);
 			if (fireStations.contains(firestation)) {
 				log.error("Erreur lors de la suppression de la caserne");
 				return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();

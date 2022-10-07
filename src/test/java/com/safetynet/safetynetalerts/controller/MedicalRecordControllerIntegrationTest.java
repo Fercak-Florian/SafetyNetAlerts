@@ -30,13 +30,13 @@ public class MedicalRecordControllerIntegrationTest {
 
 	@Test
 	public void testGetMedicalRecordFromService() throws Exception {
-		mockMvc.perform(get("/medicalRecord")).andExpect(status().isOk())
+		mockMvc.perform(get("/medicalRecords")).andExpect(status().isOk())
 				.andExpect(jsonPath("$[0].firstName", is("John")));
 	}
 
 	@Test
 	public void testGetMedicalRecordFromServiceWithBadURI() throws Exception {
-		mockMvc.perform(get("/medicalRecords")).andExpect(status().isNotFound());
+		mockMvc.perform(get("/medicalRecordss")).andExpect(status().isNotFound());
 	}
 
 	@Test

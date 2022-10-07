@@ -21,17 +21,17 @@ public class MedicalRecordServiceImpl implements IMedicalRecordService {
 	}
 
 	@Override
-	public List<MedicalRecord> addMedicalRecordService(MedicalRecord medicalRecord) {
+	public List<MedicalRecord> addMedicalRecord(MedicalRecord medicalRecord) {
 		return dataReader.addMedicalRecord(medicalRecord);
 	}
 
 	@Override
-	public List<MedicalRecord> updateMedicalRecordService(MedicalRecord medicalRecord) {
+	public List<MedicalRecord> updateMedicalRecord(MedicalRecord medicalRecord) {
 		return dataReader.updateMedicalRecord(medicalRecord);
 	}
 
 	@Override
-	public List<MedicalRecord> deleteMedicalRecordService(FirstNameAndLastName combination) {
+	public List<MedicalRecord> deleteMedicalRecord(FirstNameAndLastName combination) {
 		return dataReader.deleteMedicalRecord(combination);
 	}
 }

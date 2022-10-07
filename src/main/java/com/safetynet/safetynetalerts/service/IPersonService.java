@@ -1,8 +1,7 @@
 package com.safetynet.safetynetalerts.service;
 
-import java.io.IOException;
-import java.text.ParseException;
 import java.util.List;
+import java.util.Set;
 
 import com.safetynet.safetynetalerts.model.Person;
 import com.safetynet.safetynetalerts.workclasses.FirstNameAndLastName;
@@ -12,25 +11,26 @@ import com.safetynet.safetynetalerts.workclasses.Url5;
 import com.safetynet.safetynetalerts.workclasses.Url6;
 
 public interface IPersonService {
-	List<Person> getPerson() throws IOException;
 
-	List<Object> getPersonsCoveredByStationNumberFromRepository(int stationNumber);
+	List<Person> getPersons();
 
-	List<String> getPhoneNumbersCoveredByStationNumberFromRepository(int stationNumber);
+	List<Object> getPersonsCoveredByStationNumber(int stationNumber);
 
-	List<Url4> getPersonsLivingAtThisAddressWithFirestationFromRepository(String address) throws ParseException;
+	Set<String> getPhoneNumbersCoveredByAStationNumber(int stationNumber);
 
-	List<Url2> getChildrenLivingAtThisAddressFromRepository(String address);
+	List<Url4> getPersonsLivingAtThisAddressWithFireStation(String address);
 
-	List<Url5> getHomesCoveredByAListOfFirestationFromRepository(List<String> stations);
+	List<Url2> getChildrenLivingAtThisAddress(String address);
 
-	List<Url6> getPersonInfoFromRepository(String firstName, String lastName);
-	
-	List<String> getPersonEmailFromRepository(String city);
+	List<Url5> getHomesCoveredByAListOfFireStation(List<String> stations);
 
-	List<Person> addPersonService(Person person);
+	List<Url6> getPersonInfo(String firstName, String lastName);
 
-	List<Person> updatePersonService(Person person);
+	Set<String> getPersonEmail(String city);
 
-	List<Person> deletePersonService(FirstNameAndLastName combination);
+	List<Person> addPerson(Person person);
+
+	List<Person> updatePerson(Person person);
+
+	List<Person> deletePerson(FirstNameAndLastName combination);
 }

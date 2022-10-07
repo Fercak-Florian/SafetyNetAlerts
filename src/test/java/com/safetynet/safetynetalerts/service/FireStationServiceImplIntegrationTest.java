@@ -11,7 +11,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import com.safetynet.safetynetalerts.model.FireStation;
 
 @SpringBootTest
-public class FireStationServiceImplTest {
+public class FireStationServiceImplIntegrationTest {
 
 	@Autowired
 	FireStationServiceImpl fireStationImpl;
@@ -25,12 +25,11 @@ public class FireStationServiceImplTest {
 	@Test
 	public void testAddFireStation() {
 		/* GIVEN --> ARRANGE */
-		// List<FireStation> fireStationsToReturn = new ArrayList<>();
 		FireStation fireStationToAdd = new FireStation("951 LoneTree Rd", 2);
-		// fireStationsToReturn.add(new FireStation("1509 Culver St", 3));
+		
 		/* WHEN --> ACT */
-		// when(globalRepository.addFireStationToRepository(null)).thenReturn(fireStationsToReturn);
-		List<FireStation> result = fireStationImpl.addFirestationService(fireStationToAdd);
+		List<FireStation> result = fireStationImpl.addFireStation(fireStationToAdd);
+		
 		/* THEN --> ASSERT */
 		assertThat(result).isNotNull();
 	}
@@ -38,12 +37,10 @@ public class FireStationServiceImplTest {
 	@Test
 	public void testDeleteFireStation() {
 		/* GIVEN --> ARRANGE */
-		// List<FireStation> fireStationsToReturn = new ArrayList<>();
 		FireStation fireStationToDelete = new FireStation("951 LoneTree Rd", 2);
-		// fireStationsToReturn.add(new FireStation("1509 Culver St", 3));
+		
 		/* WHEN --> ACT */
-		// when(globalRepository.deleteFirestationToRepository(null)).thenReturn(fireStationsToReturn);
-		List<FireStation> result = fireStationImpl.deleteFirestationService(fireStationToDelete);
+		List<FireStation> result = fireStationImpl.deleteFireStation(fireStationToDelete);
 		/* THEN --> ASSERT */
 		assertThat(result).isNotNull();
 	}
@@ -51,12 +48,11 @@ public class FireStationServiceImplTest {
 	@Test
 	public void testUpdateFireStationNumberService() {
 		/* GIVEN --> ARRANGE */
-		// List<FireStation> fireStationsToReturn = new ArrayList<>();
 		FireStation fireStationToUpdate = new FireStation("951 LoneTree Rd", 2);
-		// fireStationsToReturn.add(new FireStation("1509 Culver St", 3));
+		
 		/* WHEN --> ACT */
-		// when(globalRepository.updateFirestationNumberToRepository(null)).thenReturn(fireStationsToReturn);
-		List<FireStation> result = fireStationImpl.updateFirestationNumberService(fireStationToUpdate);
+		List<FireStation> result = fireStationImpl.updateFireStationNumber(fireStationToUpdate);
+		
 		/* THEN --> ASSERT */
 		assertThat(result).isNotNull();
 	}

@@ -1,6 +1,7 @@
 package com.safetynet.safetynetalerts.data;
 
 import java.util.List;
+import java.util.Set;
 
 import com.safetynet.safetynetalerts.model.FireStation;
 import com.safetynet.safetynetalerts.model.MedicalRecord;
@@ -15,6 +16,14 @@ public interface IDataReader {
 
 	void setDataReader(List<Person> persons, List<FireStation> fireStations, List<MedicalRecord> medicalRecords);
 
+	void clearData();
+
+	void addPerson(Person person);
+
+	void addFireStation(FireStation fireStation);
+	
+	void addMedicaRecord(MedicalRecord medicalRecord);
+
 	List<FireStation> getFirestations();
 
 	List<Person> getPersons();
@@ -23,7 +32,7 @@ public interface IDataReader {
 
 	List<Object> getPersonsCoveredByAFirestation(int stationNumber);
 
-	List<String> getPhoneNumbersCoveredByAFirestation(int stationNumber);
+	Set<String> getPhoneNumbersCoveredByAFirestation(int stationNumber);
 
 	List<Url4> getPersonsLivingAtThisAddressWithFirestation(String address);
 
@@ -33,7 +42,7 @@ public interface IDataReader {
 
 	List<Url6> getPersonInfo(String firstName, String lastName);
 
-	List<String> getPersonEmailByCity(String city);
+	Set<String> getPersonEmailByCity(String city);
 
 	List<FireStation> addFireStationToRepository(FireStation firestation);
 

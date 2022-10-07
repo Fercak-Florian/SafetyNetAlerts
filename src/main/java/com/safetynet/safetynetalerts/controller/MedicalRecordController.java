@@ -22,14 +22,14 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @RestController
 public class MedicalRecordController {
-	/* APPELLE LES METHODES DU SERVICE */
+	
 	@Autowired
 	IMedicalRecordService medicalRecordService;
 
 	/* CRUD POUR MEDICALRECORDS */
 
-	@GetMapping("/medicalRecord")
-	public List<MedicalRecord> getMedicalRecordFromService() {
+	@GetMapping("/medicalRecords")
+	public List<MedicalRecord> getMedicalRecord() {
 		log.info("Récupération de tous les dossiers medicaux");
 		return medicalRecordService.getMedicalRecords();
 	}
@@ -40,7 +40,7 @@ public class MedicalRecordController {
 			log.error("Impossible d'ajouter ce dossier medical : {}", medicalRecord);
 			return ResponseEntity.badRequest().build();
 		} else {
-			List<MedicalRecord> medicalRecords = medicalRecordService.addMedicalRecordService(medicalRecord);
+			List<MedicalRecord> medicalRecords = medicalRecordService.addMedicalRecord(medicalRecord);
 			if (medicalRecords.contains(medicalRecord)) {
 				log.info("Le dossier medical suivant à été créé : {}", medicalRecord);
 				return ResponseEntity.status(HttpStatus.CREATED).body(medicalRecord);
@@ -56,7 +56,7 @@ public class MedicalRecordController {
 			log.error("Impossible de modifier le dossier medical");
 			return ResponseEntity.badRequest().build();
 		} else {
-			List<MedicalRecord> medicalRecords = medicalRecordService.updateMedicalRecordService(medicalRecord);
+			List<MedicalRecord> medicalRecords = medicalRecordService.updateMedicalRecord(medicalRecord);
 			if (medicalRecords.contains(medicalRecord)) {
 				log.info("Le dossier medical suivant à été mis à jour : {}", medicalRecord);
 				return ResponseEntity.status(HttpStatus.CREATED).body(medicalRecord);
@@ -73,7 +73,7 @@ public class MedicalRecordController {
 			log.error("Impossible de supprimer le dossier medical");
 			return ResponseEntity.badRequest().build();
 		} else {
-			List<MedicalRecord> medicalRecords = medicalRecordService.deleteMedicalRecordService(combination);
+			List<MedicalRecord> medicalRecords = medicalRecordService.deleteMedicalRecord(combination);
 			if (medicalRecords.contains(combination)) {
 				log.error("Erreur lors de la suppression du dossier medical");
 				return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();

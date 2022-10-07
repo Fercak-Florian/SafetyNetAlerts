@@ -1,8 +1,7 @@
 package com.safetynet.safetynetalerts.service;
 
-import java.io.IOException;
-import java.text.ParseException;
 import java.util.List;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -17,63 +16,62 @@ import com.safetynet.safetynetalerts.workclasses.Url6;
 
 @Service
 public class PersonServiceImpl implements IPersonService {
-	
-	
+
 	@Autowired
 	IDataReader dataReader;
 
 	@Override
-	public List<Person> getPerson() throws IOException {
+	public List<Person> getPersons() {
 		return dataReader.getPersons();
 	}
 
 	@Override
-	public List<Object> getPersonsCoveredByStationNumberFromRepository(int stationNumber) {
+	public List<Object> getPersonsCoveredByStationNumber(int stationNumber) {
 		return dataReader.getPersonsCoveredByAFirestation(stationNumber);
 	}
 
 	@Override
-	public List<String> getPhoneNumbersCoveredByStationNumberFromRepository(int stationNumber) {
+	public Set<String> getPhoneNumbersCoveredByAStationNumber(int stationNumber) {
 		return dataReader.getPhoneNumbersCoveredByAFirestation(stationNumber);
 	}
 
 	@Override
-	public List<Url4> getPersonsLivingAtThisAddressWithFirestationFromRepository(String address) throws ParseException {
+	public List<Url4> getPersonsLivingAtThisAddressWithFireStation(String address) {
 		return dataReader.getPersonsLivingAtThisAddressWithFirestation(address);
 	}
 
 	@Override
-	public List<Url2> getChildrenLivingAtThisAddressFromRepository(String address) {
+	public List<Url2> getChildrenLivingAtThisAddress(String address) {
 		return dataReader.getChildrenLivingAtThisAddress(address);
 	}
 
 	@Override
-	public List<Url5> getHomesCoveredByAListOfFirestationFromRepository(List<String> stations) {
+	public List<Url5> getHomesCoveredByAListOfFireStation(List<String> stations) {
 		return dataReader.getHomesCoveredByAListOfFirestation(stations);
 	}
 
 	@Override
-	public List<Url6> getPersonInfoFromRepository(String firstName, String lastName) {
+	public List<Url6> getPersonInfo(String firstName, String lastName) {
 		return dataReader.getPersonInfo(firstName, lastName);
 	}
 
 	@Override
-	public List<String> getPersonEmailFromRepository(String city) {
+	public Set<String> getPersonEmail(String city) {
 		return dataReader.getPersonEmailByCity(city);
 	}
 
 	@Override
-	public List<Person> addPersonService(Person person) {
+	public List<Person> addPerson(Person person) {
 		return dataReader.addPersonToRepository(person);
 	}
 
 	@Override
-	public List<Person> updatePersonService(Person person) {
+	public List<Person> updatePerson(Person person) {
 		return dataReader.updatePersonToRepository(person);
 	}
 
 	@Override
-	public List<Person> deletePersonService(FirstNameAndLastName combination) {
+	public List<Person> deletePerson(FirstNameAndLastName combination) {
 		return dataReader.deletePersonToRepository(combination);
 	}
 }
