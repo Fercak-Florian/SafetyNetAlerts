@@ -3,6 +3,7 @@ package com.safetynet.safetynetalerts.controller;
 import java.io.IOException;
 import java.text.ParseException;
 import java.util.List;
+import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,7 +30,6 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @RestController
 public class PersonController {
-	/* APPELER DES METHODES DE LA CLASSE SERVICE */
 
 	@Autowired
 	IPersonService personService;
@@ -38,9 +38,9 @@ public class PersonController {
 	 * URL_1 : http://localhost:8080/firestation?stationNumber=<station_number>
 	 */
 	@GetMapping("/firestation")
-	public List<Object> getPersonsCoveredByFireStationAdressFromService(@RequestParam int stationNumber)
+	public List<Object> getPersonsCoveredByFireStationAddress(@RequestParam int stationNumber)
 			throws IOException, ParseException {
-		List<Object> result = personService.getPersonsCoveredByStationNumberFromRepository(stationNumber);
+		List<Object> result = personService.getPersonsCoveredByStationNumber(stationNumber);
 		log.info("La requete à réussie");
 		return result;
 	}
@@ -51,26 +51,26 @@ public class PersonController {
 	@GetMapping("/childAlert")
 	public List<Url2> getChildrenLivingAtThisAddress(@RequestParam String address) {
 		log.info("La requete à réussie");
-		return personService.getChildrenLivingAtThisAddressFromRepository(address);
+		return personService.getChildrenLivingAtThisAddress(address);
 	}
 
 	/*
 	 * URL_3 : http://localhost:8080/phoneAlert?firestation=<firestation_number>
 	 */
 	@GetMapping("/phoneAlert")
-	public List<String> getPhoneNumbersCoveredByStationNumberFromService(
+	public Set<String> getPhoneNumbersCoveredByAStationNumber(
 			@RequestParam(value = "firestation") int stationNumber) {
 		log.info("La requete à réussie");
-		return personService.getPhoneNumbersCoveredByStationNumberFromRepository(stationNumber);
+		return personService.getPhoneNumbersCoveredByAStationNumber(stationNumber);
 	}
 
 	/*
 	 * URL_4 : http://localhost:8080/fire?address=<address>
 	 */
 	@GetMapping("/fire")
-	public List<Url4> getPersonsLivingAtThisAdressWithFireStation(@RequestParam String address) throws ParseException {
+	public List<Url4> getPersonsLivingAtThisAddressWithFireStation(@RequestParam String address) {
 		log.info("La requete à réussie");
-		return personService.getPersonsLivingAtThisAddressWithFirestationFromRepository(address);
+		return personService.getPersonsLivingAtThisAddressWithFireStation(address);
 	}
 
 	/*
@@ -78,9 +78,9 @@ public class PersonController {
 	 * station_numbers>
 	 */
 	@GetMapping("/flood/stations")
-	public List<Url5> getHomesCoveredByAListOfFirestationFromService(@RequestParam List<String> stations) {
+	public List<Url5> getHomesCoveredByAListOfFireStation(@RequestParam List<String> stations) {
 		log.info("La requete à réussie");
-		return personService.getHomesCoveredByAListOfFirestationFromRepository(stations);
+		return personService.getHomesCoveredByAListOfFireStation(stations);
 	}
 
 	/*
@@ -88,9 +88,9 @@ public class PersonController {
 	 * http://localhost:8080/personInfo?firstName=<firstName>&lastName=<lastName>
 	 */
 	@GetMapping("/personInfo")
-	public List<Url6> getPersonInfoFromService(@RequestParam String firstName, String lastName) {
+	public List<Url6> getPersonInfo(@RequestParam String firstName, String lastName) {
 		log.info("La requete à réussie");
-		return personService.getPersonInfoFromRepository(firstName, lastName);
+		return personService.getPersonInfo(firstName, lastName);
 
 	}
 
@@ -98,17 +98,17 @@ public class PersonController {
 	 * URL_7 : http://localhost:8080/communityEmail?city=<city>
 	 */
 	@GetMapping("/communityEmail")
-	public List<String> getPersonEmailFromService(@RequestParam String city) throws IOException {
+	public Set<String> getPersonEmail(@RequestParam String city) {
 		log.info("La requete à réussie");
-		return personService.getPersonEmailFromRepository(city);
+		return personService.getPersonEmail(city);
 	}
 
 	/* CRUD POUR PERSONS */
 
-	@GetMapping("/person")
-	public List<Person> getPersonFromService() throws IOException {
+	@GetMapping("/persons")
+	public List<Person> getPersons() throws IOException {
 		log.info("Récuperation de toutes les personnes");
-		return personService.getPerson();
+		return personService.getPersons();
 	}
 
 	@PostMapping("/person")
@@ -117,7 +117,7 @@ public class PersonController {
 			log.error("Impossible de créer cette personne");
 			return ResponseEntity.badRequest().build();
 		} else {
-			List<Person> persons = personService.addPersonService(person);
+			List<Person> persons = personService.addPerson(person);
 			if (persons.contains(person)) {
 				log.info("La personne suivante à été créée : {}", person);
 				return ResponseEntity.status(HttpStatus.CREATED).body(person);
@@ -133,7 +133,7 @@ public class PersonController {
 			log.error("Impossible de modifier cette personne");
 			return ResponseEntity.badRequest().build();
 		} else {
-			List<Person> persons = personService.updatePersonService(person);
+			List<Person> persons = personService.updatePerson(person);
 			if (persons.contains(person)) {
 				log.info("La personne suivante à été mise à jour : {}", person);
 				return ResponseEntity.status(HttpStatus.CREATED).body(person);
@@ -150,7 +150,7 @@ public class PersonController {
 			log.error("Impossible de supprimer cette personne");
 			return ResponseEntity.badRequest().build();
 		} else {
-			List<Person> persons = personService.deletePersonService(combination);
+			List<Person> persons = personService.deletePerson(combination);
 			if (persons.contains(combination)) {
 				log.error("Erreur lors de la suppression de la personne");
 				return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(combination);

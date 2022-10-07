@@ -1,5 +1,6 @@
 package com.safetynet.safetynetalerts.controller;
 
+import static org.hamcrest.CoreMatchers.containsString;
 import static org.hamcrest.CoreMatchers.is;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -8,7 +9,6 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -31,7 +31,7 @@ public class PersonControllerIntegrationTest {
 
 	@Autowired
 	private MockMvc mockMvc;
-	
+
 	IDataReader dataReader;
 	@Autowired
 	IPersonRepository personRepository;
@@ -43,12 +43,7 @@ public class PersonControllerIntegrationTest {
 	/* TESTS CONCERNANT LES URLS DEMANDEES */
 
 	@BeforeEach
-	public void init() throws Exception {
-		//final String jsonFilePath = new FilePaths().getProductionFilePath();
-		//IDataReader globalRepository = DataInMemory.getGlobalRepository();
-		//globalRepository.setDataReader(new PersonRepositoryImpl().getPersonList(),
-				//new FireStationRepositoryImpl().getFireStationList(),
-				//new MedicalRecordRepositoryImpl().getMedicalRecordList());
+	public void init() {
 		dataReader = new DataReader(personRepository, fireStationRepository, medicalRecordRepository);
 	}
 
@@ -69,7 +64,9 @@ public class PersonControllerIntegrationTest {
 	@Test
 	public void testUrl3() throws Exception {
 		mockMvc.perform(get("/phoneAlert").param("firestation", "1")).andExpect(status().isOk())
-				.andExpect(content().contentType("application/json")).andExpect(jsonPath("$[0]").value("841-874-6512"));
+				.andExpect(content().contentType("application/json"))
+				.andExpect(content().string(containsString("841-874-7784")));
+
 	}
 
 	@Test
@@ -97,14 +94,15 @@ public class PersonControllerIntegrationTest {
 	public void testUrl7() throws Exception {
 		mockMvc.perform(get("/communityEmail").param("city", "Culver")).andExpect(status().isOk())
 				.andExpect(content().contentType("application/json"))
-				.andExpect(jsonPath("$[1]").value("drk@email.com"));
+				.andExpect(content().string(containsString("drk@email.com")));
+		
 	}
 
 	/* TESTS CONCERNANT LE CRUD DES PERSONS */
 
 	@Test
 	public void testGetPersonFromService() throws Exception {
-		mockMvc.perform(get("/person")).andExpect(status().isOk()).andExpect(jsonPath("$[0].firstName", is("John")));
+		mockMvc.perform(get("/persons")).andExpect(status().isOk()).andExpect(jsonPath("$[0].firstName", is("John")));
 	}
 
 	@Test

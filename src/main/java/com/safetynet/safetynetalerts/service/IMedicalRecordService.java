@@ -7,7 +7,7 @@ import com.safetynet.safetynetalerts.workclasses.FirstNameAndLastName;
 
 public interface IMedicalRecordService {
 	List<MedicalRecord> getMedicalRecords();
-	List<MedicalRecord> addMedicalRecordService(MedicalRecord medicalRecord);
-	List<MedicalRecord> updateMedicalRecordService(MedicalRecord medicalRecord);
-	List<MedicalRecord> deleteMedicalRecordService(FirstNameAndLastName combination);
+	List<MedicalRecord> addMedicalRecord(MedicalRecord medicalRecord);
+	List<MedicalRecord> updateMedicalRecord(MedicalRecord medicalRecord);
+	List<MedicalRecord> deleteMedicalRecord(FirstNameAndLastName combination);
 }

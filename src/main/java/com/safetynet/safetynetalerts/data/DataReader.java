@@ -1,7 +1,9 @@
 package com.safetynet.safetynetalerts.data;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,7 +27,6 @@ import lombok.NoArgsConstructor;
 
 @Data
 @Component
-@NoArgsConstructor
 public class DataReader implements IDataReader {
 	private List<Person> persons;
 	private List<FireStation> fireStations;
@@ -43,9 +44,15 @@ public class DataReader implements IDataReader {
 		this.personRepository = personRepository;
 		this.fireStationRepository = fireStationRepository;
 		this.medicalRecordRepository = medicalRecordRepository;
-		this.persons = personRepository.getPersonList();
-		this.fireStations = fireStationRepository.getFireStationList();
-		this.medicalRecords = medicalRecordRepository.getMedicalRecordList();
+		this.persons = personRepository.getPersons();
+		this.fireStations = fireStationRepository.getFireStations();
+		this.medicalRecords = medicalRecordRepository.getMedicalRecords();
+	}
+	
+	public DataReader() {
+		this.persons = new ArrayList<>();
+		this.fireStations = new ArrayList<>();
+		this.medicalRecords = new ArrayList<>();
 	}
 
 	public void setDataReader(List<Person> persons, List<FireStation> fireStations,
@@ -53,6 +60,28 @@ public class DataReader implements IDataReader {
 		this.persons = persons;
 		this.fireStations = fireStations;
 		this.medicalRecords = medicalRecords;
+	}
+
+	@Override
+	public void addPerson(Person person) {
+		this.persons.add(person);
+	}
+
+	@Override
+	public void addFireStation(FireStation fireStation) {
+		this.fireStations.add(fireStation);
+	}
+
+	@Override
+	public void addMedicaRecord(MedicalRecord medicalRecord) {
+		this.medicalRecords.add(medicalRecord);
+	}
+
+	@Override
+	public void clearData() {
+		this.persons.clear();
+		this.fireStations.clear();
+		this.medicalRecords.clear();
 	}
 
 	@Override
@@ -131,8 +160,8 @@ public class DataReader implements IDataReader {
 
 	/* URL_3 LISTE DES PHONE NUMBERS COUVERTS PAR UNE FIRESTATION */
 	@Override
-	public List<String> getPhoneNumbersCoveredByAFirestation(int stationNumber) {
-		List<String> result = new ArrayList<>();
+	public Set<String> getPhoneNumbersCoveredByAFirestation(int stationNumber) {
+		Set<String> result = new HashSet<>();
 		for (FireStation fs : fireStations) {
 			if (fs.getStationNumber() == stationNumber) {
 				for (Person p : persons) {
@@ -150,7 +179,7 @@ public class DataReader implements IDataReader {
 	 * COUVRANT
 	 */
 	@Override
-	public List<Url4> getPersonsLivingAtThisAddressWithFirestation(String address){
+	public List<Url4> getPersonsLivingAtThisAddressWithFirestation(String address) {
 		List<Url4> myList = new ArrayList<>();
 		int stationNumber = 0;
 		for (FireStation fs : fireStations) {
@@ -234,8 +263,8 @@ public class DataReader implements IDataReader {
 	 * URL_7 LISTE DES ADRESSES MAILS DE TOUS LES HABITANTS DE LA VILLE
 	 */
 	@Override
-	public List<String> getPersonEmailByCity(String city) {
-		List<String> result = new ArrayList<>();
+	public Set<String> getPersonEmailByCity(String city) {
+		Set<String> result = new HashSet<>();
 		persons.stream().filter((p) -> p.getCity().equalsIgnoreCase(city)).collect(Collectors.toList())
 				.forEach((p) -> result.add(p.getEmail()));
 		return result;
@@ -388,5 +417,4 @@ public class DataReader implements IDataReader {
 		}
 		return medicalRecords;
 	}
-
 }

@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.safetynet.safetynetalerts.data.IDataReader;
 import com.safetynet.safetynetalerts.model.FireStation;
+import com.safetynet.safetynetalerts.repository.IFireStationRepository;
 
 @Service
 public class FireStationServiceImpl implements IFireStationService {
@@ -20,17 +21,17 @@ public class FireStationServiceImpl implements IFireStationService {
 	}
 
 	@Override
-	public List<FireStation> addFirestationService(FireStation firestation) {
-		return dataReader.addFireStationToRepository(firestation);
+	public List<FireStation> addFireStation(FireStation fireStation) {
+		return dataReader.addFireStationToRepository(fireStation);
 	}
 
 	@Override
-	public List<FireStation> updateFirestationNumberService(FireStation firestation) {
-		return dataReader.updateFirestationNumberToRepository(firestation);
+	public List<FireStation> updateFireStationNumber(FireStation fireStation) {
+		return dataReader.updateFirestationNumberToRepository(fireStation);
 	}
 
 	@Override
-	public List<FireStation> deleteFirestationService(FireStation firestation) {
-		return dataReader.deleteFirestationToRepository(firestation);
+	public List<FireStation> deleteFireStation(FireStation fireStation) {
+		return dataReader.deleteFirestationToRepository(fireStation);
 	}
 }

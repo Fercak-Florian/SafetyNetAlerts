@@ -13,7 +13,7 @@ import com.safetynet.safetynetalerts.model.MedicalRecord;
 import com.safetynet.safetynetalerts.workclasses.FirstNameAndLastName;
 
 @SpringBootTest
-public class MedicalRecordServiceImplTest {
+public class MedicalRecordServiceImplIntegrationTest {
 
 	@Autowired
 	MedicalRecordServiceImpl medicalRecordServiceImpl;
@@ -31,7 +31,7 @@ public class MedicalRecordServiceImplTest {
 		List<String> medications = new ArrayList<>();
 		MedicalRecord medicalRecordToAdd = new MedicalRecord("Han", "Solo", "02/02/1985", medications, allergies);
 		/* WHEN --> ACT */
-		List<MedicalRecord> result = medicalRecordServiceImpl.addMedicalRecordService(medicalRecordToAdd);
+		List<MedicalRecord> result = medicalRecordServiceImpl.addMedicalRecord(medicalRecordToAdd);
 		/* THEN --> ASSERT */
 		assertThat(result).isNotNull();
 	}
@@ -44,7 +44,7 @@ public class MedicalRecordServiceImplTest {
 		MedicalRecord medicalRecordToUpdate = new MedicalRecord("John", "Boyd", "02/02/1980", medications, allergies);
 		/* WHEN --> ACT */
 		// when(globalRepository.updateMedicalRecord(null)).thenReturn(medicalRecordsToReturn);
-		List<MedicalRecord> result = medicalRecordServiceImpl.updateMedicalRecordService(medicalRecordToUpdate);
+		List<MedicalRecord> result = medicalRecordServiceImpl.updateMedicalRecord(medicalRecordToUpdate);
 		/* THEN --> ASSERT */
 		assertThat(result).isNotNull();
 	}
@@ -54,7 +54,7 @@ public class MedicalRecordServiceImplTest {
 		/* GIVEN --> ARRANGE */
 		FirstNameAndLastName firstNameAndLastName = new FirstNameAndLastName("John", "Boyd");
 		/* WHEN --> ACT */
-		List<MedicalRecord> result = medicalRecordServiceImpl.deleteMedicalRecordService(firstNameAndLastName);
+		List<MedicalRecord> result = medicalRecordServiceImpl.deleteMedicalRecord(firstNameAndLastName);
 		/* THEN --> ASSERT */
 		assertThat(result).isNotNull();
 	}

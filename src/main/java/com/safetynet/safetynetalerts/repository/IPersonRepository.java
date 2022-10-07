@@ -5,5 +5,6 @@ import java.util.List;
 import com.safetynet.safetynetalerts.model.Person;
 
 public interface IPersonRepository {
-	List<Person> getPersonList();
+	void setFilePath(String filePath);
+	List<Person> getPersons();
 }
