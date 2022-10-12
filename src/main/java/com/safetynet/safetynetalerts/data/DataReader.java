@@ -22,21 +22,19 @@ import com.safetynet.safetynetalerts.workclasses.Url4;
 import com.safetynet.safetynetalerts.workclasses.Url5;
 import com.safetynet.safetynetalerts.workclasses.Url6;
 
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
-@Data
+@Slf4j
 @Component
 public class DataReader implements IDataReader {
 	private List<Person> persons;
 	private List<FireStation> fireStations;
 	private List<MedicalRecord> medicalRecords;
 
-	IFireStationRepository fireStationRepository;
 	IPersonRepository personRepository;
+	IFireStationRepository fireStationRepository;
 	IMedicalRecordRepository medicalRecordRepository;
 
-	/* CONSTRUCTEUR */
 	@Autowired
 	public DataReader(IPersonRepository personRepository, IFireStationRepository fireStationRepository,
 			IMedicalRecordRepository medicalRecordRepository) {
@@ -48,18 +46,11 @@ public class DataReader implements IDataReader {
 		this.fireStations = fireStationRepository.getFireStations();
 		this.medicalRecords = medicalRecordRepository.getMedicalRecords();
 	}
-	
+
 	public DataReader() {
 		this.persons = new ArrayList<>();
 		this.fireStations = new ArrayList<>();
 		this.medicalRecords = new ArrayList<>();
-	}
-
-	public void setDataReader(List<Person> persons, List<FireStation> fireStations,
-			List<MedicalRecord> medicalRecords) {
-		this.persons = persons;
-		this.fireStations = fireStations;
-		this.medicalRecords = medicalRecords;
 	}
 
 	@Override
@@ -85,7 +76,7 @@ public class DataReader implements IDataReader {
 	}
 
 	@Override
-	public List<FireStation> getFirestations() {
+	public List<FireStation> getFireStations() {
 		return fireStations;
 	}
 
@@ -102,6 +93,7 @@ public class DataReader implements IDataReader {
 	/* URL_1 LISTE DES FIRESTATIONS CROISEES AVEC LISTE DES PERSONS */
 	@Override
 	public List<Object> getPersonsCoveredByAFirestation(int stationNumber) {
+		log.debug("Traitement en cours...");
 		List<Object> result = new ArrayList<>();
 		int numberOfChildren = 0;
 		int numberOfAdults = 0;
@@ -133,6 +125,7 @@ public class DataReader implements IDataReader {
 	/* URL_2 LISTE DES ENFANTS VIVANTS A UNE ADRESSE */
 	@Override
 	public List<Url2> getChildrenLivingAtThisAddress(String address) {
+		log.debug("Traitement en cours...");
 		List<Url2> result = new ArrayList<>();
 		for (MedicalRecord mr : medicalRecords) {
 			int age = mr.getAge();
@@ -161,6 +154,7 @@ public class DataReader implements IDataReader {
 	/* URL_3 LISTE DES PHONE NUMBERS COUVERTS PAR UNE FIRESTATION */
 	@Override
 	public Set<String> getPhoneNumbersCoveredByAFirestation(int stationNumber) {
+		log.debug("Traitement en cours...");
 		Set<String> result = new HashSet<>();
 		for (FireStation fs : fireStations) {
 			if (fs.getStationNumber() == stationNumber) {
@@ -180,6 +174,7 @@ public class DataReader implements IDataReader {
 	 */
 	@Override
 	public List<Url4> getPersonsLivingAtThisAddressWithFirestation(String address) {
+		log.debug("Traitement en cours...");
 		List<Url4> myList = new ArrayList<>();
 		int stationNumber = 0;
 		for (FireStation fs : fireStations) {
@@ -213,6 +208,7 @@ public class DataReader implements IDataReader {
 	 */
 	@Override
 	public List<Url5> getHomesCoveredByAListOfFirestation(List<String> stations) {
+		log.debug("Traitement en cours...");
 		List<String> listOfStationAddress = new ArrayList<>();
 		List<Url5> result = new ArrayList<>();
 		for (String s : stations) {
@@ -243,6 +239,7 @@ public class DataReader implements IDataReader {
 	 */
 	@Override
 	public List<Url6> getPersonInfo(String firstName, String lastName) {
+		log.debug("Traitement en cours...");
 		List<Url6> result = new ArrayList<>();
 		for (Person person : persons) {
 			if ((person.getFirstName().equalsIgnoreCase(firstName))
@@ -264,6 +261,7 @@ public class DataReader implements IDataReader {
 	 */
 	@Override
 	public Set<String> getPersonEmailByCity(String city) {
+		log.debug("Traitement en cours...");
 		Set<String> result = new HashSet<>();
 		persons.stream().filter((p) -> p.getCity().equalsIgnoreCase(city)).collect(Collectors.toList())
 				.forEach((p) -> result.add(p.getEmail()));
@@ -272,6 +270,7 @@ public class DataReader implements IDataReader {
 
 	/* VOIR INTERET DU STREAM AVEC MENTOR */
 	public List<String> getPersonEmailByCityOld(String city) {
+		log.debug("Traitement en cours...");
 		List<String> result = new ArrayList<>();
 		for (Person p : persons)
 			if (p.getCity().equalsIgnoreCase(city)) {
@@ -284,6 +283,7 @@ public class DataReader implements IDataReader {
 
 	/* AJOUT D'UNE FIRESTATION AVEC POST */
 	public List<FireStation> addFireStationToRepository(FireStation firestation) {
+		log.debug("Ajout d'une caserne en cours...");
 		if (!firestation.getAddress().isEmpty() && firestation.getStationNumber() != 0) {
 			fireStations.add(firestation);
 		}
@@ -293,6 +293,7 @@ public class DataReader implements IDataReader {
 	/* MIS A JOUR DU NUMERO DE LA FIRESTATION */
 	@Override
 	public List<FireStation> updateFirestationNumberToRepository(FireStation firestation) {
+		log.debug("Mise à jour d'une caserne en cours...");
 		FireStation result = new FireStation();
 		if (!firestation.getAddress().isEmpty() && firestation.getStationNumber() != 0) {
 			for (FireStation fs : fireStations) {
@@ -310,6 +311,7 @@ public class DataReader implements IDataReader {
 	/* SUPPRESSION D'UNE FIRESTATION AVEC DELETE */
 	@Override
 	public List<FireStation> deleteFirestationToRepository(FireStation firestation) {
+		log.debug("Suppression d'une caserne en cours...");
 		List<FireStation> firestationToDelete = new ArrayList<>();
 		if (!firestation.getAddress().isEmpty() && firestation.getStationNumber() != 0) {
 			for (FireStation fs : fireStations) {
@@ -329,6 +331,7 @@ public class DataReader implements IDataReader {
 
 	/* AJOUT D'UNE PERSON AVEC POST */
 	public List<Person> addPersonToRepository(Person person) {
+		log.debug("Ajout d'une personne en cours...");
 		if (!person.getFirstName().isEmpty() && !person.getLastName().isEmpty()) {
 			persons.add(person);
 		}
@@ -338,6 +341,7 @@ public class DataReader implements IDataReader {
 	/* MISE A JOUR D'UNE PERSON AVEC PUT */
 	@Override
 	public List<Person> updatePersonToRepository(Person person) {
+		log.debug("Mise à jour d'une personne en cours...");
 		if (!person.getFirstName().isEmpty() && !person.getLastName().isEmpty()) {
 			for (Person p : persons) {
 				if ((p.getFirstName().equalsIgnoreCase(person.getFirstName())
@@ -356,6 +360,7 @@ public class DataReader implements IDataReader {
 	/* SUPPRESSION D'UNE PERSON AVEC DELETE */
 	@Override
 	public List<Person> deletePersonToRepository(FirstNameAndLastName combination) {
+		log.debug("Suppression d'une personne en cours...");
 		if (!combination.getFirstName().isEmpty() && !combination.getLastName().isEmpty()) {
 			List<Person> personsToDelete = new ArrayList<>();
 			for (Person p : persons) {
@@ -377,6 +382,7 @@ public class DataReader implements IDataReader {
 	/* AJOUT D'UN MEDICALRECORD AVEC POST */
 	@Override
 	public List<MedicalRecord> addMedicalRecord(MedicalRecord medicalRecord) {
+		log.debug("Ajout d'un dossier medical en cours...");
 		if (!medicalRecord.getFirstName().isEmpty() && !medicalRecord.getLastName().isEmpty()) {
 			medicalRecords.add(medicalRecord);
 		}
@@ -386,6 +392,7 @@ public class DataReader implements IDataReader {
 	/* MISE A JOUR D'UN MEDICALRECORD AVEC PUT */
 	@Override
 	public List<MedicalRecord> updateMedicalRecord(MedicalRecord medicalRecord) {
+		log.debug("Mise à jour d'un dossier medical en cours...");
 		if (!medicalRecord.getFirstName().isEmpty() && !medicalRecord.getLastName().isEmpty()) {
 			for (MedicalRecord mr : medicalRecords) {
 				if ((mr.getFirstName().equalsIgnoreCase(medicalRecord.getFirstName())
@@ -402,6 +409,7 @@ public class DataReader implements IDataReader {
 	/* SUPPRESSION D'UN MEDICALRECORD AVEC DELETE */
 	@Override
 	public List<MedicalRecord> deleteMedicalRecord(FirstNameAndLastName combination) {
+		log.debug("Suppression d'un dossier medical en cours...");
 		if (!combination.getFirstName().isEmpty() && !combination.getLastName().isEmpty()) {
 			List<MedicalRecord> medicalRecordsToDelete = new ArrayList<>();
 			for (MedicalRecord mr : medicalRecords) {

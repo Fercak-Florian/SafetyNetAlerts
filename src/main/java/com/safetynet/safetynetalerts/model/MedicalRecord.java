@@ -10,8 +10,11 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
-@NoArgsConstructor
+import lombok.extern.slf4j.Slf4j;
+
 @Data
+@Slf4j
+@NoArgsConstructor
 public class MedicalRecord {
 	private String firstName;
 	private String lastName;
@@ -40,7 +43,7 @@ public class MedicalRecord {
 		try {
 			dob = new SimpleDateFormat("dd/MM/yyyy").parse(birthDate);
 		} catch (Exception e) {
-			// TODO: handle exception
+			log.error("Erreur lors de l'analyse de la date de naissance");
 		}
 		Calendar now = Calendar.getInstance();
 		Calendar cal = Calendar.getInstance();

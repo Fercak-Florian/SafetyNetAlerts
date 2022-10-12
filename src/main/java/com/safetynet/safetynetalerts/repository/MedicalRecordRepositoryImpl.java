@@ -22,16 +22,10 @@ public class MedicalRecordRepositoryImpl implements IMedicalRecordRepository {
 
 	List<MedicalRecord> medicalRecordsArray;
 
-	@Value("${com.safetynet.safetynetalerts.filePath}")
 	private String jsonFilePath;
 
-	/* CONSTRUCTEUR SANS ARGUMENT */
-	public MedicalRecordRepositoryImpl() {
-	}
-
-	@Override
-	public void setFilePath(String filePath) {
-		this.jsonFilePath = filePath;
+	public MedicalRecordRepositoryImpl(@Value("${com.safetynet.safetynetalerts.filePath}") String jsonFilePath) {
+		this.jsonFilePath = jsonFilePath;
 	}
 
 	@Override
@@ -45,24 +39,11 @@ public class MedicalRecordRepositoryImpl implements IMedicalRecordRepository {
 	public void getMedicalRecordsFromJson() {
 		medicalRecordsArray = new ArrayList<>();
 		String stringFile = null;
-		boolean resume = true;
 		try {
 			stringFile = Files.readString(new File(jsonFilePath).toPath(), StandardCharsets.UTF_8);
-		} catch (IOException e) {
-			log.error("Impossible de lire le fichier");
-			e.printStackTrace();
-			resume = false;
-		}
-
-		if (resume) {
 			JsonIterator iter = JsonIterator.parse(stringFile);
-			Any any = null;
-			try {
-				any = iter.readAny();
-			} catch (IOException e) {
-				log.error("Impossible d'analyser le contenu du fichier");
-				e.printStackTrace();
-			}
+
+			Any any = iter.readAny();
 			Any medicalRecordsAny = any.get("medicalrecords");
 			for (Any mr : medicalRecordsAny) {
 				List<String> myMedications = new ArrayList<>();
@@ -80,6 +61,9 @@ public class MedicalRecordRepositoryImpl implements IMedicalRecordRepository {
 				medicalRecordsArray.add(new MedicalRecord(mr.get("firstName").toString(), mr.get("lastName").toString(),
 						mr.get("birthdate").toString(), myMedications, myAllergies));
 			}
+		} catch (IOException e) {
+			log.error("Impossible de lire le fichier");
+			e.printStackTrace();
 		}
 	}
 }
