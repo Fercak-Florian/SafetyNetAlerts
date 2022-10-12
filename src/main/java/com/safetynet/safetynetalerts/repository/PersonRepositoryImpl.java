@@ -21,17 +21,10 @@ public class PersonRepositoryImpl implements IPersonRepository {
 
 	List<Person> personsArray;
 
-	@Value("${com.safetynet.safetynetalerts.filePath}")
 	private String jsonFilePath;
 
-	/* CONSTRUCTEUR SANS ARGUMENT */
-	public PersonRepositoryImpl() {
-
-	}
-
-	@Override
-	public void setFilePath(String filePath) {
-		this.jsonFilePath = filePath;
+	public PersonRepositoryImpl(@Value("${com.safetynet.safetynetalerts.filePath}") String jsonFilePath) {
+		this.jsonFilePath = jsonFilePath;
 	}
 
 	@Override
@@ -45,24 +38,10 @@ public class PersonRepositoryImpl implements IPersonRepository {
 	public void getPersonFromJson() {
 		personsArray = new ArrayList<>();
 		String stringFile = null;
-		boolean resume = true;
 		try {
 			stringFile = Files.readString(new File(jsonFilePath).toPath());
-		} catch (IOException e) {
-			log.error("Impossible de lire le fichier");
-			e.printStackTrace();
-			resume = false;
-		}
-
-		if (resume) {
 			JsonIterator iter = JsonIterator.parse(stringFile);
-			Any any = null;
-			try {
-				any = iter.readAny();
-			} catch (IOException e) {
-				log.error("Impossible d'analyser le contenu du fichier");
-				e.printStackTrace();
-			}
+			Any any = iter.readAny();
 			Any personAny = any.get("persons");
 
 			for (Any person : personAny) {
@@ -70,7 +49,9 @@ public class PersonRepositoryImpl implements IPersonRepository {
 						person.get("address").toString(), person.get("city").toString(), person.get("zip").toString(),
 						person.get("phone").toString(), person.get("email").toString()));
 			}
-
+		} catch (IOException e) {
+			log.error("Impossible de lire le fichier");
+			e.printStackTrace();
 		}
 	}
 }

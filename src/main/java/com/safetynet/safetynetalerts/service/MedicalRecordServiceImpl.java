@@ -2,7 +2,6 @@ package com.safetynet.safetynetalerts.service;
 
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.safetynet.safetynetalerts.data.IDataReader;
@@ -12,8 +11,11 @@ import com.safetynet.safetynetalerts.workclasses.FirstNameAndLastName;
 @Service
 public class MedicalRecordServiceImpl implements IMedicalRecordService {
 
-	@Autowired
-	IDataReader dataReader;
+	private IDataReader dataReader;
+	
+	public MedicalRecordServiceImpl(IDataReader dataReader) {
+		this.dataReader = dataReader;
+	}
 
 	@Override
 	public List<MedicalRecord> getMedicalRecords() {

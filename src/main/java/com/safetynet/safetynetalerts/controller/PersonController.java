@@ -1,7 +1,5 @@
 package com.safetynet.safetynetalerts.controller;
 
-import java.io.IOException;
-import java.text.ParseException;
 import java.util.List;
 import java.util.Set;
 
@@ -38,8 +36,7 @@ public class PersonController {
 	 * URL_1 : http://localhost:8080/firestation?stationNumber=<station_number>
 	 */
 	@GetMapping("/firestation")
-	public List<Object> getPersonsCoveredByFireStationAddress(@RequestParam int stationNumber)
-			throws IOException, ParseException {
+	public List<Object> getPersonsCoveredByFireStationAddress(@RequestParam int stationNumber) {
 		List<Object> result = personService.getPersonsCoveredByStationNumber(stationNumber);
 		log.info("La requete à réussie");
 		return result;
@@ -58,8 +55,7 @@ public class PersonController {
 	 * URL_3 : http://localhost:8080/phoneAlert?firestation=<firestation_number>
 	 */
 	@GetMapping("/phoneAlert")
-	public Set<String> getPhoneNumbersCoveredByAStationNumber(
-			@RequestParam(value = "firestation") int stationNumber) {
+	public Set<String> getPhoneNumbersCoveredByAStationNumber(@RequestParam(value = "firestation") int stationNumber) {
 		log.info("La requete à réussie");
 		return personService.getPhoneNumbersCoveredByAStationNumber(stationNumber);
 	}
@@ -106,7 +102,7 @@ public class PersonController {
 	/* CRUD POUR PERSONS */
 
 	@GetMapping("/persons")
-	public List<Person> getPersons() throws IOException {
+	public List<Person> getPersons() {
 		log.info("Récuperation de toutes les personnes");
 		return personService.getPersons();
 	}

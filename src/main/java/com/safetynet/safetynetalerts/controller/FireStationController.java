@@ -30,7 +30,7 @@ public class FireStationController {
 	@GetMapping("/firestations")
 	public List<FireStation> getFireStations() {
 		log.info("Récuperation de toutes les casernes");
-		return fireStationService.getFireStation();
+		return fireStationService.getFireStations();
 	}
 
 	@PostMapping("/firestation")

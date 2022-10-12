@@ -21,6 +21,7 @@ public class MedicalRecordTest {
 
 		/* WHEN --> ACT */
 		int age = medicalRecord.getAge();
+		
 		/* THEN --> ASSERT */
 		assertThat(age).isEqualTo(35);
 	}
@@ -37,6 +38,7 @@ public class MedicalRecordTest {
 
 		/* WHEN --> ACT */
 		int age = medicalRecord.getAge();
+		
 		/* THEN --> ASSERT */
 		assertThat(age).isNotEqualTo(35);
 	}
@@ -50,8 +52,10 @@ public class MedicalRecordTest {
 		medications.add("Antalgiques");
 		allergies.add("ewoks");
 		MedicalRecord medicalRecord = new MedicalRecord("Han", "Solo", "01/02/1987", medications, allergies);
+		
 		/* WHEN --> ACT */
 		boolean result = medicalRecord.isAdult();
+		
 		/* THEN --> ASSERT */
 		assertThat(result).isTrue();
 	}
@@ -65,8 +69,10 @@ public class MedicalRecordTest {
 		medications.add("Antalgiques");
 		allergies.add("ewoks");
 		MedicalRecord medicalRecord = new MedicalRecord("Han", "Solo", "01/02/2010", medications, allergies);
+		
 		/* WHEN --> ACT */
 		boolean result = medicalRecord.isAdult();
+		
 		/* THEN --> ASSERT */
 		assertThat(result).isFalse();
 	}
@@ -80,8 +86,10 @@ public class MedicalRecordTest {
 		medications.add("Antalgiques");
 		allergies.add("ewoks");
 		MedicalRecord medicalRecord = new MedicalRecord("Han", "Solo", "01/02/2010", medications, allergies);
+		
 		/* WHEN --> ACT */
 		boolean result = medicalRecord.isChild();
+		
 		/* THEN --> ASSERT */
 		assertThat(result).isTrue();
 	}
@@ -95,8 +103,10 @@ public class MedicalRecordTest {
 		medications.add("Antalgiques");
 		allergies.add("ewoks");
 		MedicalRecord medicalRecord = new MedicalRecord("Han", "Solo", "01/02/1985", medications, allergies);
+		
 		/* WHEN --> ACT */
 		boolean result = medicalRecord.isChild();
+		
 		/* THEN --> ASSERT */
 		assertThat(result).isFalse();
 	}

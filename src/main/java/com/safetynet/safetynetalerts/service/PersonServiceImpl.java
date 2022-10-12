@@ -3,7 +3,6 @@ package com.safetynet.safetynetalerts.service;
 import java.util.List;
 import java.util.Set;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.safetynet.safetynetalerts.data.IDataReader;
@@ -17,8 +16,11 @@ import com.safetynet.safetynetalerts.workclasses.Url6;
 @Service
 public class PersonServiceImpl implements IPersonService {
 
-	@Autowired
-	IDataReader dataReader;
+	private IDataReader dataReader;
+	
+	public PersonServiceImpl(IDataReader dataReader){
+		this.dataReader = dataReader;
+	}
 
 	@Override
 	public List<Person> getPersons() {

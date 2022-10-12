@@ -17,23 +17,22 @@ import com.safetynet.safetynetalerts.model.FireStation;
 
 import lombok.extern.slf4j.Slf4j;
 
+/**
+ * This class allows to access to a JSON file and loads data from the
+ * FireStation part. This class implements the IFireStationRepository interface.
+ */
 @Slf4j
 @Component
 public class FireStationRepositoryImpl implements IFireStationRepository {
 
 	private List<FireStation> fireStationsArray;
 
-	@Value("${com.safetynet.safetynetalerts.filePath}")
+	
 	private String jsonFilePath;
 
-	/* CONSTRUCTEUR SANS ARGUMENT */
 	@Autowired
-	public FireStationRepositoryImpl() {
-	}
-
-	@Override
-	public void setFilePath(String filePath) {
-		this.jsonFilePath = filePath;
+	public FireStationRepositoryImpl(@Value("${com.safetynet.safetynetalerts.filePath}") String jsonFilePath) {
+		this.jsonFilePath = jsonFilePath;
 	}
 
 	@Override
@@ -44,31 +43,23 @@ public class FireStationRepositoryImpl implements IFireStationRepository {
 		return fireStationsArray;
 	}
 
+	/**
+	 * This method accesses to a JSON file and load data from it into a list
+	 */
 	public void getFireStationsFromJson() {
 		fireStationsArray = new ArrayList<>();
 		String stringFile = "";
-		boolean resume = true;
 		try {
 			stringFile = Files.readString(new File(jsonFilePath).toPath());
-		} catch (IOException e) {
-			log.error("Impossible de lire le fichier");
-			e.printStackTrace();
-			resume = false;
-		}
-
-		if (resume) {
 			JsonIterator iter = JsonIterator.parse(stringFile);
-			Any any = null;
-			try {
-				any = iter.readAny();
-			} catch (IOException e) {
-				log.error("Impossible d'analyser le contenu du fichier");
-				e.printStackTrace();
-			}
+			Any any = iter.readAny();
 			Any fireStationAny = any.get("firestations");
 			for (Any fs : fireStationAny) {
 				fireStationsArray.add(new FireStation(fs.get("address").toString(), fs.get("station").toInt()));
 			}
+		} catch (IOException e) {
+			log.error("Impossible de lire le fichier");
+			e.printStackTrace();
 		}
 	}
 }

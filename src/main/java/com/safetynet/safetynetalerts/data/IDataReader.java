@@ -14,8 +14,6 @@ import com.safetynet.safetynetalerts.workclasses.Url6;
 
 public interface IDataReader {
 
-	void setDataReader(List<Person> persons, List<FireStation> fireStations, List<MedicalRecord> medicalRecords);
-
 	void clearData();
 
 	void addPerson(Person person);
@@ -24,7 +22,7 @@ public interface IDataReader {
 	
 	void addMedicaRecord(MedicalRecord medicalRecord);
 
-	List<FireStation> getFirestations();
+	List<FireStation> getFireStations();
 
 	List<Person> getPersons();
 

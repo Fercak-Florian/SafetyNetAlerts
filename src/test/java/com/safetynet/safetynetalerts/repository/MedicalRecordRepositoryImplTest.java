@@ -16,8 +16,7 @@ public class MedicalRecordRepositoryImplTest {
 	@Test
 	public void testGetMedicalRecordsFromJson() {
 		/* GIVEN --> ARRANGE */
-		IMedicalRecordRepository medicalRecordRepository = new MedicalRecordRepositoryImpl();
-		medicalRecordRepository.setFilePath("src/main/resources/data.json");
+		IMedicalRecordRepository medicalRecordRepository = new MedicalRecordRepositoryImpl("src/main/resources/data.json");
 
 		/* WHEN --> ACT */
 		String result = medicalRecordRepository.getMedicalRecords().get(1).getFirstName();
@@ -30,8 +29,7 @@ public class MedicalRecordRepositoryImplTest {
 	@Test
 	public void testGetMedicalRecordsWithUnproperFilePath() {
 		/* GIVEN --> ARRANGE */
-		IMedicalRecordRepository medicalRecordRepository = new MedicalRecordRepositoryImpl();
-		medicalRecordRepository.setFilePath("unproper/file/path");
+		IMedicalRecordRepository medicalRecordRepository = new MedicalRecordRepositoryImpl("unproper/file/path");
 
 		/* WHEN --> ACT */
 		List<MedicalRecord> result = medicalRecordRepository.getMedicalRecords();

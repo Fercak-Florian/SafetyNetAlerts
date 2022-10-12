@@ -40,7 +40,7 @@ public class DataReaderTest {
 				new MedicalRecord("John", "Boyd", "21/08/1988", new ArrayList<String>(), new ArrayList<String>()));
 
 		/* WHEN --> ACT */
-		List<FireStation> result = dataReader.getFirestations();
+		List<FireStation> result = dataReader.getFireStations();
 
 		/* THEN --> ASSERT */
 		assertThat(result.get(0).getStationNumber()).isEqualTo(3);

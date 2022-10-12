@@ -12,11 +12,9 @@ public class Person {
 	private String phone;
 	private String email;
 
-	// CONSTRUCTEUR SANS ARGUMENTS
 	public Person() {
 	}
 
-	// CONSTRUCTEUR AVEC TOUS LES ARGUMENTS
 	public Person(String firstName, String lastName, String address, String city, String zip, String phone,
 			String email) {
 		this.firstName = firstName;
