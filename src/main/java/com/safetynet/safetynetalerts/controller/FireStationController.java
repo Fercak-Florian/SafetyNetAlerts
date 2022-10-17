@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.safetynet.safetynetalerts.controller.PersonController.EmptyJsonResponse;
 import com.safetynet.safetynetalerts.model.FireStation;
 import com.safetynet.safetynetalerts.service.IFireStationService;
 
@@ -78,7 +80,11 @@ public class FireStationController {
 				return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
 			}
 			log.info("La caserne suivante à été supprimée : {}", firestation);
-			return ResponseEntity.status(HttpStatus.OK).body(firestation);
+			return new ResponseEntity(new EmptyJsonResponse(), HttpStatus.OK);
 		}
+	}
+
+	@JsonSerialize
+	public class EmptyJsonResponse {
 	}
 }

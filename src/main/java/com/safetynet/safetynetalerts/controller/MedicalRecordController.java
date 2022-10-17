@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.safetynet.safetynetalerts.controller.PersonController.EmptyJsonResponse;
 import com.safetynet.safetynetalerts.model.MedicalRecord;
 import com.safetynet.safetynetalerts.service.IMedicalRecordService;
 import com.safetynet.safetynetalerts.workclasses.FirstNameAndLastName;
@@ -22,7 +24,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @RestController
 public class MedicalRecordController {
-	
+
 	@Autowired
 	IMedicalRecordService medicalRecordService;
 
@@ -80,6 +82,10 @@ public class MedicalRecordController {
 			}
 		}
 		log.info("Le dossier medical de cette personne à été supprimé : {}", combination);
-		return ResponseEntity.ok().build();
+		return new ResponseEntity(new EmptyJsonResponse(), HttpStatus.OK);
+	}
+
+	@JsonSerialize
+	public class EmptyJsonResponse {
 	}
 }
