@@ -15,9 +15,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.safetynet.safetynetalerts.model.Person;
 import com.safetynet.safetynetalerts.service.IPersonService;
+import com.safetynet.safetynetalerts.workclasses.EmptyJsonResponse;
 import com.safetynet.safetynetalerts.workclasses.FirstNameAndLastName;
 import com.safetynet.safetynetalerts.workclasses.Url2;
 import com.safetynet.safetynetalerts.workclasses.Url4;
@@ -155,9 +155,5 @@ public class PersonController {
 			log.info("Cette personne à été supprimée : {}", combination);
 			return new ResponseEntity(new EmptyJsonResponse(), HttpStatus.OK);
 		}
-	}
-
-	@JsonSerialize
-	public class EmptyJsonResponse {
 	}
 }

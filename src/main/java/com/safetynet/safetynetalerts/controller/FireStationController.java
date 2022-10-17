@@ -14,9 +14,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import com.safetynet.safetynetalerts.controller.PersonController.EmptyJsonResponse;
 import com.safetynet.safetynetalerts.model.FireStation;
 import com.safetynet.safetynetalerts.service.IFireStationService;
+import com.safetynet.safetynetalerts.workclasses.EmptyJsonResponse;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -82,9 +82,5 @@ public class FireStationController {
 			log.info("La caserne suivante à été supprimée : {}", firestation);
 			return new ResponseEntity(new EmptyJsonResponse(), HttpStatus.OK);
 		}
-	}
-
-	@JsonSerialize
-	public class EmptyJsonResponse {
 	}
 }
